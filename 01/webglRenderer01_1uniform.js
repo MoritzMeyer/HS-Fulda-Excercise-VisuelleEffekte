@@ -39,26 +39,52 @@ function drawScene()
 
     const trianglePositions = [
         -0.75, 0.25, 0,
-         0.75, 0.25, 0,
-         0, 0.9, 0
+        0.75, 0.25, 0,
+        0, 0.9, 0
     ];
 
     const cubePositions = [
         -0.5, 0.2, 0,
-         0.5, 0.2, 0,
+        0.5, 0.2, 0,
         -0.5, -0.75, 0,
-         0.5, -0.75, 0
+        0.5, -0.75, 0
     ];
 
     const triangleColor = [
         0.5, 0.0, 0.0,
         0.5, 0.0, 0.0,
-        0.5, 0.0, 0.0];
-    const cubeColor = [0.73, 0.7, 0.36];
+        0.5, 0.0, 0.0
+    ];
 
-    renderer.ClearCanvas();
-    renderer.DrawObject(trianglePositions, triangleColor, vsSource, fsSource, 3);
-    //renderer.DrawObject(cubePositions, cubeColor, vsSource, fsSource, 4);
+    // const cubeColor = [
+    //     0.73, 0.7, 0.36,
+    //     0.73, 0.7, 0.36,
+    //     0.73, 0.7, 0.36,
+    //     0.73, 0.7, 0.36
+    // ];
+
+    const cubeColor = [
+        1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0,
+        1.0, 1.0, 0.0
+    ];
+
+    renderer.init(vsSource, fsSource);
+    renderer.AddDrawable(trianglePositions, 3, triangleColor, 3, 3);
+    renderer.AddDrawable(cubePositions, 3, cubeColor, 3, 4);
+
+    let triangleUniform = {
+        position: [0.0, 0.0, 0.0],
+        color: [0.0, 0.0, 0.0]
+    };
+
+    let cubeUniform = {
+        position: [0.0, 0.0, 0.0],
+        color: [0.0, 0.0, 0.0]
+    };
+
+    renderer.renderFrame([triangleUniform, cubeUniform]);
 }
 
 
@@ -66,83 +92,89 @@ function getRenderer(canvas) {
     // initialize gl context
     const gl = canvas.getContext('webgl', {alpha: true, depth: true});
 
+    // initialize Array with ObjectData
+    const objectsLocalData = [];
+
     const RENDERER = {};
-    RENDERER.ClearCanvas = (function()
+    RENDERER.init = (function(vsSource, fsSource)
     {
         gl.clearColor(0.42, 0.6, 0.0, 1.0);
         gl.clearDepth(1.0);
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clear(gl.COLOR_BUFFER_BIT |	gl.DEPTH_BUFFER_BIT);
+
+        // Shader erstellen
+        const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+        RENDERER.SHADER = initShaderProgram(gl, vertexShader, fragmentShader);
     });
 
-    RENDERER.DrawObject = (function(positions, color, vsSource, fsSource, numbVertices)
+    RENDERER.AddDrawable = (function(positions, positionDataDimension, color, colorDataDimension, numbVertices)
     {
-       drawObject(gl, positions, color, vsSource, fsSource, numbVertices);
+        const objectData = {};
+        const bufferData = initBuffers(gl, positions, color);
+        objectData.positionBuffer = bufferData.positions;
+        objectData.colorBuffer = bufferData.color;
+        objectData.positionDataDimension = positionDataDimension;
+        objectData.colorDataDimension = colorDataDimension;
+        objectData.numbVertices = numbVertices;
+
+        objectsLocalData.push(objectData);
+    });
+
+    RENDERER.renderFrame = (function(objectsUniformData)
+    {
+        if (objectsLocalData.length != objectsUniformData.length)
+        {
+            alert("'objectsLocalData' and 'objectsUniformData' have to be of the same size.");
+        }
+
+        renderFrame(gl, RENDERER.SHADER, objectsLocalData, objectsUniformData);
+    });
+
+    RENDERER.shutdown = (function()
+    {
+        gl.deleteBuffer(RENDERER.SHADER.vertexPosition);
+        gl.deleteBuffer(RENDERER.SHADER.vertexColor);
+        gl.detachShader(RENDERER.SHADER.program, RENDERER.SHADER.vertexShader);
+        gl.detachShader(RENDERER.SHADER.program, RENDERER.SHADER.fragmentShader);
+        gl.deleteShader(RENDERER.SHADER.vertexShader);
+        gl.deleteShader(RENDERER.SHADER.fragmentShader);
+        gl.deleteProgram(RENDERER.SHADER.program);
     });
 
     return RENDERER;
 }
 
-function drawObject(gl, positions, color, vsSource, fsSource, numbVertices)
+function renderFrame(gl, shader, objectsLocalData, objectsUniformData)
 {
-    // Shader erstellen
-    const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
-    const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    for (let i = 0; i < objectsLocalData.length; i++) {
+        gl.useProgram(shader.program);
+        //gl.uniform3f(col, 1, 0, 0);
+        //gl.uniform3f(trans, 0, 0, 0);
 
-    // das Shader Programm erstellen
-    const shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader);
+        // Den Position Buffer binden und das Zeichnen vorbereiten.
+        gl.bindBuffer(gl.ARRAY_BUFFER, objectsLocalData[i].positionBuffer);
+        gl.vertexAttribPointer(shader.vertexPosition, objectsLocalData[i].positionDataDimension, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(shader.vertexPosition);
 
-    // den positionBuffer erstellen.
-    const shaderData = initBuffers(gl, positions, color);
-    const positionAttribLocation = gl.getAttribLocation(shaderProgram, "position");
-    const colorAttribLocation = gl.getAttribLocation(shaderProgram, "color");
+        // Den color Buffer binden und das Zeichnen vorbereiten
+        gl.bindBuffer(gl.ARRAY_BUFFER, objectsLocalData[i].colorBuffer);
+        gl.vertexAttribPointer(shader.vertexColor, objectsLocalData[i].colorDataDimension, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(shader.vertexColor);
 
-    console.log(positionAttribLocation);
-    console.log(colorAttribLocation);
-    console.log(numbVertices);
+        // Das Objekt zeichnen.
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, objectsLocalData[i].numbVertices);
 
-    var	col	=	gl.getUniformLocation(shaderProgram,	"uColor");
-    var	trans	=	gl.getUniformLocation(shaderProgram,	"translation");
-
-
-
-    gl.useProgram(shaderProgram);
-    //gl.uniform3f(col, 1, 0, 0);
-    gl.uniform3f(trans, 0, 0, 0);
-
-    // Den Position Buffer binden und das Zeichnen vorbereiten.
-    gl.bindBuffer(gl.ARRAY_BUFFER, shaderData.positions);
-    gl.vertexAttribPointer(positionAttribLocation, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(positionAttribLocation);
-
-    // Den color Buffer binden und das Zeichnen vorbereiten
-    gl.bindBuffer(gl.ARRAY_BUFFER, shaderData.color);
-    gl.vertexAttribPointer(colorAttribLocation, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(colorAttribLocation);
-
-    // Das Objekt zeichnen.
-    gl.drawArrays(gl.TRIANGLES, 0, numbVertices);
-
-    // Aufräumen
-    gl.disableVertexAttribArray(positionAttribLocation);
-    gl.disableVertexAttribArray(colorAttribLocation);
-
-
-
-
-
-    gl.deleteBuffer(shaderData.positions);
-    gl.deleteBuffer(shaderData.color);
-    gl.detachShader(shaderProgram, vertexShader);
-    gl.detachShader(shaderProgram, fragmentShader);
-    gl.deleteShader(vertexShader);
-    gl.deleteShader(fragmentShader);
-    gl.deleteProgram(shaderProgram);
+        // Aufräumen
+        gl.disableVertexAttribArray(shader.vertexPosition);
+        gl.disableVertexAttribArray(shader.vertexColor);
+    }
 }
 
 function initBuffers(gl, positions, color)
 {
-    const SHADER_DATA = {};
+    const bufferData = {};
     // Den PositionBuffer erstellen und mit den Positionen füllen.
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -150,7 +182,7 @@ function initBuffers(gl, positions, color)
         new Float32Array(positions),
         gl.STATIC_DRAW);
 
-    SHADER_DATA.positions = positionBuffer;
+    bufferData.positions = positionBuffer;
 
     const colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -158,9 +190,9 @@ function initBuffers(gl, positions, color)
         new Float32Array(color),
         gl.STATIC_DRAW);
 
-    SHADER_DATA.color = colorBuffer;
+    bufferData.color = colorBuffer;
 
-    return SHADER_DATA;
+    return bufferData;
 }
 
 
@@ -168,19 +200,28 @@ function initBuffers(gl, positions, color)
 function initShaderProgram(gl, vertexShader, fragmentShader)
 {
     // Create the shader program
-    const shaderProgram = gl.createProgram();
-    gl.attachShader(shaderProgram, vertexShader);
-    gl.attachShader(shaderProgram, fragmentShader);
-    gl.linkProgram(shaderProgram);
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
 
     // if creating the shader program failed, alert
-    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS))
     {
-        alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
+        alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(program));
         return null;
     }
 
-    return shaderProgram;
+    const SHADER = {};
+    SHADER.program = program;
+    SHADER.vertexPosition = gl.getAttribLocation(program, "position");
+    SHADER.vertexColor = gl.getAttribLocation(program, "color");
+    SHADER.uniformTranslation = gl.getUniformLocation(program, "translation");
+    SHADER.uniformColor = gl.getUniformLocation(program, "uColor");
+    SHADER.vertexShader = vertexShader;
+    SHADER.fragmentShader = fragmentShader;
+
+    return SHADER;
 }
 
 // creates a shader of the given type, uploads the source and compiles it.
