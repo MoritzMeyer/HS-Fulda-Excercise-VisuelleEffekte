@@ -7,6 +7,12 @@ class Material
         this.gl = Webgl.getGL();
         this.uniformName = uniformName;
         this.shader = shader;
+        this.loaded = false;
+    }
+
+    setAttribLocationInVertexArray(vertexArray)
+    {
+        throw new Error('Method not implemented!');
     }
 
     bind()

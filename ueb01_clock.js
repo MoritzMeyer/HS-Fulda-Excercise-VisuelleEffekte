@@ -157,15 +157,15 @@ function render(now)
 
 
     // rotate minutes counter
-    if (minutesCounter >= 60)
+    if (minutesCounter >= 61)
     {
         mat4.rotate(modelViewMatrixMinutes, // destination matrix
                     modelViewMatrixMinutes, // matrix to rotate
                     -6 * Math.PI / 180,      // amount to rotate in radians
                     [0, 0, 1]);             // axis to rotate around (z axis)
 
-        shaderMinutePointer.material.shader.bind();
-        shaderMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
+        drawableMinutePointer.material.shader.bind();
+        drawableMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
         minutesCounter = 0;
     }
 

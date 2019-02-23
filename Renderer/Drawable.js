@@ -16,14 +16,16 @@ class Drawable
 
         // Bind indexBuffer Data to vertexArray
         this.positionLocation = material.shader.getAttribLocation("aPosition");
-        this.vertexArray.addBuffer(this.vertexBuffer, [this.positionLocation], 0);
+        this.vertexArray.addBuffer(this.vertexBuffer, [this.positionLocation], 0)
+
+        material.setAttribLocationInVertexArray(this.vertexArray);
     }
 
     draw()
     {
+        this.material.bind();
         this.vertexArray.bind();
         this.indexBuffer.bind();
-        this.material.bind();
         this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
     }
 

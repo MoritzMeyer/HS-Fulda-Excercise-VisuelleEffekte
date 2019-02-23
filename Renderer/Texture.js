@@ -1,25 +1,30 @@
 import Material from "./Material.js";
+import VertexBuffer from "./VertexBuffer.js";
+import Webgl from "./Webgl.js";
 
 class Texture extends Material
 {
-    constructor(uniformName, shader, url, slot)
+    constructor(uniformName, shader, url, slot, texCoordsBuffer, attributeTexCoordName)
     {
         super(uniformName, shader);
+        const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;
         this.texture = this.gl.createTexture();
-
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+        this.texCoords = texCoordsBuffer;
+        this.attributeName = attributeTexCoordName;
 
         // define texture data
         const level = 0;
-        const internalFormat = gl.RGBA;
+        const internalFormat = this.gl.RGBA;
         const width = 1;
         const height = 1;
         const border = 0;
         const srcFormat = this.gl.RGBA;
         const srcType = this.gl.UNSIGNED_BYTE;
         const pixel = new Uint8Array([248, 24, 148, 255]);  // opaque pink
+
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
 
         // Fill image with color pink, which is shown if texture image couldn't be loaded
         this.gl.texImage2D(this.gl.TEXTURE_2D, level, internalFormat,
@@ -30,8 +35,11 @@ class Texture extends Material
         this.image = new Image();
         this.image.src = this.url;
         this.image.crossOrigin = "";
-        this.image.onload = function()
+        this.image.addEventListener('load', () =>
         {
+            console.log(this.image);
+            console.log(this.texture);
+
             this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
             this.gl.texImage2D(this.gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, this.image);
 
@@ -45,13 +53,16 @@ class Texture extends Material
             else
             {
                 // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
                 this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
                 this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
-                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
             }
-        };
 
-        this.image.addEventListener('error', function(event)
+            this.loaded = true;
+        });
+
+        this.image.addEventListener('error', (event) =>
         {
             console.error("Error while loading Texture-Image from url: '" + this.url);
             console.log(event);
@@ -66,9 +77,17 @@ class Texture extends Material
         this.shader.setUniform1i(this.uniformName, this.slot);
     }
 
+    setAttribLocationInVertexArray(vertexArray)
+    {
+        let attribLocation = this.shader.getAttribLocation(this.attributeName);
+        vertexArray.addBuffer(this.texCoords, [attribLocation], 0);
+    }
+
     // check if value is power of 2
     static isPowerOf2(value)
     {
         return (value & (value - 1)) == 0;
     }
 }
+
+export default Texture;

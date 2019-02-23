@@ -27,6 +27,11 @@ class Color extends Material
             this.shader.setUniform4f(this.uniformName, this.colors[0], this.colors[1], this.colors[2], this.colors[3]);
         }
     }
+
+    setAttribLocationInVertexArray(vertexArray)
+    {
+        return null;
+    }
 }
 
 export default Color;
