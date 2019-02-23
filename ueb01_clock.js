@@ -1,10 +1,10 @@
+import Material from "./Renderer/Material.js";
 import Webgl from "./Renderer/Webgl.js";
 import Renderer from "./Renderer/Renderer.js";
 import Shader from "./Renderer/Shader.js";
-import IndexBuffer from "./Renderer/IndexBuffer.js";
-import VertexArray from "./Renderer/VertexArray.js";
 import VertexBuffer from "./Renderer/VertexBuffer.js";
-//import {mat4} from "./gl-matrix.js";
+import Color from "./Renderer/Color.js";
+import Drawable from "./Renderer/Drawable.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
@@ -13,12 +13,12 @@ const gl = Webgl.getGL();
 
 const vsSource =
 `
-    attribute vec3 position;
+    attribute vec3 aPosition;
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
     void main() {
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(position, 1.0);
+        gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
     }
 `;
 /*
@@ -82,6 +82,7 @@ let canvasColor = [0.0, 0.0, 0.0, 0.0];
 // Renderer erzeugen und canvas initialisieren
 let renderer = new Renderer();
 renderer.clear(canvas, canvasColor);
+const vertexBuffer = new VertexBuffer(positions, 2);
 
 // initialize MinutesPointer data
 // create projectionMatrix
@@ -99,19 +100,12 @@ mat4.translate(modelViewMatrixMinutes, modelViewMatrixMinutes, [0.0, 0.0, -6.0])
 
 // shader
 let shaderMinutePointer = new Shader(vsSource, fsSource);
+let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors);
+let drawableMinutePointer = new Drawable(vertexBuffer, indicesMinutes, colorMinutePointer);
+
 shaderMinutePointer.bind();
-shaderMinutePointer.setUniform3f("uColor", minutesColors[0], minutesColors[1], minutesColors[2]);
 shaderMinutePointer.setUniformMatrix4fv("uProjectionMatrix", false, projectionMatrixMinutes);
 shaderMinutePointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
-let minutePointerAttribLocation = shaderMinutePointer.getAttribLocation("position");
-
-// Buffers
-const indexBufferMinutesPointer = new IndexBuffer(indicesMinutes);
-const vertexBuffer = new VertexBuffer(positions);
-const vertexArrayMinutesPointer = new VertexArray();
-
-// AttribLocation to VertexArray
-vertexArrayMinutesPointer.addBuffer(vertexBuffer, [minutePointerAttribLocation], 2, 0);
 
 // initialize SecondsPointer data
 // create projectionMatrix
@@ -125,18 +119,12 @@ mat4.translate(modelViewMatrixSeconds, modelViewMatrixSeconds, [0.0, 0.0, -6.0])
 
 // shader
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
+let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColors);
+let drawableSecondsPointer = new Drawable(vertexBuffer, indicesSeconds, colorSecondsPointer);
+
 shaderSecondsPointer.bind();
-shaderSecondsPointer.setUniform3f("uColor", secondsColors[0], secondsColors[1], secondsColors[2]);
 shaderSecondsPointer.setUniformMatrix4fv("uProjectionMatrix", false, projectionMatrixSeconds);
 shaderSecondsPointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds);
-let secondsPointerAttribLocation = shaderSecondsPointer.getAttribLocation("position");
-
-// Buffers
-const indexBufferSecondsPointer = new IndexBuffer(indicesSeconds);
-const vertexArraySecondsPointer = new VertexArray();
-
-// AttribLocation to VertexArray
-vertexArraySecondsPointer.addBuffer(vertexBuffer, [secondsPointerAttribLocation], 2, 0);
 
 
 let then = 0;
@@ -162,8 +150,8 @@ function render(now)
                     -6 * Math.PI / 180,      // amount to rotate in radians
                     [0, 0, 1]);             // axis to rotate around (z axis)
 
-        shaderSecondsPointer.bind();
-        shaderSecondsPointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds);
+        drawableSecondsPointer.material.shader.bind();
+        drawableSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds);
         secondsCounter = 0;
     }
 
@@ -176,17 +164,16 @@ function render(now)
                     -6 * Math.PI / 180,      // amount to rotate in radians
                     [0, 0, 1]);             // axis to rotate around (z axis)
 
-        shaderMinutePointer.bind();
-        shaderMinutePointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
+        shaderMinutePointer.material.shader.bind();
+        shaderMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
         minutesCounter = 0;
     }
 
 
     // Draw Minutes & SecondsPointer
     renderer.clear(canvas, canvasColor);
-    renderer.draw(vertexArrayMinutesPointer, indexBufferMinutesPointer, shaderMinutePointer);
-    renderer.draw(vertexArraySecondsPointer, indexBufferSecondsPointer, shaderSecondsPointer);
-
+    renderer.drawDrawable(drawableSecondsPointer);
+    renderer.drawDrawable(drawableMinutePointer);
     requestAnimationFrame(render);
 }
 
