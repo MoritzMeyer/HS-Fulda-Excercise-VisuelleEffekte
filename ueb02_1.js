@@ -81,20 +81,19 @@ let drawable = new Drawable(vertexBuffer, indices, texture);
 
 function render(now)
 {
-    if (drawable.material.loaded)
+    renderer.clear(canvas, canvasColor);
+    renderer.drawDrawable(drawable);
+
+    if (!drawable.material.loaded)
     {
-        renderer.clear(canvas, canvasColor);
-        renderer.drawDrawable(drawable);
+        requestAnimationFrame(render);
     }
     else
     {
-            setTimeout(() => requestAnimationFrame(render), 1000);
+            drawable.delete();
+            vertexBuffer.delete();
+            texCoordsBuffer.delete();
     }
 }
 
 requestAnimationFrame(render);
-
-// Draw Cube and delete
-
-//drawable.delete();
-//vertexBuffer.delete();

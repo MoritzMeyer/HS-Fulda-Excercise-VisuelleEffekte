@@ -5,6 +5,8 @@ import Shader from "./Renderer/Shader.js";
 import VertexBuffer from "./Renderer/VertexBuffer.js";
 import Color from "./Renderer/Color.js";
 import Drawable from "./Renderer/Drawable.js";
+import Camera from "./Renderer/Camera.js";
+import Matrix from "./Renderer/Matrix.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
@@ -12,7 +14,7 @@ Webgl.loadGL(canvas);
 const gl = Webgl.getGL();
 
 const vsSource =
-`
+    `
     attribute vec3 aPosition;
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
@@ -32,8 +34,8 @@ const vsSource =
 `;
 */
 
-const fsSource = 
-`
+const fsSource =
+    `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
     #else
@@ -45,29 +47,29 @@ const fsSource =
 }`;
 
 let positions =
-[
-    // pointer minutes
-     0.04, 0,
-    -0.04,  1.65,
-     0.04,  1.65,
-    -0.04, 0,
+    [
+        // pointer minutes
+        0.04, 0,
+        -0.04,  1.65,
+        0.04,  1.65,
+        -0.04, 0,
 
-    // pointer seconds
-     0.025, 0,
-    -0.025, 1.85,
-     0.025, 1.85,
-    -0.025, 0,
+        // pointer seconds
+        0.025, 0,
+        -0.025, 1.85,
+        0.025, 1.85,
+        -0.025, 0,
 
-    // triangle minutes
-    -0.04, 1.65,
-     0, 1.75,
-     0.04, 1.65,
+        // triangle minutes
+        -0.04, 1.65,
+        0, 1.75,
+        0.04, 1.65,
 
-    // triangle seconds
-    -0.025, 1.85,
-     0, 1.95,
-     0.025, 1.85
-];
+        // triangle seconds
+        -0.025, 1.85,
+        0, 1.95,
+        0.025, 1.85
+    ];
 
 // color Arrays
 let minutesColors = [0.0, 0.8, 0.0];
@@ -84,19 +86,14 @@ let renderer = new Renderer();
 renderer.clear(canvas, canvasColor);
 const vertexBuffer = new VertexBuffer(positions, 2);
 
-// initialize MinutesPointer data
-// create projectionMatrix
-const fieldOfView = 45 * Math.PI / 180; // degree to radians
-const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-const zNear = 0.1;
-const zFar = 100.0;
-const projectionMatrixMinutes = mat4.create();
+let camera = new Camera();
 
-mat4.perspective(projectionMatrixMinutes, fieldOfView, aspect, zNear, zFar);
+// initialize MinutesPointer data
+
 
 // create modelViewMatrix
-const modelViewMatrixMinutes = mat4.create();
-mat4.translate(modelViewMatrixMinutes, modelViewMatrixMinutes, [0.0, 0.0, -6.0]);
+const modelViewMatrixMinutes = new Matrix();
+modelViewMatrixMinutes.translate([0.0, 0.0, -6.0]);
 
 // shader
 let shaderMinutePointer = new Shader(vsSource, fsSource);
@@ -104,18 +101,15 @@ let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors)
 let drawableMinutePointer = new Drawable(vertexBuffer, indicesMinutes, colorMinutePointer);
 
 shaderMinutePointer.bind();
-shaderMinutePointer.setUniformMatrix4fv("uProjectionMatrix", false, projectionMatrixMinutes);
-shaderMinutePointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
+shaderMinutePointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+shaderMinutePointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
 
 // initialize SecondsPointer data
 // create projectionMatrix
-const projectionMatrixSeconds = mat4.create();
-
-mat4.perspective(projectionMatrixSeconds, fieldOfView, aspect, zNear, zFar);
 
 // create modelViewMatrix
-const modelViewMatrixSeconds = mat4.create();
-mat4.translate(modelViewMatrixSeconds, modelViewMatrixSeconds, [0.0, 0.0, -6.0]);
+const modelViewMatrixSeconds = new Matrix();
+modelViewMatrixSeconds.translate([0.0, 0.0, -6.0]);
 
 // shader
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
@@ -123,8 +117,8 @@ let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColor
 let drawableSecondsPointer = new Drawable(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 shaderSecondsPointer.bind();
-shaderSecondsPointer.setUniformMatrix4fv("uProjectionMatrix", false, projectionMatrixSeconds);
-shaderSecondsPointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds);
+shaderSecondsPointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+shaderSecondsPointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
 
 
 let then = 0;
@@ -145,27 +139,21 @@ function render(now)
     // rotate seconds pointer
     if (secondsCounter >= 1)
     {
-        mat4.rotate(modelViewMatrixSeconds, // destination matrix
-                    modelViewMatrixSeconds, // matrix to rotate
-                    -6 * Math.PI / 180,      // amount to rotate in radians
-                    [0, 0, 1]);             // axis to rotate around (z axis)
-
+        // rotate around z axis minus 6 degrees
+        modelViewMatrixSeconds.rotateZ(-6);
         drawableSecondsPointer.material.shader.bind();
-        drawableSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds);
+        drawableSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
         secondsCounter = 0;
     }
 
 
     // rotate minutes counter
-    if (minutesCounter >= 61)
+    if (minutesCounter > 60)
     {
-        mat4.rotate(modelViewMatrixMinutes, // destination matrix
-                    modelViewMatrixMinutes, // matrix to rotate
-                    -6 * Math.PI / 180,      // amount to rotate in radians
-                    [0, 0, 1]);             // axis to rotate around (z axis)
-
+        // rotate around z axis minus 6 degrees
+        modelViewMatrixMinutes.rotateZ(-6);
         drawableMinutePointer.material.shader.bind();
-        drawableMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes);
+        drawableMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
         minutesCounter = 0;
     }
 

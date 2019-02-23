@@ -21,10 +21,18 @@
     <tr>
         <td><a href="ueb02_1.html">Uebung 02 - Texture</a></td>
     </tr>
+    <tr>
+        <td><a href="ueb02_2.html">Uebung 02 - Navigation</a></td>
+    </tr>
 </table>
 
 <canvas id="glcanvas" width="640" height="480"></canvas>
 </body>
 <script type="text/javascript" src="gl-matrix.js"></script>
 <script type="module" src="test.js"></script>
+<script type="text/javascript">
+    document.addEventListener('keydown', (event) => {
+       console.log("KeyCode: " + event.code);
+    });
+</script>
 </html>

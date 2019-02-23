@@ -1,19 +1,22 @@
-import Webgl from "./Webgl";
+import Webgl from "./Webgl.js";
+import Matrix from "./Matrix.js";
+import ProjectionMatrix from "./ProjectionMatrix.js";
 
 class Camera
 {
-    constructor(viewMatrix, projectionMatrix)
+    constructor()
     {
         this.gl = Webgl.getGL();
-        this.viewMatrix = viewMatrix;
-        this.projectionMatrix = projectionMatrix;
-        this.cameraMatrix = mat4.create();
+        this.viewMatrix = new Matrix();
+        this.projectionMatrix = new ProjectionMatrix();
+        this.cameraMatrix = new Matrix();
         this.viewProjectionMatrix = mat4.create();
     }
 
     getViewProjectionMatrix()
     {
-        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix, this.viewMatrix);
+        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.viewMatrix.matrix);
         return this.viewProjectionMatrix;
     }
 }
+export default Camera;

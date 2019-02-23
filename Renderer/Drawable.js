@@ -1,7 +1,7 @@
 import VertexArray from "./VertexArray.js";
 import IndexBuffer from "./IndexBuffer.js";
-import Transform from "./Transform.js";
 import Webgl from "./Webgl.js";
+import Matrix from "./Matrix.js";
 
 class Drawable
 {
@@ -12,7 +12,8 @@ class Drawable
         this.vertexBuffer = vertexBuffer;
         this.indexBuffer = new IndexBuffer(vertexIndices);
         this.material = material;
-        this.transform = new Transform();
+        this.modelMatrix = new Matrix();
+        //this.transform = new Transform();
 
         // Bind indexBuffer Data to vertexArray
         this.positionLocation = material.shader.getAttribLocation("aPosition");
