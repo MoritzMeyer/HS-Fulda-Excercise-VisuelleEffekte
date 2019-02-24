@@ -1,10 +1,10 @@
-import Webgl from "./Renderer/Webgl.js";
-import Renderer from "./Renderer/Renderer.js";
-import Shader from "./Renderer/Shader.js";
-import VertexBuffer from "./Renderer/VertexBuffer.js";
-import Color from "./Renderer/Color.js";
-import Drawable from "./Renderer/Drawable.js";
-import Camera from "./Renderer/Camera.js";
+import Webgl from "./Engine/Webgl.js";
+import Renderer from "./Engine/Renderer.js";
+import Shader from "./Engine/Shader.js";
+import VertexBuffer from "./Engine/VertexBuffer.js";
+import Color from "./Engine/Color.js";
+import Drawable from "./Engine/Drawable.js";
+import Camera from "./Engine/Camera.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
@@ -58,7 +58,7 @@ let indicesTriangle = [4, 5, 6];
 
 let canvasColor = [0.42, 0.6, 0.0, 1.0];
 
-// Renderer erzeugen und canvas initialisieren
+// Engine erzeugen und canvas initialisieren
 let renderer = new Renderer();
 
 // initialize VertexBuffer

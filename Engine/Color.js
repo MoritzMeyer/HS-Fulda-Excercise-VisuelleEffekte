@@ -4,7 +4,7 @@ class Color extends Material
 {
     constructor(uniformName, shader, colors)
     {
-        super(uniformName, shader);
+        super(uniformName, shader, false);
 
         if (colors.length < 3 || colors.length > 4)
         {

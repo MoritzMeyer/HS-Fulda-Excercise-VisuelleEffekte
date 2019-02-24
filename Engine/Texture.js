@@ -6,7 +6,7 @@ class Texture extends Material
 {
     constructor(uniformName, shader, url, slot, texCoordsBuffer, attributeTexCoordName)
     {
-        super(uniformName, shader);
+        super(uniformName, shader, true);
         const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;

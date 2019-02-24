@@ -1,12 +1,12 @@
-import Material from "./Renderer/Material.js";
-import Webgl from "./Renderer/Webgl.js";
-import Renderer from "./Renderer/Renderer.js";
-import Shader from "./Renderer/Shader.js";
-import VertexBuffer from "./Renderer/VertexBuffer.js";
-import Color from "./Renderer/Color.js";
-import Drawable from "./Renderer/Drawable.js";
-import Camera from "./Renderer/Camera.js";
-import Matrix from "./Renderer/Matrix.js";
+import Material from "./Engine/Material.js";
+import Webgl from "./Engine/Webgl.js";
+import Renderer from "./Engine/Renderer.js";
+import Shader from "./Engine/Shader.js";
+import VertexBuffer from "./Engine/VertexBuffer.js";
+import Color from "./Engine/Color.js";
+import Drawable from "./Engine/Drawable.js";
+import Camera from "./Engine/Camera.js";
+import Matrix from "./Engine/Matrix.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
@@ -81,7 +81,7 @@ let indicesSeconds = [4, 5, 6, 4, 5, 7, 11, 12, 13];
 
 let canvasColor = [0.0, 0.0, 0.0, 0.0];
 
-// Renderer erzeugen und canvas initialisieren
+// Engine erzeugen und canvas initialisieren
 let renderer = new Renderer();
 renderer.clear(canvas, canvasColor);
 const vertexBuffer = new VertexBuffer(positions, 2);

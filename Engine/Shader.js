@@ -1,5 +1,29 @@
 import Webgl from "./Webgl.js";
 
+const vsSource =
+    `
+    attribute vec3 aPosition;
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    void main() {
+        gl_PointSize = 10.0;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+    }
+`;
+
+const fsSource =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform vec4 uColor;
+    void main() {
+        gl_FragColor = vec4(uColor);
+}`;
+
 class Shader
 {
     constructor(vsSource, fsSource)
@@ -129,6 +153,11 @@ class Shader
         }
 
         return shader;
+    }
+
+    static getDefaultShader()
+    {
+        return new Shader(vsSource, fsSource);
     }
 }
 

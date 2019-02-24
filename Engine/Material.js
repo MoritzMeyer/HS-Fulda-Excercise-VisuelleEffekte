@@ -2,12 +2,13 @@ import Webgl from "./Webgl.js";
 
 class Material
 {
-    constructor(uniformName, shader)
+    constructor(uniformName, shader, isTexture)
     {
         this.gl = Webgl.getGL();
         this.uniformName = uniformName;
         this.shader = shader;
         this.loaded = false;
+        this.isTexture = isTexture;
     }
 
     setAttribLocationInVertexArray(vertexArray)
