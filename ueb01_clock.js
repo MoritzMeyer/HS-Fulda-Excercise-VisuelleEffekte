@@ -16,11 +16,12 @@ const gl = Webgl.getGL();
 const vsSource =
     `
     attribute vec3 aPosition;
-    uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;    
     void main() {
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }
 `;
 /*
@@ -86,40 +87,18 @@ let renderer = new Renderer();
 renderer.clear(canvas, canvasColor);
 const vertexBuffer = new VertexBuffer(positions, 2);
 
-let camera = new Camera();
-
 // initialize MinutesPointer data
-
-
-// create modelViewMatrix
-const modelViewMatrixMinutes = new Matrix();
-modelViewMatrixMinutes.translate([0.0, 0.0, -6.0]);
-
-// shader
 let shaderMinutePointer = new Shader(vsSource, fsSource);
 let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors);
 let drawableMinutePointer = new Drawable(vertexBuffer, indicesMinutes, colorMinutePointer);
 
-shaderMinutePointer.bind();
-shaderMinutePointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-shaderMinutePointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
-
 // initialize SecondsPointer data
-// create projectionMatrix
-
-// create modelViewMatrix
-const modelViewMatrixSeconds = new Matrix();
-modelViewMatrixSeconds.translate([0.0, 0.0, -6.0]);
-
-// shader
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
 let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColors);
 let drawableSecondsPointer = new Drawable(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
-shaderSecondsPointer.bind();
-shaderSecondsPointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-shaderSecondsPointer.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
-
+let camera = new Camera();
+camera.viewMatrix.translate([0.0, 0.0, -6.0]);
 
 let then = 0;
 let secondsCounter = 0;
@@ -140,9 +119,7 @@ function render(now)
     if (secondsCounter >= 1)
     {
         // rotate around z axis minus 6 degrees
-        modelViewMatrixSeconds.rotateZ(-6);
-        drawableSecondsPointer.material.shader.bind();
-        drawableSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
+        drawableSecondsPointer.modelMatrix.rotateZ(-6);
         secondsCounter = 0;
     }
 
@@ -151,17 +128,15 @@ function render(now)
     if (minutesCounter > 60)
     {
         // rotate around z axis minus 6 degrees
-        modelViewMatrixMinutes.rotateZ(-6);
-        drawableMinutePointer.material.shader.bind();
-        drawableMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
+        drawableMinutePointer.modelMatrix.rotateZ(-6);
         minutesCounter = 0;
     }
 
 
     // Draw Minutes & SecondsPointer
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawableSecondsPointer);
-    renderer.drawDrawable(drawableMinutePointer);
+    renderer.drawDrawable(drawableSecondsPointer, camera);
+    renderer.drawDrawable(drawableMinutePointer, camera);
     requestAnimationFrame(render);
 }
 

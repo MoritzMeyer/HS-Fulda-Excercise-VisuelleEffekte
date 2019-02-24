@@ -25,6 +25,8 @@ class Drawable
     draw()
     {
         this.material.bind();
+        this.material.shader.setUniformMatrix4fv("uModelMatrix", false, this.modelMatrix.matrix);
+
         this.vertexArray.bind();
         this.indexBuffer.bind();
         this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);

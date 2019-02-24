@@ -19,17 +19,7 @@ class Renderer
 
     drawDrawable(drawable, camera)
     {
-        //let modelViewProjection = mat4.create();
-        //mat4.multiply(modelViewProjection, camera.projectionMatrix.matrix, camera.viewMatrix.matrix);
-        //mat4.multiply(modelViewProjection, modelViewProjection, drawable.modelMatrix.matrix);
-        //let matrix = camera.getViewProjectionMatrix();
-        //mat4.multiply(modelViewProjection, camera.viewMatrix.matrix, drawable.modelMatrix.matrix);
-        //mat4.multiply(matrix, matrix, drawable.modelMatrix.matrix);
-        drawable.material.shader.bind();
-        drawable.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-        drawable.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
-        drawable.material.shader.setUniformMatrix4fv("uModelMatrix", false, drawable.modelMatrix.matrix);
-
+        camera.applyViewProjectionMatricesToShader(drawable.material.shader);
         drawable.draw();
     }
 

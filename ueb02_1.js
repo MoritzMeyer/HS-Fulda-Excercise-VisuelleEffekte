@@ -4,6 +4,7 @@ import Shader from "./Renderer/Shader.js";
 import VertexBuffer from "./Renderer/VertexBuffer.js";
 import Drawable from "./Renderer/Drawable.js";
 import Texture from "./Renderer/Texture.js";
+import Camera from "./Renderer/Camera.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
@@ -14,10 +15,13 @@ const vsSource =
     attribute vec3 aPosition;
     attribute vec2 aTexCoord;
     varying vec2 vTexCoord;
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
     void main() {
         vTexCoord = aTexCoord;
         gl_PointSize = 10.0;
-        gl_Position = vec4(aPosition, 1.0);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }
 `;
 
@@ -79,10 +83,13 @@ let shader = new Shader(vsSource, fsSource);
 let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoordsBuffer, "aTexCoord");
 let drawable = new Drawable(vertexBuffer, indices, texture);
 
+const camera = new Camera();
+camera.viewMatrix.translate([0.0, 0.0, -2.5]);
+
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawable);
+    renderer.drawDrawable(drawable, camera);
 
     if (!drawable.material.loaded)
     {

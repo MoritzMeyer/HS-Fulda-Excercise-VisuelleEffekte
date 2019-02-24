@@ -18,5 +18,12 @@ class Camera
         this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.viewMatrix.matrix);
         return this.viewProjectionMatrix;
     }
+
+    applyViewProjectionMatricesToShader(shader)
+    {
+        shader.bind();
+        shader.setUniformMatrix4fv("uProjectionMatrix", false, this.projectionMatrix.matrix);
+        shader.setUniformMatrix4fv("uViewMatrix", false, this.viewMatrix.matrix);
+    }
 }
 export default Camera;
