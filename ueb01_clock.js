@@ -4,7 +4,7 @@ import Renderer from "./Engine/Renderer.js";
 import Shader from "./Engine/Shader.js";
 import VertexBuffer from "./Engine/VertexBuffer.js";
 import Color from "./Engine/Color.js";
-import Drawable from "./Engine/Drawable.js";
+import GameObject from "./Engine/GameObject.js";
 import Camera from "./Engine/Camera.js";
 import Matrix from "./Engine/Matrix.js";
 
@@ -90,12 +90,12 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 // initialize MinutesPointer data
 let shaderMinutePointer = new Shader(vsSource, fsSource);
 let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors);
-let drawableMinutePointer = new Drawable(vertexBuffer, indicesMinutes, colorMinutePointer);
+let gameObjectMinutePointer = new GameObject(vertexBuffer, indicesMinutes, colorMinutePointer);
 
 // initialize SecondsPointer data
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
 let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColors);
-let drawableSecondsPointer = new Drawable(vertexBuffer, indicesSeconds, colorSecondsPointer);
+let gameObjectSecondsPointer = new GameObject(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 let camera = new Camera();
 camera.viewMatrix.translate([0.0, 0.0, -6.0]);
@@ -119,7 +119,7 @@ function render(now)
     if (secondsCounter >= 1)
     {
         // rotate around z axis minus 6 degrees
-        drawableSecondsPointer.transform.modelMatrix.rotateZ(-6);
+        gameObjectSecondsPointer.transform.rotateZ(-6);
         secondsCounter = 0;
     }
 
@@ -128,15 +128,15 @@ function render(now)
     if (minutesCounter > 60)
     {
         // rotate around z axis minus 6 degrees
-        drawableMinutePointer.transform.modelMatrix.rotateZ(-6);
+        gameObjectMinutePointer.transform.rotateZ(-6);
         minutesCounter = 0;
     }
 
 
     // Draw Minutes & SecondsPointer
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawableSecondsPointer, camera);
-    renderer.drawDrawable(drawableMinutePointer, camera);
+    renderer.drawGameObject(gameObjectSecondsPointer, camera);
+    renderer.drawGameObject(gameObjectMinutePointer, camera);
     requestAnimationFrame(render);
 }
 

@@ -4,7 +4,7 @@ import Renderer from "./Engine/Renderer.js";
 import Shader from "./Engine/Shader.js";
 import VertexBuffer from "./Engine/VertexBuffer.js";
 import Color from "./Engine/Color.js";
-import Drawable from "./Engine/Drawable.js";
+import GameObject from "./Engine/GameObject.js";
 import Camera from "./Engine/Camera.js";
 import Matrix from "./Engine/Matrix.js";
 
@@ -98,7 +98,7 @@ modelViewMatrixMinutes.translate([0.0, 0.0, -6.0]);
 // shader
 let shaderMinutePointer = new Shader(vsSource, fsSource);
 let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors);
-let drawableMinutePointer = new Drawable(vertexBuffer, indicesMinutes, colorMinutePointer);
+let gameObjectMinutePointer = new GameObject(vertexBuffer, indicesMinutes, colorMinutePointer);
 
 shaderMinutePointer.bind();
 shaderMinutePointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
@@ -114,7 +114,7 @@ modelViewMatrixSeconds.translate([0.0, 0.0, -6.0]);
 // shader
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
 let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColors);
-let drawableSecondsPointer = new Drawable(vertexBuffer, indicesSeconds, colorSecondsPointer);
+let gameObjectSecondsPointer = new GameObject(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 shaderSecondsPointer.bind();
 shaderSecondsPointer.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
@@ -141,8 +141,8 @@ function render(now)
     {
         // rotate around z axis minus 6 degrees
         modelViewMatrixSeconds.rotateZ(-6);
-        drawableSecondsPointer.material.shader.bind();
-        drawableSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
+        gameObjectSecondsPointer.material.shader.bind();
+        gameObjectSecondsPointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixSeconds.matrix);
         secondsCounter = 0;
     }
 
@@ -152,16 +152,16 @@ function render(now)
     {
         // rotate around z axis minus 6 degrees
         modelViewMatrixMinutes.rotateZ(-6);
-        drawableMinutePointer.material.shader.bind();
-        drawableMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
+        gameObjectMinutePointer.material.shader.bind();
+        gameObjectMinutePointer.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, modelViewMatrixMinutes.matrix);
         minutesCounter = 0;
     }
 
 
     // Draw Minutes & SecondsPointer
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawableSecondsPointer);
-    renderer.drawDrawable(drawableMinutePointer);
+    renderer.drawGameObject(gameObjectSecondsPointer);
+    renderer.drawGameObject(gameObjectMinutePointer);
     requestAnimationFrame(render);
 }
 

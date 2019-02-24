@@ -1,6 +1,6 @@
-import GameObject from "../GameObject.js";
+import RenderObject from "../RenderObject.js";
 import VertexBuffer from "../VertexBuffer.js";
-import Drawable from "../Drawable.js";
+import GameObject from "../GameObject.js";
 import Color from "../Color.js";
 import Shader from "../Shader.js";
 
@@ -54,7 +54,7 @@ const indices = [
 
 const colors = [0.7, 0.0, 0.0, 1.0];
 
-class Cube3D extends GameObject
+class Cube3D extends RenderObject
 {
     constructor(material)
     {
@@ -65,8 +65,8 @@ class Cube3D extends GameObject
         }
 
         const vertexBuffer = new VertexBuffer(positions, 3);
-        const drawable = new Drawable(vertexBuffer, indices, material);
-        super(positions, indices, drawable);
+        const gameObject = new GameObject(vertexBuffer, indices, material);
+        super(positions, indices, gameObject);
     }
 }
 export default Cube3D;

@@ -17,10 +17,9 @@ class Renderer
         this.gl.drawElements(this.gl.TRIANGLES, indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
     }
 
-    drawDrawable(drawable, camera)
+    drawGameObject(gameObject, camera)
     {
-        camera.applyViewProjectionMatricesToShader(drawable.material.shader);
-        drawable.draw();
+        gameObject.draw(camera);
     }
 
     clear(canvas, canvasColor)

@@ -1,12 +1,12 @@
-import GameObject from "../GameObject.js";
+import RenderObject from "../RenderObject.js";
 import Shader from "../Shader.js";
 import Color from "../Color.js";
 import VertexBuffer from "../VertexBuffer.js";
-import Drawable from "../Drawable.js";
+import GameObject from "../GameObject.js";
 
 const colors = [0.0, 0.0, 0.8, 1.0];
 
-class Sphere3D extends GameObject
+class Sphere3D extends RenderObject
 {
     constructor(material)
     {
@@ -19,8 +19,8 @@ class Sphere3D extends GameObject
         let rawData = Sphere3D.CalcSphereData(18);
 
         const vertexBuffer = new VertexBuffer(rawData["vertices"], 3);
-        const drawable = new Drawable(vertexBuffer, rawData["indices"], material);
-        super(rawData["vertices"], rawData["indices"], drawable);
+        const gameObject = new GameObject(vertexBuffer, rawData["indices"], material);
+        super(rawData["vertices"], rawData["indices"], gameObject);
     }
 
     static CalcSphereData(sphereDiv)

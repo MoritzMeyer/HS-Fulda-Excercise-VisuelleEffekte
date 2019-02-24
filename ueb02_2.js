@@ -3,7 +3,7 @@ import Renderer from "./Engine/Renderer.js";
 import Shader from "./Engine/Shader.js";
 import VertexBuffer from "./Engine/VertexBuffer.js";
 import Color from "./Engine/Color.js";
-import Drawable from "./Engine/Drawable.js";
+import GameObject from "./Engine/GameObject.js";
 import Camera from "./Engine/Camera.js";
 
 // Webgl context holen und laden.
@@ -70,13 +70,13 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 // shader
 let shaderCube = new Shader(vsSource, fsSource);
 let colorCube = new Color("uColor", shaderCube, cubeColors);
-let drawableCube = new Drawable(vertexBuffer, indicesCube, colorCube);
+let gameObjectCube = new GameObject(vertexBuffer, indicesCube, colorCube);
 
 // initialize Triangle Data
 // shader
 let shaderTriangle = new Shader(vsSource, fsSource);
 let colorTriangle = new Color("uColor", shaderTriangle, triangleColors);
-let drawableTriangle = new Drawable(vertexBuffer, indicesTriangle, colorTriangle);
+let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
 canvas.setAttribute("tabindex", "0");
 canvas.addEventListener('keydown', (event) =>
@@ -108,8 +108,8 @@ canvas.addEventListener('keydown', (event) =>
 
 /*
 renderer.clear(canvas, canvasColor);
-renderer.drawDrawable(drawableCube, camera);
-renderer.drawDrawable(drawableTriangle, camera);
+renderer.drawGameObject(gameObjectCube, camera);
+renderer.drawGameObject(gameObjectTriangle, camera);
 */
 
 camera.viewMatrix.translate([0.0, 0.0, -4.0]);
@@ -118,15 +118,15 @@ requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawableCube, camera);
-    renderer.drawDrawable(drawableTriangle, camera);
+    renderer.drawGameObject(gameObjectCube, camera);
+    renderer.drawGameObject(gameObjectTriangle, camera);
 
     requestAnimationFrame(render);
 }
 
 
-//drawableCube.delete();
-//drawableTriangle.delete();
+//gameObjectCube.delete();
+//gameObjectTriangle.delete();
 //vertexBuffer.delete();
 
 

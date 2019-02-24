@@ -2,7 +2,7 @@ import Webgl from "./Engine/Webgl.js";
 import Renderer from "./Engine/Renderer.js";
 import Shader from "./Engine/Shader.js";
 import VertexBuffer from "./Engine/VertexBuffer.js";
-import Drawable from "./Engine/Drawable.js";
+import GameObject from "./Engine/GameObject.js";
 import Texture from "./Engine/Texture.js";
 import Camera from "./Engine/Camera.js";
 
@@ -81,7 +81,7 @@ const texCoordsBuffer = new VertexBuffer(texCoords, 2);
 // shader
 let shader = new Shader(vsSource, fsSource);
 let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoordsBuffer, "aTexCoord");
-let drawable = new Drawable(vertexBuffer, indices, texture);
+let gameObject = new GameObject(vertexBuffer, indices, texture);
 
 const camera = new Camera();
 camera.viewMatrix.translate([0.0, 0.0, -2.5]);
@@ -89,15 +89,15 @@ camera.viewMatrix.translate([0.0, 0.0, -2.5]);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    renderer.drawDrawable(drawable, camera);
+    renderer.drawGameObject(gameObject, camera);
 
-    if (!drawable.material.loaded)
+    if (!gameObject.material.loaded)
     {
         requestAnimationFrame(render);
     }
     else
     {
-            drawable.delete();
+            gameObject.delete();
             vertexBuffer.delete();
             texCoordsBuffer.delete();
     }
