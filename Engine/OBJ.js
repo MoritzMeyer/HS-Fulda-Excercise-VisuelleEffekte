@@ -28,13 +28,18 @@ class OBJ
             console.log(drawingInfo);
 
             let vertexBuffer = new VertexBuffer(drawingInfo.positions, 3);
-            if (!textureFile)
+            if (!textureFile && !drawingInfo.textureName)
             {
                 let color = new Color("uColor", shader, [248, 24, 148]);
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color);
             }
             else
             {
+                if (!textureFile)
+                {
+                    textureFile = drawingInfo.textureName;
+                }
+
                 let texCoordsBuffer = new VertexBuffer(drawingInfo.texCoords, 2);
                 let texture = new Texture("uTexture", shader, textureFile, 0, texCoordsBuffer, "aTexCoord");
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture);

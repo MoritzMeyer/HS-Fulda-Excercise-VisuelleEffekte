@@ -16,8 +16,8 @@ Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 camera.viewMatrix.translate([0, 0, -10.0]);
 
-let obj = new OBJ("./textures/teapot.obj", 1, Shader.getDefaultTextureShader(), "./textures/capsule0.jpg");
-
+let obj = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
+checkLoaded(obj);
 
 requestAnimationFrame(render);
 function render(now)
@@ -28,6 +28,18 @@ function render(now)
         renderer.drawGameObject(obj.gameObject, camera);
     }
     requestAnimationFrame(render);
+}
+
+function checkLoaded()
+{
+    if (!obj.isLoaded)
+    {
+        window.setTimeout(checkLoaded, 100);
+    }
+    else
+    {
+        obj.gameObject.transform.rotateX(90);
+    }
 }
 
 

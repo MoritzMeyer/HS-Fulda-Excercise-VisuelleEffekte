@@ -60,7 +60,7 @@ class Cube3D extends RenderObject
     {
         if (!material)
         {
-            const shader = Shader.getDefaultShader();
+            const shader = Shader.getDefaultColorShader();
             material = new Color("uColor", shader, colors);
         }
 
