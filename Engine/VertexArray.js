@@ -28,7 +28,7 @@ class VertexArray
 
             // tell webgl how to take data out of positionBuffer for this attribute
             this.gl.vertexAttribPointer(attribLocation, vertexBuffer.indexSize, this.gl.FLOAT, false, stride, 0);
-
+            //this.gl.vertexAttribPointer(attribLocation, stride, this.gl.FLOAT, false, stride * i, 0);
             // set offset for the next element
             offset += attribLocation.count * 4;
         }

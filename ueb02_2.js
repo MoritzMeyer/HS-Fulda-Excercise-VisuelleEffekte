@@ -30,9 +30,9 @@ const fsSource =
     #else
     precision mediump float;
     #endif
-    uniform vec3 uColor;
+    uniform vec3 uObjectColor;
     void main() {
-        gl_FragColor = vec4(uColor, 1.0);
+        gl_FragColor = vec4(uObjectColor, 1.0);
 }`;
 
 let positions =
@@ -69,13 +69,13 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 // initialize Cube data
 // shader
 let shaderCube = new Shader(vsSource, fsSource);
-let colorCube = new Color("uColor", shaderCube, cubeColors);
+let colorCube = new Color("uObjectColor", shaderCube, cubeColors);
 let gameObjectCube = new GameObject(vertexBuffer, indicesCube, colorCube);
 
 // initialize Triangle Data
 // shader
 let shaderTriangle = new Shader(vsSource, fsSource);
-let colorTriangle = new Color("uColor", shaderTriangle, triangleColors);
+let colorTriangle = new Color("uObjectColor", shaderTriangle, triangleColors);
 let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
 Webgl.addNavigationListener(canvas, camera);

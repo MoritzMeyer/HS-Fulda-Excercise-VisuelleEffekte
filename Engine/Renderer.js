@@ -17,9 +17,9 @@ class Renderer
         this.gl.drawElements(this.gl.TRIANGLES, indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
     }
 
-    drawGameObject(gameObject, camera)
+    drawGameObject(gameObject, camera, lightSource = null)
     {
-        gameObject.draw(camera);
+        gameObject.draw(camera, lightSource);
     }
 
     clear(canvas, canvasColor)

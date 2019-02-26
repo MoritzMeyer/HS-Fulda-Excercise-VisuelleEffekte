@@ -8,10 +8,10 @@ class Tree3D extends RenderObject
 {
     constructor()
     {
-        let color1 = new Color("uColor", Shader.getDefaultColorShader(), [0.8, 0.0, 0.0, 1.0]);
-        let color2 = new Color("uColor", Shader.getDefaultColorShader(), [0.0, 0.8, 0.0, 1.0]);
-        let color3 = new Color("uColor", Shader.getDefaultColorShader(), [0.0, 0.0, 0.8, 1.0]);
-        let color4 = new Color("uColor", Shader.getDefaultColorShader(), [0.8, 0.8, 0.0, 1.0]);
+        let color1 = new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0.0, 0.0]);
+        let color2 = new Color("uObjectColor", Shader.getDefaultColorShader(), [0.0, 0.8, 0.0]);
+        let color3 = new Color("uObjectColor", Shader.getDefaultColorShader(), [0.0, 0.0, 0.8]);
+        let color4 = new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0.8, 0.0]);
 
         let trunk = new Cube3D(color1);
         let limb1 = new Cube3D(color2);

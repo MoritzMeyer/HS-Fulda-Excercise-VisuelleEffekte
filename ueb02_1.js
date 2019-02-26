@@ -13,13 +13,13 @@ Webgl.loadGL(canvas);
 const vsSource =
     `
     attribute vec3 aPosition;
-    attribute vec2 aTexCoord;
+    attribute vec2 aTexCoords;
     varying vec2 vTexCoord;
     uniform mat4 uProjectionMatrix;
     uniform mat4 uViewMatrix;
     uniform mat4 uModelMatrix;
     void main() {
-        vTexCoord = aTexCoord;
+        vTexCoord = aTexCoords;
         gl_PointSize = 10.0;
         gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }
@@ -80,7 +80,7 @@ const texCoordsBuffer = new VertexBuffer(texCoords, 2);
 // initialize Cube data
 // shader
 let shader = new Shader(vsSource, fsSource);
-let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoordsBuffer, "aTexCoord");
+let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoordsBuffer, "aTexCoords");
 let gameObject = new GameObject(vertexBuffer, indices, texture);
 
 const camera = new Camera();

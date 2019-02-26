@@ -1,7 +1,7 @@
 import Webgl from "./Webgl.js";
 
 const vsColorSource =
-    `
+`
     attribute vec3 aPosition;
     uniform mat4 uProjectionMatrix;
     uniform mat4 uViewMatrix;
@@ -13,44 +13,102 @@ const vsColorSource =
 `;
 
 const fsColorSource =
-    `
+`
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
     #else
     precision mediump float;
     #endif
-    uniform vec4 uColor;
+    uniform vec3 uObjectColor;
     void main() {
-        gl_FragColor = vec4(uColor);
-}`;
+        gl_FragColor = vec4(uObjectColor, 1.0);
+    }
+`;
 
 const vsTextureSource =
-    `
+`
     attribute vec3 aPosition;
-    attribute vec2 aTexCoord;
-    varying vec2 vTexCoord;
+    attribute vec2 aTexCoords;
+    varying vec2 vTexCoords;
     uniform mat4 uProjectionMatrix;
     uniform mat4 uViewMatrix;
     uniform mat4 uModelMatrix;
     void main() {
-        vTexCoord = aTexCoord;
+        vTexCoords = aTexCoords;
         gl_PointSize = 10.0;
         gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
-    }
+    }       
 `;
 
 const fsTextureSource =
+`
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    varying vec2 vTexCoords;
+    uniform sampler2D uTexture;
+    void main() {
+        gl_FragColor = texture2D(uTexture, vTexCoords);
+    }
+`;
+
+const vsColorWithLightningSource =
+`
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
+        vNormal = (uNormalMatrix * vec4(aNormal, 0.0)).xyz;
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
+    }        
+`;
+
+const fsColorWithLightningSource =
     `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
     #else
     precision mediump float;
     #endif
-    varying vec2 vTexCoord;
-    uniform sampler2D uTexture;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    //uniform float uAmbientStrength;
+    uniform vec3 uLightPosition;
+    uniform vec3 uLightColor;
+    uniform vec3 uObjectColor;
+    
     void main() {
-        gl_FragColor = texture2D(uTexture, vTexCoord);
-}`;
+        float ambientStrength = 1.0;
+        vec3 ambient = ambientStrength * uLightColor;
+        
+        vec3 normal = normalize(vNormal);
+        vec3 viewDir = normalize(vFragPos);
+        vec3 lightDirection = normalize(uLightPosition - viewDir);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  diff * uLightColor;
+        
+        vec3 result = (ambient + diffuse) * uObjectColor;
+        gl_FragColor = vec4(result, 1.0);
+    }
+`;
 
 class Shader
 {
@@ -134,6 +192,11 @@ class Shader
         this.gl.uniform1i(this.getUniformLocation(name), value);
     }
 
+    setUniform1f(name, value)
+    {
+        this.gl.uniform1f(this.getUniformLocation(name), value);
+    }
+
     setUniform3f(name, v0, v1, v2) 
     {
         this.gl.uniform3f(this.getUniformLocation(name), v0, v1, v2);
@@ -191,6 +254,11 @@ class Shader
     static getDefaultTextureShader()
     {
         return new Shader(vsTextureSource, fsTextureSource);
+    }
+
+    static getDefaultColorLightShader()
+    {
+        return new Shader(vsColorWithLightningSource, fsColorWithLightningSource);
     }
 }
 

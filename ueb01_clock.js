@@ -42,9 +42,9 @@ const fsSource =
     #else
     precision mediump float;
     #endif
-    uniform vec3 uColor;
+    uniform vec3 uObjectColor;
     void main() {
-        gl_FragColor = vec4(uColor, 1.0);
+        gl_FragColor = vec4(uObjectColor, 1.0);
 }`;
 
 let positions =
@@ -89,12 +89,12 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 
 // initialize MinutesPointer data
 let shaderMinutePointer = new Shader(vsSource, fsSource);
-let colorMinutePointer = new Color("uColor", shaderMinutePointer, minutesColors);
+let colorMinutePointer = new Color("uObjectColor", shaderMinutePointer, minutesColors);
 let gameObjectMinutePointer = new GameObject(vertexBuffer, indicesMinutes, colorMinutePointer);
 
 // initialize SecondsPointer data
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
-let colorSecondsPointer = new Color("uColor", shaderSecondsPointer, secondsColors);
+let colorSecondsPointer = new Color("uObjectColor", shaderSecondsPointer, secondsColors);
 let gameObjectSecondsPointer = new GameObject(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 let camera = new Camera();

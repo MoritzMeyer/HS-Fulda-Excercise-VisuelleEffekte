@@ -30,7 +30,7 @@ class OBJ
             let vertexBuffer = new VertexBuffer(drawingInfo.positions, 3);
             if (!textureFile && !drawingInfo.textureName)
             {
-                let color = new Color("uColor", shader, [248, 24, 148]);
+                let color = new Color("uObjectColor", shader, [248, 24, 148]);
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color);
             }
             else
@@ -41,7 +41,7 @@ class OBJ
                 }
 
                 let texCoordsBuffer = new VertexBuffer(drawingInfo.texCoords, 2);
-                let texture = new Texture("uTexture", shader, textureFile, 0, texCoordsBuffer, "aTexCoord");
+                let texture = new Texture("uTexture", shader, textureFile, 0, texCoordsBuffer, "aTexCoords");
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture);
             }
 

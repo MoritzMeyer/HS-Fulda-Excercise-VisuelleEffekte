@@ -4,7 +4,7 @@ import Color from "../Color.js";
 import VertexBuffer from "../VertexBuffer.js";
 import GameObject from "../GameObject.js";
 
-const colors = [0.0, 0.0, 0.8, 1.0];
+const colors = [0.0, 0.0, 0.8];
 
 class Sphere3D extends RenderObject
 {
@@ -13,7 +13,7 @@ class Sphere3D extends RenderObject
         if (!material)
         {
             const shader = Shader.getDefaultColorShader();
-            material = new Color("uColor", shader, colors);
+            material = new Color("uObjectColor", shader, colors);
         }
 
         let rawData = Sphere3D.CalcSphereData(18);

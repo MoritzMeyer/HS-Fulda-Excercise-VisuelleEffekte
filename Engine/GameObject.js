@@ -5,7 +5,7 @@ import Transform from "./Transform.js";
 
 class GameObject
 {
-    constructor(vertexBuffer, vertexIndices, material, isEmpty = false)
+    constructor(vertexBuffer, vertexIndices, material, isEmpty = false, vertexBufferNormals = null)
     {
         this.gl = Webgl.getGL();
         this.transform = new Transform();
@@ -16,6 +16,7 @@ class GameObject
         if (isEmpty)
         {
             this.vertexBuffer = function() {throw new Error("Empty GameObject doesn't contain a vertexBuffer")};
+            this.vertexBufferNormals = function() {throw new Error("Empty GameObject doesn't contain a vertexBuffer")};
             this.vertexArray = function () {throw new Error("Empty GameObject doesn't contain a vertexBuffer")};
             this.indexBuffer = function() {throw new Error("Empty GameObject doesn't contain a vertexBuffer")};
             this.material = function () {throw new Error("Empty GameObject doesn't contain a vertexBuffer")};
@@ -23,6 +24,7 @@ class GameObject
         else
         {
             this.vertexBuffer = vertexBuffer;
+            this.vertexBufferNormals = vertexBufferNormals;
             this.vertexArray = new VertexArray();
             this.indexBuffer = new IndexBuffer(vertexIndices);
             this.material = material;
@@ -31,22 +33,54 @@ class GameObject
             this.positionLocation = material.shader.getAttribLocation("aPosition");
             this.vertexArray.addBuffer(this.vertexBuffer, [this.positionLocation], 0);
 
+            if (vertexBufferNormals)
+            {
+                this.normalLocation = material.shader.getAttribLocation("aNormal");
+                this.vertexArray.addBuffer(this.vertexBufferNormals, [this.normalLocation], 0);
+            }
+
             material.setAttribLocationInVertexArray(this.vertexArray);
         }
     }
 
-    draw(camera)
+    draw(camera, lightSource = null)
     {
         if (!this.isEmpty)
         {
+            if (lightSource)
+            {
+                this.material.bind();
+                this.material.shader.setUniformMatrix4fv("uNormalMatrix", false, this.getNormalMatrix(camera));
+                //this.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, this.getModelViewMatrix(camera));
+                lightSource.draw(this.material.shader);
+            }
+
             this.material.bind();
             camera.applyViewProjectionMatricesToShader(this.material.shader);
             this.material.shader.setUniformMatrix4fv("uModelMatrix", false, this.transform.getWorldSpaceMatrix());
+
             this.vertexArray.bind();
             this.indexBuffer.bind();
             this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
         }
         this.childs.forEach(child => child.draw(camera));
+    }
+
+    getModelViewMatrix(camera)
+    {
+        let modelViewMatrix = mat4.create();
+        mat4.multiply(modelViewMatrix, camera.viewMatrix.matrix, this.transform.localSpace);
+        return modelViewMatrix;
+    }
+
+    getNormalMatrix(camera)
+    {
+        //let modelViewMatrix = this.getModelViewMatrix(camera);
+        let normalMatrix = mat4.create();
+        mat4.invert(normalMatrix, this.transform.localSpace);
+        mat4.transpose(normalMatrix, normalMatrix);
+
+        return normalMatrix;
     }
 
     setParent(parent)
