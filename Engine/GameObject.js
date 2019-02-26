@@ -5,7 +5,7 @@ import Transform from "./Transform.js";
 
 class GameObject
 {
-    constructor(vertexBuffer, vertexIndices, material, isEmpty)
+    constructor(vertexBuffer, vertexIndices, material, isEmpty = false)
     {
         this.gl = Webgl.getGL();
         this.transform = new Transform();

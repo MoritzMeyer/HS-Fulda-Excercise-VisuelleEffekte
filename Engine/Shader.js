@@ -1,6 +1,6 @@
 import Webgl from "./Webgl.js";
 
-const vsSource =
+const vsColorSource =
     `
     attribute vec3 aPosition;
     uniform mat4 uProjectionMatrix;
@@ -12,7 +12,7 @@ const vsSource =
     }
 `;
 
-const fsSource =
+const fsColorSource =
     `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
@@ -22,6 +22,34 @@ const fsSource =
     uniform vec4 uColor;
     void main() {
         gl_FragColor = vec4(uColor);
+}`;
+
+const vsTextureSource =
+    `
+    attribute vec3 aPosition;
+    attribute vec2 aTexCoord;
+    varying vec2 vTexCoord;
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    void main() {
+        vTexCoord = aTexCoord;
+        gl_PointSize = 10.0;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+    }
+`;
+
+const fsTextureSource =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    varying vec2 vTexCoord;
+    uniform sampler2D uTexture;
+    void main() {
+        gl_FragColor = texture2D(uTexture, vTexCoord);
 }`;
 
 class Shader
@@ -155,9 +183,14 @@ class Shader
         return shader;
     }
 
-    static getDefaultShader()
+    static getDefaultColorShader()
     {
-        return new Shader(vsSource, fsSource);
+        return new Shader(vsColorSource, fsColorSource);
+    }
+
+    static getDefaultTextureShader()
+    {
+        return new Shader(vsTextureSource, fsTextureSource);
     }
 }
 
