@@ -43,22 +43,11 @@ class GameObject
         }
     }
 
-    draw(camera, lightSource = null)
+    draw(camera)
     {
         if (!this.isEmpty)
         {
-            if (lightSource)
-            {
-                this.material.bind();
-                this.material.shader.setUniformMatrix4fv("uNormalMatrix", false, this.getNormalMatrix(camera));
-                //this.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, this.getModelViewMatrix(camera));
-                lightSource.draw(this.material.shader);
-            }
-
-            this.material.bind();
-            camera.applyViewProjectionMatricesToShader(this.material.shader);
-            this.material.shader.setUniformMatrix4fv("uModelMatrix", false, this.transform.getWorldSpaceMatrix());
-
+            this.material.shader.bind();
             this.vertexArray.bind();
             this.indexBuffer.bind();
             this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
@@ -69,11 +58,11 @@ class GameObject
     getModelViewMatrix(camera)
     {
         let modelViewMatrix = mat4.create();
-        mat4.multiply(modelViewMatrix, camera.viewMatrix.matrix, this.transform.localSpace);
+        mat4.multiply(modelViewMatrix, camera.viewMatrix.matrix, this.transform.getWorldSpaceMatrix());
         return modelViewMatrix;
     }
 
-    getNormalMatrix(camera)
+    getNormalMatrix()
     {
         //let modelViewMatrix = this.getModelViewMatrix(camera);
         let normalMatrix = mat4.create();

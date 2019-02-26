@@ -12,25 +12,46 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4429324">
+    <splitter split-orientation="horizontal" split-proportion="0.48068482">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3D.js">
+            <entry file="file://$PROJECT_DIR$/ueb04_3.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="833">
-                  <caret line="62" column="57" selection-start-line="62" selection-start-column="57" selection-end-line="62" selection-end-column="57" />
+                <state relative-caret-position="644">
+                  <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
+                  <folding>
+                    <element signature="e#0#38#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/ueb04_3.js">
+            <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3D.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="322">
-                  <caret line="18" column="49" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="49" />
+                <state relative-caret-position="303">
+                  <caret line="37" lean-forward="true" selection-end-line="72" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Plane.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="759">
+                  <caret line="37" column="60" lean-forward="true" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3Dnormals.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="602">
+                  <caret line="63" column="18" lean-forward="true" selection-start-line="60" selection-start-column="4" selection-end-line="63" selection-end-column="18" />
                   <folding>
-                    <element signature="e#0#38#0" expanded="true" />
+                    <element signature="e#0#46#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -39,56 +60,28 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1219">
-                  <caret line="74" column="10" lean-forward="true" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
+                <state relative-caret-position="763">
+                  <caret line="116" column="63" selection-start-line="116" selection-start-column="63" selection-end-line="116" selection-end-column="63" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+            <entry file="file://$PROJECT_DIR$/Engine/Matrix.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="437">
-                  <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+                <state>
+                  <caret column="9" lean-forward="true" selection-start-column="9" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3Dnormals.js">
+            <entry file="file://$PROJECT_DIR$/Engine/ProjectionMatrix.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1385">
-                  <caret line="98" column="5" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
+                <state>
                   <folding>
-                    <element signature="e#0#46#0" expanded="true" />
+                    <element signature="e#0#33#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/OBJLoader.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="9430">
-                  <caret line="410" column="4" selection-start-line="410" selection-start-column="4" selection-end-line="410" selection-end-column="4" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/LightSource.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1265">
-                  <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/Renderer.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="281">
-                  <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
                 </state>
               </provider>
             </entry>
@@ -96,8 +89,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/Transform.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2903">
-                  <caret line="148" column="19" selection-start-line="148" selection-start-column="19" selection-end-line="148" selection-end-column="19" />
+                <state relative-caret-position="529">
+                  <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
@@ -107,6 +100,15 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="690">
                   <caret line="30" column="14" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/Renderer.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="924">
+                  <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
                 </state>
               </provider>
             </entry>
@@ -127,20 +129,41 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/GameObject.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="603">
-                  <caret line="79" column="61" selection-start-line="79" selection-start-column="61" selection-end-line="79" selection-end-column="61" />
+                <state relative-caret-position="878">
+                  <caret line="60" column="101" selection-start-line="60" selection-start-column="101" selection-end-line="60" selection-end-column="101" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/ueb04_1.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="667">
+                  <caret line="29" column="95" selection-start-line="29" selection-start-column="95" selection-end-line="29" selection-end-column="95" />
+                  <folding>
+                    <element signature="e#0#38#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/ueb04_1.js">
+            <entry file="file://$PROJECT_DIR$/Engine/Light.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1002">
+                  <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+                  <folding>
+                    <element signature="e#0#41#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="529">
-                  <caret line="26" column="108" selection-start-line="26" selection-start-column="108" selection-end-line="26" selection-end-column="108" />
-                  <folding>
-                    <element signature="e#0#38#0" expanded="true" />
-                  </folding>
+                  <caret line="25" column="81" lean-forward="true" selection-start-line="25" selection-start-column="81" selection-end-line="25" selection-end-column="81" />
                 </state>
               </provider>
             </entry>
@@ -173,9 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Renderer/IndexBuffer.js" />
-        <option value="$PROJECT_DIR$/ueb01_clock.css" />
-        <option value="$PROJECT_DIR$/ueb01_clock.html" />
         <option value="$PROJECT_DIR$/Renderer/GameObject.js" />
         <option value="$PROJECT_DIR$/Renderer/VertexBuffer.js" />
         <option value="$PROJECT_DIR$/Renderer/Shader.js" />
@@ -206,7 +226,6 @@
         <option value="$PROJECT_DIR$/Engine/Transform.js" />
         <option value="$PROJECT_DIR$/ueb03_1.js" />
         <option value="$PROJECT_DIR$/ueb02_2.js" />
-        <option value="$PROJECT_DIR$/Engine/Webgl.js" />
         <option value="$PROJECT_DIR$/ueb04_3.html" />
         <option value="$PROJECT_DIR$/Engine/OBJ.js" />
         <option value="$PROJECT_DIR$/textures/legoManekin/lego obj.obj" />
@@ -219,11 +238,15 @@
         <option value="$PROJECT_DIR$/Engine/GameObjects/Cube3Dnormals.js" />
         <option value="$PROJECT_DIR$/Engine/VertexArray.js" />
         <option value="$PROJECT_DIR$/ueb04_3.js" />
-        <option value="$PROJECT_DIR$/Engine/Renderer.js" />
+        <option value="$PROJECT_DIR$/Engine/Webgl.js" />
         <option value="$PROJECT_DIR$/Engine/LightSource.js" />
-        <option value="$PROJECT_DIR$/Engine/Shader.js" />
+        <option value="$PROJECT_DIR$/Engine/Camera.js" />
+        <option value="$PROJECT_DIR$/Engine/GameObjects/Plane.js" />
         <option value="$PROJECT_DIR$/Engine/GameObject.js" />
+        <option value="$PROJECT_DIR$/Engine/Renderer.js" />
+        <option value="$PROJECT_DIR$/Engine/Shader.js" />
         <option value="$PROJECT_DIR$/ueb04_1.js" />
+        <option value="$PROJECT_DIR$/Engine/Light.js" />
       </list>
     </option>
   </component>
@@ -250,12 +273,6 @@
               <item name="VisuelleEffekteExcercise" type="462c0819:PsiDirectoryNode" />
               <item name="Engine" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="VisuelleEffekteExcercise" type="b2602c69:ProjectViewProjectNode" />
-              <item name="VisuelleEffekteExcercise" type="462c0819:PsiDirectoryNode" />
-              <item name="Engine" type="462c0819:PsiDirectoryNode" />
-              <item name="GameObjects" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -270,12 +287,12 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\VisuelleEffekteExcercise" />
-      <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\Engine" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\VisuelleEffekteExcercise\textures\Capsule" />
+      <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\Engine" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\VisuelleEffekteExcercise" />
       <recent name="C:\Users\Moritz\Dropbox\Studium\Fulda\4_WS1819\Visuelle Effekte\Engine" />
     </key>
   </component>
@@ -345,12 +362,12 @@
       <workItem from="1551187234348" duration="5025000" />
       <workItem from="1551196704609" duration="313000" />
       <workItem from="1551197170617" duration="257000" />
-      <workItem from="1551197555857" duration="11463000" />
+      <workItem from="1551197555857" duration="22319000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114410000" />
+    <option name="totallyTimeSpent" value="125266000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -360,7 +377,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.26791278" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.26791278" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3173971" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -376,11 +393,11 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.102027886" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10244287" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.2861073" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.26791278" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3173971" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -400,8 +417,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Renderer/Texture.js" />
-    <entry file="file://$PROJECT_DIR$/Renderer/Color.js" />
     <entry file="file://$PROJECT_DIR$/Renderer/Transform.js" />
     <entry file="file://$PROJECT_DIR$/Renderer/Matrix.js" />
     <entry file="file://$PROJECT_DIR$/Renderer/ProjectionMatrix.js" />
@@ -442,15 +457,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Rectangle.js" />
-    <entry file="file://$PROJECT_DIR$/Engine/ProjectionMatrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ueb01.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="754">
@@ -485,24 +491,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Matrix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="620">
-          <caret line="38" column="12" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ueb02_1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Webgl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -619,20 +611,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3D.js">
+    <entry file="file://$PROJECT_DIR$/ueb04_3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="62" column="57" selection-start-line="62" selection-start-column="57" selection-end-line="62" selection-end-column="57" />
+        <state relative-caret-position="460">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3Dnormals.js">
+    <entry file="file://$PROJECT_DIR$/Engine/Webgl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1385">
-          <caret line="98" column="5" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1891">
+          <caret line="123" column="53" selection-start-line="123" selection-start-column="53" selection-end-line="123" selection-end-column="53" />
         </state>
       </provider>
     </entry>
@@ -643,62 +632,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ueb04_3.html">
+    <entry file="file://$PROJECT_DIR$/Engine/LightSource.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+        <state relative-caret-position="349">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ueb04_3.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="18" column="49" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="49" />
+        <state relative-caret-position="644">
+          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+    <entry file="file://$PROJECT_DIR$/Engine/Matrix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="21" column="47" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+        <state>
+          <caret column="9" lean-forward="true" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/ProjectionMatrix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/Transform.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2903">
-          <caret line="148" column="19" selection-start-line="148" selection-start-column="19" selection-end-line="148" selection-end-column="19" />
+        <state relative-caret-position="529">
+          <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Renderer.js">
+    <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3D.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+        <state relative-caret-position="303">
+          <caret line="37" lean-forward="true" selection-end-line="72" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/LightSource.js">
+    <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3Dnormals.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1265">
-          <caret line="58" column="5" lean-forward="true" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+        <state relative-caret-position="602">
+          <caret line="63" column="18" lean-forward="true" selection-start-line="60" selection-start-column="4" selection-end-line="63" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
+    <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Plane.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1219">
-          <caret line="74" column="10" lean-forward="true" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
+        <state relative-caret-position="759">
+          <caret line="37" column="60" lean-forward="true" selection-start-line="37" selection-start-column="60" selection-end-line="37" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="25" column="81" lean-forward="true" selection-start-line="25" selection-start-column="81" selection-end-line="25" selection-end-column="81" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/GameObject.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="79" column="61" selection-start-line="79" selection-start-column="61" selection-end-line="79" selection-end-column="61" />
+        <state relative-caret-position="878">
+          <caret line="60" column="101" selection-start-line="60" selection-start-column="101" selection-end-line="60" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Renderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="924">
+          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -709,12 +724,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="763">
+          <caret line="116" column="63" selection-start-line="116" selection-start-column="63" selection-end-line="116" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ueb04_1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="26" column="108" selection-start-line="26" selection-start-column="108" selection-end-line="26" selection-end-column="108" />
+        <state relative-caret-position="667">
+          <caret line="29" column="95" selection-start-line="29" selection-start-column="95" selection-end-line="29" selection-end-column="95" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Light.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1002">
+          <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>

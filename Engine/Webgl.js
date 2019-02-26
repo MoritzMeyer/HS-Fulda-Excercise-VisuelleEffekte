@@ -75,7 +75,7 @@ class Webgl
         }
     }
 
-    static addCameraRotation(canvas, camera)
+    static addCameraExamine(canvas, camera)
     {
         let mouseIsDown = false;
         canvas.setAttribute("tabindex", "0");
@@ -99,6 +99,34 @@ class Webgl
             }
         });
     }
+
+    static addCameraRotation(canvas, camera)
+    {
+        let mouseIsDown = false;
+        canvas.setAttribute("tabindex", "0");
+        canvas.addEventListener('mousedown', (event) =>
+        {
+            mouseIsDown = true;
+        });
+
+        canvas.addEventListener('mouseup', (event) =>
+        {
+            mouseIsDown = false;
+        });
+
+        canvas.addEventListener('mousemove', (event) =>
+        {
+            if (mouseIsDown)
+            {
+                let rotationX = event.movementX / 2;
+                let rotationY = event.movementY / 2;
+                camera.viewMatrix.rotateY(rotationX);
+                camera.viewMatrix.rotateZ(rotationY);
+            }
+        });
+    }
+
+
 }
 
 export default Webgl;

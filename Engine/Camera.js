@@ -26,6 +26,16 @@ class Camera
         shader.setUniformMatrix4fv("uViewMatrix", false, this.viewMatrix.matrix);
     }
 
+    getViewMatrix()
+    {
+        return this.viewMatrix.matrix;
+    }
+
+    getProjectionMatrix()
+    {
+        return this.projectionMatrix.matrix;
+    }
+
     lookAt(target) {
         // calc lookAtMatrix
         let worldCam = this.viewMatrix.inverse();

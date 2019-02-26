@@ -73,7 +73,8 @@ const vsColorWithLightningSource =
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
-        vNormal = (uNormalMatrix * vec4(aNormal, 0.0)).xyz;
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
         
         gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
@@ -92,23 +93,91 @@ const fsColorWithLightningSource =
     
     //uniform float uAmbientStrength;
     uniform vec3 uLightPosition;
+    uniform vec3 uViewPosition;
     uniform vec3 uLightColor;
     uniform vec3 uObjectColor;
     
     void main() {
+        // ambient
         float ambientStrength = 1.0;
         vec3 ambient = ambientStrength * uLightColor;
         
+        // diffuse
         vec3 normal = normalize(vNormal);
-        vec3 viewDir = normalize(vFragPos);
-        vec3 lightDirection = normalize(uLightPosition - viewDir);
+        //vec3 normalizedFragPos = normalize(vFragPos);
+        //vec3 normalizedLightPos = normalize(uLightPosition);
+        vec3 lightDirection = normalize(uLightPosition - vFragPos);
         float diff = max(dot(normal, lightDirection), 0.0);
         vec3 diffuse =  diff * uLightColor;
         
-        vec3 result = (ambient + diffuse) * uObjectColor;
+        // sepcular
+        float specularStrength = 0.5;
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16.0);
+        vec3 specular = specularStrength * spec * uLightColor;
+        
+        vec3 result = (ambient + diffuse + specular) * uObjectColor;
         gl_FragColor = vec4(result, 1.0);
     }
 `;
+
+const vsTest =
+    `
+        attribute vec3 aPosition;
+        attribute vec3 aNormal;
+        uniform mat4 uProjectionMatrix, uModelViewMatrix, uNormalMatrix;
+        uniform vec3 uLightPosition;
+        uniform vec3 uLightColor;
+        varying vec3 vColor;
+        
+        varying vec3 normalInterp;
+        varying vec3 vertPos;
+        
+        
+        void main() {
+            float Ka = 1.0;
+            float Kd = 1.0;
+            float Ks = 1.0;
+            float shininessVal = 80.0;
+            
+            vec4 vertPos4 = uModelViewMatrix * vec4(aPosition, 1.0);
+            vertPos = vec3(vertPos4) / vertPos4.w;
+            normalInterp = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+            gl_Position = uProjectionMatrix * vertPos4;
+            
+            vec3 N = normalize(normalInterp);
+            vec3 L = normalize(uLightPosition - vertPos);
+            
+            // Lambert's cosine law
+            float lambertian = max(dot(N, L), 0.0);
+            float specular = 0.0;
+            if(lambertian > 0.0) {
+                vec3 R = reflect(-L, N);      // Reflected light vector
+                vec3 V = normalize(-vertPos); // Vector to viewer
+                // Compute the specular term
+                float specAngle = max(dot(R, V), 0.0);
+                specular = pow(specAngle, shininessVal);
+            }  
+            
+            vColor = vec3(Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor);
+        }
+    `;
+
+const fsTest =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    uniform vec3 uObjectColor;
+    varying vec3 vColor;
+    void main() {
+        gl_FragColor = vec4(vColor * uObjectColor, 1.0);
+    }
+    `;
 
 class Shader
 {
@@ -259,6 +328,7 @@ class Shader
     static getDefaultColorLightShader()
     {
         return new Shader(vsColorWithLightningSource, fsColorWithLightningSource);
+        //return new Shader(vsTest, fsTest);
     }
 }
 

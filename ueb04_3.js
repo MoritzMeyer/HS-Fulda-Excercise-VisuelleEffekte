@@ -13,7 +13,7 @@ let canvasColor = [0.42, 0.6, 0.0, 1.0];
 let renderer = new Renderer();
 let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
-Webgl.addCameraRotation(canvas, camera);
+Webgl.addCameraExamine(canvas, camera);
 camera.viewMatrix.translate([0, 0, -10.0]);
 
 let obj = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());

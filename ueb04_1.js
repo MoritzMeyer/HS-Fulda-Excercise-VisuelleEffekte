@@ -1,10 +1,10 @@
 import Webgl from "./Engine/Webgl.js";
 import Renderer from "./Engine/Renderer.js";
 import Camera from "./Engine/Camera.js";
-import LightSource from "./Engine/LightSource.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
 import Color from "./Engine/Color.js";
 import Shader from "./Engine/Shader.js";
+import Light from "./Engine/Light.js";
+import Plane from "./Engine/GameObjects/Plane.js";
 import Cube3Dnormals from "./Engine/GameObjects/Cube3Dnormals.js";
 
 
@@ -19,20 +19,25 @@ let renderer = new Renderer();
 let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
-camera.viewMatrix.translate([0, 0, -10.0]);
+//Webgl.addCameraExamine(canvas, camera);
+camera.viewMatrix.translate([0, 2, -15.0]);
+camera.viewMatrix.rotateX(35);
 
-let lightSource = LightSource.getDefaultLightSource();
-lightSource.gameObject.transform.translate([2.0, 2.0, 0]);
 
-let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.25, 0.25, 0.25]));
+let light = Light.getDefaultLight();
+//light.gameObject.transform.translate([0, -5.0, -5.0]);
+light.gameObject.transform.translate([2.0, 2.0, 0]);
+let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.1, 0.1, 0.1]));
+//let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.7, 0, 0]));
+//plane.gameObject.transform.translate([0, -7.0, -5.0]);
 
 
 requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    lightSource.drawLightObject(camera);
-    renderer.drawGameObject(cube.gameObject, camera, lightSource);
+    renderer.drawWithoutLights(light.lightObject.gameObject, camera);
+    renderer.drawWithLight(cube.gameObject, camera, light);
     requestAnimationFrame(render);
 }
 

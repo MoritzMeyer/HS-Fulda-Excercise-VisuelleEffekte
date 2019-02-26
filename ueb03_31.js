@@ -20,7 +20,7 @@ let camera = new Camera();
 camera.viewMatrix.translate([0, 0, -15.0]);
 
 Webgl.addNavigationListener(canvas, camera);
-Webgl.addCameraRotation(canvas, camera);
+Webgl.addCameraExamine(canvas, camera);
 
 requestAnimationFrame(render);
 function render(now)

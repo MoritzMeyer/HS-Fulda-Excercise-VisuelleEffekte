@@ -4,7 +4,8 @@ class Renderer
 {
     constructor()
     {
-        const gl = this.gl = Webgl.getGL();
+        this.gl = Webgl.getGL();
+        this.lights = [];
     }
 
     draw(vertexArray, indexBuffer, shader)
@@ -17,9 +18,44 @@ class Renderer
         this.gl.drawElements(this.gl.TRIANGLES, indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
     }
 
-    drawGameObject(gameObject, camera, lightSource = null)
+    drawElements(elements, camera)
     {
-        gameObject.draw(camera, lightSource);
+        elements.forEach((element) => this.drawGameObject(element.gameObject, camera));
+    }
+
+    drawGameObject(gameObject, camera)
+    {
+        if (this.lights.length > 0)
+        {
+            this.drawWithLight(gameObject, camera);
+        }
+        else
+        {
+            this.drawWithoutLights(gameObject, camera);
+        }
+    }
+
+    drawWithLight(gameObject, camera, light)
+    {
+        gameObject.material.bind();
+        gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+        gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
+        gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
+        //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
+
+
+        light.bind(gameObject.material.shader);
+        gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
+        gameObject.draw();
+    }
+
+    drawWithoutLights(gameObject, camera)
+    {
+        gameObject.material.bind();
+        gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+        gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
+        gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
+        gameObject.draw();
     }
 
     clear(canvas, canvasColor)
