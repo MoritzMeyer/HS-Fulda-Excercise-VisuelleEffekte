@@ -35,5 +35,12 @@ class Matrix
     {
         this.rotate(angle, [0, 0, 1]);
     }
+
+    inverse()
+    {
+        let inverse = this.matrix;
+        mat4.invert(inverse, inverse);
+        return inverse;
+    }
 }
 export default Matrix;

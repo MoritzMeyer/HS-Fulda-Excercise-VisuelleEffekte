@@ -21,8 +21,9 @@ camera.viewMatrix.translate([0.0, 0.0, -10.0]);
 cube.gameObject.transform.translate([-2, 0, 0]);
 sphere.gameObject.transform.translate([2, 0, 0]);
 
-requestAnimationFrame(render);
+Webgl.addNavigationListener(canvas, camera);
 
+requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
@@ -32,33 +33,5 @@ function render(now)
     renderer.drawGameObject(sphere.gameObject, camera);
     requestAnimationFrame(render);
 }
-
-canvas.setAttribute("tabindex", "0");
-canvas.addEventListener('keydown', (event) =>
-{
-        switch(event.keyCode)
-        {
-            case 37:    // left
-                camera.viewMatrix.translate([-0.01, 0, 0]);
-                break;
-            case 38:    // up
-                camera.viewMatrix.translate([0, 0.01, 0]);
-                break;
-            case 39:    // right
-                camera.viewMatrix.translate([0.01, 0, 0]);
-                break;
-            case 40:    // down
-                camera.viewMatrix.translate([0, -0.01, 0]);
-                break;
-            case 107:   // +
-            case 187:
-                camera.viewMatrix.translate([0, 0, 0.01]);
-                break;
-            case 109:   // -
-            case 189:
-                camera.viewMatrix.translate([0, 0, -0.01]);
-                break;
-        }
-}, true);
 
 

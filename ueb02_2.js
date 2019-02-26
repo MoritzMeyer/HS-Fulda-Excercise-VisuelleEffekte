@@ -78,39 +78,7 @@ let shaderTriangle = new Shader(vsSource, fsSource);
 let colorTriangle = new Color("uColor", shaderTriangle, triangleColors);
 let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
-canvas.setAttribute("tabindex", "0");
-canvas.addEventListener('keydown', (event) =>
-{
-        switch(event.keyCode)
-        {
-            case 37:    // left
-                camera.viewMatrix.translate([-0.01, 0, 0]);
-                break;
-            case 38:    // up
-                camera.viewMatrix.translate([0, 0.01, 0]);
-                break;
-            case 39:    // right
-                camera.viewMatrix.translate([0.01, 0, 0]);
-                break;
-            case 40:    // down
-                camera.viewMatrix.translate([0, -0.01, 0]);
-                break;
-            case 107:   // +
-            case 187:
-                camera.viewMatrix.translate([0, 0, 0.01]);
-                break;
-            case 109:   // -
-            case 189:
-                camera.viewMatrix.translate([0, 0, -0.01]);
-                break;
-        }
-}, true);
-
-/*
-renderer.clear(canvas, canvasColor);
-renderer.drawGameObject(gameObjectCube, camera);
-renderer.drawGameObject(gameObjectTriangle, camera);
-*/
+Webgl.addNavigationListener(canvas, camera);
 
 camera.viewMatrix.translate([0.0, 0.0, -4.0]);
 requestAnimationFrame(render);
@@ -123,10 +91,3 @@ function render(now)
 
     requestAnimationFrame(render);
 }
-
-
-//gameObjectCube.delete();
-//gameObjectTriangle.delete();
-//vertexBuffer.delete();
-
-

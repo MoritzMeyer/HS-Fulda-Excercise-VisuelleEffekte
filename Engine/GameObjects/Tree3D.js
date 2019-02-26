@@ -31,10 +31,10 @@ class Tree3D extends RenderObject
         limb2.gameObject.transform.setScale([0.5, 2.0, 0.5]);
         limb3.gameObject.transform.setScale([0.5, 2.0, 0.5]);
 
-        trunk.gameObject.transform.translate([0.0, -2.0, 0.0]);
-        limb1.gameObject.transform.translate([0.0, 1.5, 0.0]);
-        limb2.gameObject.transform.translate([0.0, 1.5, 0.0]);
-        limb3.gameObject.transform.translate([0.0, 1.5, 0.0]);
+        trunk.gameObject.transform.translate([0.0, -2, 0.0]);
+        limb1.gameObject.transform.translate([0.0, 1.7, 0.0]);
+        limb2.gameObject.transform.translate([0.0, 1.7, 0.0]);
+        limb3.gameObject.transform.translate([0.0, 1.7, 0.0]);
 
         trunk.gameObject.transform.rotateY(45);
 
