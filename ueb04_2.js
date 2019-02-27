@@ -25,43 +25,20 @@ camera.viewMatrix.rotateX(35);
 
 
 let light = Light.getDefaultLight();
-renderer.lights.push(light);
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
-let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
+//let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
 let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
 plane.gameObject.transform.setScale([2.0, 0, 2.0]);
 
-let elements = [plane];
 
 requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
     renderer.drawWithoutLights(light.lightObject.gameObject, camera);
-    renderer.drawElements(elements, camera);
+    renderer.drawWithLight(plane.gameObject, camera, light);
     requestAnimationFrame(render);
 }
 
-$('#cube').change((e) =>
-{
-    if ($('#cube').is(":checked"))
-    {
-        light.gameObject.transform.setPosition([2.0, 2.0, 0]);
-        elements = [cube];
-        console.log("Checkbox Cube is checked. Elements: ", elements);
-        $('#plane').prop('checked', false);
-    }
-});
-
-$('#plane').change((e) =>
-{
-    if ($('#cube').is(":checked"))
-    {
-        light.gameObject.transform.setPosition([0, 1.0, 0]);
-        elements = [plane];
-        console.log("Checkbox Plane is checked. Elements: ", elements);
-        $('#cube').prop('checked', false);
-    }
-});
 

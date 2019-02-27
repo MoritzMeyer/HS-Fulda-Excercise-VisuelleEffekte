@@ -50,7 +50,7 @@ class Renderer
     {
         if (this.lights.length > 0)
         {
-            this.drawWithLight(gameObject, camera);
+            this.drawWithLight(gameObject, camera, this.lights[0]);
         }
         else
         {

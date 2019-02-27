@@ -70,7 +70,7 @@ class Transform
 
     setPosition(position)
     {
-        this.position = position;
+        this.position = vec3.fromValues(position[0], position[1], position[2]);
         this.setLocalChanged();
     }
 
