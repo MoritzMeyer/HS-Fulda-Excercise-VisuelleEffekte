@@ -66,7 +66,7 @@ class GameObject
     {
         //let modelViewMatrix = this.getModelViewMatrix(camera);
         let normalMatrix = mat4.create();
-        mat4.invert(normalMatrix, this.transform.localSpace);
+        mat4.invert(normalMatrix, this.transform.getWorldSpaceMatrix());
         mat4.transpose(normalMatrix, normalMatrix);
 
         return normalMatrix;

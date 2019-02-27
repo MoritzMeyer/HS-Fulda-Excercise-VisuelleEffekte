@@ -54,7 +54,7 @@ const fsTextureSource =
     }
 `;
 
-const vsColorWithLightningSource =
+const vsPhongColor =
 `
     attribute vec3 aPosition;
     attribute vec3 aNormal;
@@ -80,7 +80,7 @@ const vsColorWithLightningSource =
     }        
 `;
 
-const fsColorWithLightningSource =
+const fsPhongColor =
     `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
@@ -122,7 +122,73 @@ const fsColorWithLightningSource =
     }
 `;
 
-const vsTest =
+const vsPhongColor2 =
+    `
+        attribute vec3 aPosition;
+        attribute vec3 aNormal;
+        uniform mat4 uProjectionMatrix;
+        uniform mat4 uModelViewMatrix;
+        uniform mat4 uModelMatrix;
+        uniform mat4 uViewMatrix;
+        uniform mat4 uNormalMatrix;
+        
+        varying vec3 normalInterp;
+        varying vec3 vertPos;
+        
+        void main() {
+            //mat4 modelViewMat = uViewMatrix * uModelMatrix;
+            vec4 vertPos4 = uModelViewMatrix * vec4(aPosition, 1.0);
+            vertPos = normalize(vec3(vertPos4) / vertPos4.w);
+            //vertPos = vec3(vertPos4) / vertPos4.w;
+            normalInterp = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+            
+            gl_Position = uProjectionMatrix * vertPos4;
+        }
+    `;
+
+const fsPhongColor2 =
+    `
+     #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 normalInterp;
+    varying vec3 vertPos;
+    
+    uniform vec3 uLightColor;
+    uniform vec3 uLightPosition;
+    uniform vec3 uObjectColor;
+    
+    void main() {
+        float Ka = 1.0;
+        float Kd = 1.0;
+        float Ks = 1.0;
+        
+        float shininessVal = 80.0;
+        vec3 lightPos = normalize(uLightPosition);
+        
+        vec3 N = normalize(normalInterp);
+        vec3 L = normalize(lightPos - vertPos);
+        
+        float lambertian = max(dot(N, L), 0.0);
+        float specular = 0.0;
+        
+        if (lambertian > 0.0) {
+            vec3 R = reflect(-L, N);
+            vec3 V = normalize(-vertPos);
+            
+            // compter specular term
+            float specAngle = max(dot(R, V), 0.0);
+            specular = pow(specAngle, shininessVal);
+        }
+        
+        gl_FragColor = vec4((Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * uObjectColor, 1.0);
+    }   
+    `;
+
+const vsGourand =
     `
         attribute vec3 aPosition;
         attribute vec3 aNormal;
@@ -164,7 +230,7 @@ const vsTest =
         }
     `;
 
-const fsTest =
+const fsGourand =
     `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
     precision highp float;
@@ -327,7 +393,7 @@ class Shader
 
     static getDefaultColorLightShader()
     {
-        return new Shader(vsColorWithLightningSource, fsColorWithLightningSource);
+        return new Shader(vsPhongColor, fsPhongColor);
         //return new Shader(vsTest, fsTest);
     }
 }
