@@ -20,8 +20,9 @@ let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
-camera.viewMatrix.translate([0, 2, -15.0]);
-camera.viewMatrix.rotateX(35);
+camera.viewMatrix.translate([0, -1, -8.0]);
+//camera.viewMatrix.rotateY(90);
+camera.viewMatrix.rotateX(40);
 
 
 let light = Light.getDefaultLight();
@@ -56,7 +57,7 @@ $('#cube').change((e) =>
 
 $('#plane').change((e) =>
 {
-    if ($('#cube').is(":checked"))
+    if ($('#plane').is(":checked"))
     {
         light.gameObject.transform.setPosition([0, 1.0, 0]);
         elements = [plane];
