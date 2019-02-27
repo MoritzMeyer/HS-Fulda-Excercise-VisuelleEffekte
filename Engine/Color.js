@@ -2,9 +2,9 @@ import Material from "./Material.js";
 
 class Color extends Material
 {
-    constructor(uniformName, shader, colors)
+    constructor(uniformName, shader, colors, alpha = 1.0)
     {
-        super(uniformName, shader, false);
+        super(uniformName, shader, false, alpha);
 
         if (colors.length < 3 || colors.length > 4)
         {

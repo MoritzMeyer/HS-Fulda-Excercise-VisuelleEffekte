@@ -20,8 +20,9 @@ const fsColorSource =
     precision mediump float;
     #endif
     uniform vec3 uObjectColor;
+    uniform float uAlpha;
     void main() {
-        gl_FragColor = vec4(uObjectColor, 0.5);
+        gl_FragColor = vec4(uObjectColor, uAlpha);
     }
 `;
 
@@ -49,8 +50,12 @@ const fsTextureSource =
     #endif
     varying vec2 vTexCoords;
     uniform sampler2D uTexture;
+    uniform float uAlpha;
     void main() {
-        gl_FragColor = texture2D(uTexture, vTexCoords);
+        vec4 texColor = texture2D(uTexture, vTexCoords);
+        texColor.a = uAlpha; 
+        gl_FragColor = texColor;
+        
     }
 `;
 

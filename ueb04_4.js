@@ -28,27 +28,27 @@ Webgl.addCameraRotation(canvas, camera);
 camera.viewMatrix.translate([0, 0, -10.0]);
 //camera.viewMatrix.rotateX(35);
 
-let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0, 0]));
-let sphere = new Sphere3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0, 0, 0.8]));
-//let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
+let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0, 0], 0.5));
+let sphere = new Sphere3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0, 0, 0.8], 0.5));
+let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
 
-cube.gameObject.transform.translate([-2, 0, 0]);
+cube.gameObject.transform.translate([-4, 0, 0]);
 sphere.gameObject.transform.translate([2, 0, 0]);
 
 let elements = [cube, sphere];
 
-//checkLoaded(capsule);
+checkLoaded(capsule);
 
 requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    /*
+
     if (capsule.isLoaded)
     {
         elements.push(capsule);
     }
-    */
+
 
     renderer.drawElements(elements, camera);
     requestAnimationFrame(render);
@@ -63,7 +63,8 @@ function checkLoaded(obj)
     else
     {
         obj.gameObject.transform.rotateX(90);
-        obj.gameObject.transform.translate(-1, 0, 0);
+        obj.gameObject.transform.translate([-1, 0, 0]);
+        obj.gameObject.material.setAlpha(0.5);
     }
 }
 

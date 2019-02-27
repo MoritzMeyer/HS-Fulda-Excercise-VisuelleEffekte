@@ -4,15 +4,15 @@ import Webgl from "./Webgl.js";
 
 class Texture extends Material
 {
-    constructor(uniformName, shader, url, slot, texCoordsBuffer, attributeTexCoordName)
+    constructor(uniformName, shader, url, slot, texCoordsBuffer, attributeTexCoordsName, alpha = 1.0)
     {
-        super(uniformName, shader, true);
+        super(uniformName, shader, true, alpha);
         const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;
         this.texture = this.gl.createTexture();
         this.texCoords = texCoordsBuffer;
-        this.attributeName = attributeTexCoordName;
+        this.attributeName = attributeTexCoordsName;
 
         // define texture data
         const level = 0;
