@@ -195,6 +195,87 @@ const fsPhongColor2 =
     }   
     `;
 
+const vsPhongTexture =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    attribute vec2 aTexCoords;
+    varying vec2 vTexCoords;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vTexCoords = aTexCoords;
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
+    }        
+`;
+
+const fsPhongTexture =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    varying vec2 vTexCoords;
+    
+    //uniform float uAmbientStrength;
+    uniform vec3 uLightPosition;
+    uniform vec3 uViewPosition;
+    uniform vec3 uLightColor;
+    uniform sampler2D uTexture;  
+    uniform float uAlpha;
+    
+    void main() {
+               
+        // ambient
+        float ambientStrength = 1.0;
+        vec3 ambient = ambientStrength * uLightColor;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        //vec3 normalizedFragPos = normalize(vFragPos);
+        //vec3 normalizedLightPos = normalize(uLightPosition);
+        vec3 lightDirection = normalize(uLightPosition - vFragPos);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  diff * uLightColor;
+        
+        // sepcular
+        float specularStrength = 0.5;
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16.0);
+        vec3 specular = specularStrength * spec * uLightColor;
+        
+        vec4 texColor = texture2D(uTexture, vTexCoords);
+        texColor.a = uAlpha;
+        
+        vec4 result = vec4((ambient + diffuse + specular), 1.0);
+        gl_FragColor = result * texColor;
+        
+        //vec3 result = vec3((ambient + diffuse + specular) * texColor.xyz);        
+        //gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+
+
 const vsGourand =
     `
         attribute vec3 aPosition;
@@ -402,6 +483,11 @@ class Shader
     {
         return new Shader(vsPhongColor, fsPhongColor);
         //return new Shader(vsTest, fsTest);
+    }
+
+    static getDefaultTextureLightShader()
+    {
+        return new Shader(vsPhongTexture, fsPhongTexture);
     }
 }
 

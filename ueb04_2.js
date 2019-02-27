@@ -6,6 +6,7 @@ import Shader from "./Engine/Shader.js";
 import Light from "./Engine/Light.js";
 import Plane from "./Engine/GameObjects/Plane.js";
 import Cube3Dnormals from "./Engine/GameObjects/Cube3Dnormals.js";
+import OBJ from "./Engine/OBJ.js";
 
 
 
@@ -25,19 +26,28 @@ camera.viewMatrix.rotateX(35);
 
 
 let light = Light.getDefaultLight();
+renderer.lights.push(light);
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
-light.gameObject.transform.translate([0, 1.0, 0]);
+light.gameObject.transform.translate([2.0, 1.0, 0]);
+let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureLightShader());
 //let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
-let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
-plane.gameObject.transform.setScale([2.0, 0, 2.0]);
+//let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
+//plane.gameObject.transform.setScale([2.0, 0, 2.0]);
 
+capsule.checkLoaded(() =>
+{
+    capsule.gameObject.transform.rotateX(90);
+});
 
 requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
     renderer.drawWithoutLights(light.lightObject.gameObject, camera);
-    renderer.drawWithLight(plane.gameObject, camera, light);
+    if (capsule.isLoaded)
+    {
+        renderer.drawGameObject(capsule.gameObject, camera);
+    }
     requestAnimationFrame(render);
 }
 

@@ -28,10 +28,22 @@ class OBJ
             console.log(drawingInfo);
 
             let vertexBuffer = new VertexBuffer(drawingInfo.positions, 3);
+            let vertexBufferNormals = null;
+
+            if (drawingInfo.normals && drawingInfo.normals.length > 0)
+            {
+                vertexBufferNormals = new VertexBuffer(drawingInfo.normals, 3);
+            }
+            else
+            {
+                console.log("No normals given for '" + filePath + "'.");
+            }
+
+
             if (!textureFile && !drawingInfo.textureName)
             {
                 let color = new Color("uObjectColor", shader, [248, 24, 148]);
-                this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color);
+                this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color, false, vertexBufferNormals);
             }
             else
             {
@@ -42,10 +54,22 @@ class OBJ
 
                 let texCoordsBuffer = new VertexBuffer(drawingInfo.texCoords, 2);
                 let texture = new Texture("uTexture", shader, textureFile, 0, texCoordsBuffer, "aTexCoords");
-                this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture);
+                this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture, false, vertexBufferNormals);
             }
 
             this.isLoaded = true;
+        }
+    }
+
+    checkLoaded(func)
+    {
+        if (!this.isLoaded)
+        {
+            window.setTimeout(() => this.checkLoaded(func), 100);
+        }
+        else
+        {
+            func();
         }
     }
 }

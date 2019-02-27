@@ -17,7 +17,11 @@ Webgl.addCameraExamine(canvas, camera);
 camera.viewMatrix.translate([0, 0, -10.0]);
 
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
-checkLoaded(capsule);
+
+capsule.checkLoaded(() =>
+{
+    capsule.gameObject.transform.rotateX(90);
+});
 
 requestAnimationFrame(render);
 function render(now)
@@ -28,18 +32,6 @@ function render(now)
         renderer.drawGameObject(capsule.gameObject, camera);
     }
     requestAnimationFrame(render);
-}
-
-function checkLoaded(obj)
-{
-    if (!obj.isLoaded)
-    {
-        window.setTimeout(() => checkLoaded(obj), 100);
-    }
-    else
-    {
-        obj.gameObject.transform.rotateX(90);
-    }
 }
 
 

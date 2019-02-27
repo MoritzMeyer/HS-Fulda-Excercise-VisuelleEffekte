@@ -37,7 +37,12 @@ sphere.gameObject.transform.translate([2, 0, 0]);
 
 let elements = [cube, sphere];
 
-checkLoaded(capsule);
+capsule.checkLoaded(() =>
+{
+    capsule.gameObject.transform.rotateX(90);
+    capsule.gameObject.transform.translate([-1, 0, 0]);
+    capsule.gameObject.material.setAlpha(0.5);
+});
 
 requestAnimationFrame(render);
 function render(now)
@@ -49,22 +54,6 @@ function render(now)
         elements.push(capsule);
     }
 
-
     renderer.drawElements(elements, camera);
     requestAnimationFrame(render);
 }
-
-function checkLoaded(obj)
-{
-    if (!obj.isLoaded)
-    {
-        window.setTimeout(() => checkLoaded(obj), 100);
-    }
-    else
-    {
-        obj.gameObject.transform.rotateX(90);
-        obj.gameObject.transform.translate([-1, 0, 0]);
-        obj.gameObject.material.setAlpha(0.5);
-    }
-}
-
