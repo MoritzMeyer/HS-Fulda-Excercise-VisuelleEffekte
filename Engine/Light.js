@@ -22,8 +22,10 @@ const fsSource =
         precision mediump float;
         #endif
         uniform vec3 uObjectColor;
+        uniform float uAlpha;
+        
         void main() {
-            gl_FragColor =  vec4(uObjectColor, 1.0);
+            gl_FragColor =  vec4(uObjectColor, uAlpha);
     }`;
 
 class Light

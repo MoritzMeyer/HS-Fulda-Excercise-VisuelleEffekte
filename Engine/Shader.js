@@ -101,6 +101,7 @@ const fsPhongColor =
     uniform vec3 uViewPosition;
     uniform vec3 uLightColor;
     uniform vec3 uObjectColor;
+    uniform float uAlpha;
     
     void main() {
         // ambient
@@ -123,7 +124,7 @@ const fsPhongColor =
         vec3 specular = specularStrength * spec * uLightColor;
         
         vec3 result = (ambient + diffuse + specular) * uObjectColor;
-        gl_FragColor = vec4(result, 1.0);
+        gl_FragColor = vec4(result, uAlpha);
     }
 `;
 
@@ -165,6 +166,7 @@ const fsPhongColor2 =
     uniform vec3 uLightColor;
     uniform vec3 uLightPosition;
     uniform vec3 uObjectColor;
+    uniform float uAlpha;    
     
     void main() {
         float Ka = 1.0;
@@ -189,7 +191,7 @@ const fsPhongColor2 =
             specular = pow(specAngle, shininessVal);
         }
         
-        gl_FragColor = vec4((Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * uObjectColor, 1.0);
+        gl_FragColor = vec4((Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * uObjectColor, uAlpha);
     }   
     `;
 

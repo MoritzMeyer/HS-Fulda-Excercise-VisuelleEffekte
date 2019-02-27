@@ -27,7 +27,7 @@ camera.viewMatrix.rotateX(35);
 let light = Light.getDefaultLight();
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([2.0, 2.0, 0]);
-let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.1, 0.1, 0.1]));
+let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
 //let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.7, 0, 0]));
 //plane.gameObject.transform.translate([0, -7.0, -5.0]);
 
