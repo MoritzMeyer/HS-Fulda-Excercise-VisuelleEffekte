@@ -34,8 +34,11 @@ const fsSource =
     #endif
     varying vec2 vTexCoord;
     uniform sampler2D uTexture;
+    uniform float uAlpha;
     void main() {
-        gl_FragColor = texture2D(uTexture, vTexCoord);
+        vec4 texColor = texture2D(uTexture, vTexCoord);
+        texColor.a = uAlpha; 
+        gl_FragColor = texColor;
 }`;
 
 let positions =
