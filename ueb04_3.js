@@ -16,25 +16,25 @@ Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraExamine(canvas, camera);
 camera.viewMatrix.translate([0, 0, -10.0]);
 
-let obj = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
-checkLoaded(obj);
+let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
+checkLoaded(capsule);
 
 requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    if (obj.isLoaded)
+    if (capsule.isLoaded)
     {
-        renderer.drawGameObject(obj.gameObject, camera);
+        renderer.drawGameObject(capsule.gameObject, camera);
     }
     requestAnimationFrame(render);
 }
 
-function checkLoaded()
+function checkLoaded(obj)
 {
     if (!obj.isLoaded)
     {
-        window.setTimeout(checkLoaded, 100);
+        window.setTimeout(() => checkLoaded(obj), 100);
     }
     else
     {

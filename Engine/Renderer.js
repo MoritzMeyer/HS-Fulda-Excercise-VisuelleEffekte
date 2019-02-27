@@ -5,6 +5,7 @@ class Renderer
     constructor()
     {
         this.gl = Webgl.getGL();
+        this.blendingEnabled = false;
         this.lights = [];
     }
 
@@ -20,7 +21,29 @@ class Renderer
 
     drawElements(elements, camera)
     {
-        elements.forEach((element) => this.drawGameObject(element.gameObject, camera));
+        if (this.blendingEnabled)
+        {
+            const zSorting = [];
+
+            elements.forEach((element) =>
+            {
+                let modelViewMatrix = element.gameObject.getModelViewMatrix(camera);
+                let zPos = modelViewMatrix[14];
+                //zSorting.push({element: element, zPos: zPos});
+                zSorting.push({...element, zPos: zPos});
+            });
+
+            zSorting.sort((a, b) => {return a.zPos - b.zPos});
+
+            zSorting.forEach((element) =>
+            {
+                this.drawGameObject(element.gameObject, camera);
+            });
+        }
+        else
+        {
+            elements.forEach((element) => this.drawGameObject(element.gameObject, camera));
+        }
     }
 
     drawGameObject(gameObject, camera)
@@ -37,25 +60,40 @@ class Renderer
 
     drawWithLight(gameObject, camera, light)
     {
-        gameObject.material.bind();
-        gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-        gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
-        gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
-        //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
+        if (!gameObject.isEmpty)
+        {
+            gameObject.material.bind();
+            gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
+            gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
+            //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
 
+            light.bind(gameObject.material.shader);
+            gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
+            gameObject.draw();
+        }
 
-        light.bind(gameObject.material.shader);
-        gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
-        gameObject.draw();
+        if (gameObject.childs.length > 0)
+        {
+            gameObject.childs.forEach((child) => this.drawWithLight(child, camera, light));
+        }
     }
 
     drawWithoutLights(gameObject, camera)
     {
-        gameObject.material.bind();
-        gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-        gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
-        gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
-        gameObject.draw();
+        if (!gameObject.isEmpty)
+        {
+            gameObject.material.bind();
+            gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.viewMatrix.matrix);
+            gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
+            gameObject.draw();
+        }
+
+        if (gameObject.childs.length > 0)
+        {
+            gameObject.childs.forEach((child) => this.drawWithoutLights(child, camera));
+        }
     }
 
     clear(canvas, canvasColor)
@@ -73,6 +111,13 @@ class Renderer
 
         // enable depthtest
         this.gl.enable(this.gl.DEPTH_TEST);
+    }
+
+    enableBelnding()
+    {
+        this.blendingEnabled = true;
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     }
 }
 

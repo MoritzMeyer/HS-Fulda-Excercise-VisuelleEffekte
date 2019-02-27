@@ -139,7 +139,7 @@ class Transform
         this.setLocalChanged();
     }
 
-    scale(factor)
+    scaleByFactor(factor)
     {
         vec3.scale(this.scale, this.scale, factor);
         this.setLocalChanged();

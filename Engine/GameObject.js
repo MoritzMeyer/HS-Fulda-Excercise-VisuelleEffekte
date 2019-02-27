@@ -43,7 +43,7 @@ class GameObject
         }
     }
 
-    draw(camera)
+    draw()
     {
         if (!this.isEmpty)
         {
@@ -52,7 +52,6 @@ class GameObject
             this.indexBuffer.bind();
             this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);
         }
-        this.childs.forEach(child => child.draw(camera));
     }
 
     getModelViewMatrix(camera)
@@ -85,6 +84,7 @@ class GameObject
         this.childs.push(child);
         child.parent = this;
     }
+
 
     /*
     setMaterial(material)

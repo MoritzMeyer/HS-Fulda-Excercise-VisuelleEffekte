@@ -21,7 +21,7 @@ const fsColorSource =
     #endif
     uniform vec3 uObjectColor;
     void main() {
-        gl_FragColor = vec4(uObjectColor, 1.0);
+        gl_FragColor = vec4(uObjectColor, 0.5);
     }
 `;
 
