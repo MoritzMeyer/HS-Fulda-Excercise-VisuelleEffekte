@@ -57,7 +57,7 @@ class GameObject
     getModelViewMatrix(camera)
     {
         let modelViewMatrix = mat4.create();
-        mat4.multiply(modelViewMatrix, camera.viewMatrix.matrix, this.transform.getWorldSpaceMatrix());
+        mat4.multiply(modelViewMatrix, camera.camera.getViewMatrix(), this.transform.getWorldSpaceMatrix());
         return modelViewMatrix;
     }
 
@@ -84,17 +84,6 @@ class GameObject
         this.childs.push(child);
         child.parent = this;
     }
-
-
-    /*
-    setMaterial(material)
-    {
-        this.material = material;
-        this.vertexArray = new VertexArray();
-        this.vertexArray.addBuffer(this.vertexBuffer, [this.positionLocation], 0);
-        material.setAttribLocationInVertexArray(this.vertexArray);
-    }
-    */
 
     delete()
     {

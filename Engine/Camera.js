@@ -15,7 +15,7 @@ class Camera
 
     getViewProjectionMatrix()
     {
-        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.viewMatrix.matrix);
+        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.camera.getViewMatrix());
         return this.viewProjectionMatrix;
     }
 
@@ -23,7 +23,7 @@ class Camera
     {
         shader.bind();
         shader.setUniformMatrix4fv("uProjectionMatrix", false, this.projectionMatrix.matrix);
-        shader.setUniformMatrix4fv("uViewMatrix", false, this.viewMatrix.matrix);
+        shader.setUniformMatrix4fv("uViewMatrix", false, this.camera.getViewMatrix());
     }
 
     getViewMatrix()
@@ -123,7 +123,7 @@ class Camera
         let radAngleBeta = glMatrix.toRadian(angleBeta);
         let centerOfRotation = new x3dom.fields.SFVec3f(target[0], target[1], target[2]);
 
-        let vM = this.viewMatrix.matrix;
+        let vM = this.camera.getViewMatrix();
         //let test = new x3dom.fields.SFMatrix4f(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15);
         //let e3 = test.e3(); // 3, 7, 11
         //let e1 = test.e1();
