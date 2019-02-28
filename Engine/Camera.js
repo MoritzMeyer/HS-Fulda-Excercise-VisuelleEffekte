@@ -31,11 +31,43 @@ class Camera
         return this.viewMatrix.matrix;
     }
 
+    setViewMatrix(matrix)
+    {
+        mat4.copy(this.viewMatrix.matrix, matrix);
+    }
+
+    lookAt(target)
+    {
+        let centerOfRotation = vec3.fromValues(target[0], target[1], target[2]);
+        let lookAtMat = mat4.create();
+        mat4.lookAt(lookAtMat, this.getEye(), centerOfRotation, this.getUp());
+        //mat4.invert(lookAtMat, lookAtMat);
+        this.setViewMatrix(lookAtMat);
+    }
+
+    getEye()
+    {
+        let viewMatrix = this.getViewMatrix();
+        let cam = mat4.create();
+        mat4.invert(cam, viewMatrix);
+        let eye = vec3.fromValues(cam[12], cam[13], cam[14]);
+        return eye;
+    }
+
+    getUp()
+    {
+        let viewMatrix = this.getViewMatrix();
+        let cam = mat4.create();
+        mat4.invert(cam, viewMatrix);
+        let up = vec3.fromValues(cam[4], cam[5], cam[6]);
+        return up;
+    }
+
     getProjectionMatrix()
     {
         return this.projectionMatrix.matrix;
     }
-
+    /*
     lookAt(target) {
         // calc lookAtMatrix
         let worldCam = this.viewMatrix.inverse();
@@ -66,6 +98,7 @@ class Camera
         // set inverse camera Matrix as view Matrix
         mat4.invert(this.viewMatrix, cameraMatrix);
     }
+    */
 
     examineModeGl(target, angleAlpha, angleBeta)
     {
@@ -123,7 +156,7 @@ class Camera
         let radAngleBeta = glMatrix.toRadian(angleBeta);
         let centerOfRotation = new x3dom.fields.SFVec3f(target[0], target[1], target[2]);
 
-        let vM = this.camera.getViewMatrix();
+        let vM = this.getViewMatrix();
         //let test = new x3dom.fields.SFMatrix4f(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15);
         //let e3 = test.e3(); // 3, 7, 11
         //let e1 = test.e1();
@@ -152,7 +185,8 @@ class Camera
         cam.setValue(s, up, v.negate(), eye);
         vM = cam.inverse();
 
-        this.viewMatrix.matrix = mat4.fromValues(vM.at(0, 0), vM.at(1, 0), vM.at(2, 0), vM.at(3, 0), vM.at(0, 1), vM.at(1, 1), vM.at(2, 1), vM.at(3, 1), vM.at(0, 2), vM.at(1, 2), vM.at(2, 2), vM.at(3, 2), vM.at(0, 3), vM.at(1, 3), vM.at(2, 3), vM.at(3, 3));
+        let viewMat = mat4.fromValues(vM.at(0, 0), vM.at(1, 0), vM.at(2, 0), vM.at(3, 0), vM.at(0, 1), vM.at(1, 1), vM.at(2, 1), vM.at(3, 1), vM.at(0, 2), vM.at(1, 2), vM.at(2, 2), vM.at(3, 2), vM.at(0, 3), vM.at(1, 3), vM.at(2, 3), vM.at(3, 3));
+        this.setViewMatrix(viewMat);
     }
 }
 export default Camera;

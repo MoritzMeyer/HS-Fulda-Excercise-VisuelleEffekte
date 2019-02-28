@@ -64,7 +64,7 @@ class Renderer
         {
             gameObject.material.bind();
             gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.camera.getViewMatrix());
+            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.getViewMatrix());
             gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
             //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
 
@@ -85,7 +85,7 @@ class Renderer
         {
             gameObject.material.bind();
             gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
-            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.camera.getViewMatrix());
+            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.getViewMatrix());
             gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
             gameObject.draw();
         }

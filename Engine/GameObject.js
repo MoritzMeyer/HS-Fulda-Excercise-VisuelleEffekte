@@ -57,7 +57,7 @@ class GameObject
     getModelViewMatrix(camera)
     {
         let modelViewMatrix = mat4.create();
-        mat4.multiply(modelViewMatrix, camera.camera.getViewMatrix(), this.transform.getWorldSpaceMatrix());
+        mat4.multiply(modelViewMatrix, camera.getViewMatrix(), this.transform.getWorldSpaceMatrix());
         return modelViewMatrix;
     }
 

@@ -51,7 +51,8 @@ class Webgl
             let delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
 
             camera.viewMatrix.translate([0, 0, delta]);
-            camera.examineModelX3Dom([0.1, 0.1, 0.1], 0, 0);
+            camera.lookAt([0, 0, 0]);
+            //camera.examineModelX3Dom([0.1, 0.1, 0.1], 0, 0);
 
             e.preventDefault();
         };
