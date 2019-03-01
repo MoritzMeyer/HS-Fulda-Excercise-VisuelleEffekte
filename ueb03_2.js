@@ -1,10 +1,6 @@
 import Webgl from "./Engine/Webgl.js";
 import Renderer from "./Engine/Renderer.js";
 import Camera from "./Engine/Camera.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
-import Color from "./Engine/Color.js";
-import Shader from "./Engine/Shader.js";
-import GameObject from "./Engine/GameObject.js";
 import Tree3D from "./Engine/GameObjects/Tree3D.js";
 import CoordinateAxises3D from "./Engine/GameObjects/CoordinateAxises3D.js";
 

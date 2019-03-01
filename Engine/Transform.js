@@ -87,6 +87,14 @@ class Transform
         this.setLocalChanged();
     }
 
+    setMatrix(matrix)
+    {
+        mat4.getTranslation(this.position, matrix);
+        mat4.getScaling(this.scale, matrix);
+        mat4.getRotation(this.rotationQuaternion, matrix);
+        this.setLocalChanged();
+    }
+
     translate(translation)
     {
         this.position = vec3.add(this.position, this.position, translation);

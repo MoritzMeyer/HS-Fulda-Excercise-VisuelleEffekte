@@ -43,8 +43,9 @@ class Camera
 
     setViewMatrix(matrix)
     {
-        throw "Method not implemented";
+        //throw "Method not implemented";
         //mat4.copy(this.viewMatrix.matrix, matrix);
+        this.gameObject.transform.setMatrix(matrix);
     }
 
     lookAt(target)
