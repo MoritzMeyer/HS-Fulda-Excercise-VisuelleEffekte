@@ -335,12 +335,13 @@ const fsGourand =
 
 class Shader
 {
-    constructor(vsSource, fsSource)
+    constructor(vsSource, fsSource, hasLightning = false)
     {
         const gl = this.gl = Webgl.getGL();
         this.locations = [];
         this.vertexShader = Shader.loadShader("vertex", vsSource);
         this.fragmentShader = Shader.loadShader("fragment", fsSource);
+        this.hasLightning = hasLightning;
         
         //console.log("VertexShader: ", this.vertexShader);
         //console.log("FragmentShader: ", this.fragmentShader);
@@ -481,13 +482,13 @@ class Shader
 
     static getDefaultColorLightShader()
     {
-        return new Shader(vsPhongColor, fsPhongColor);
+        return new Shader(vsPhongColor, fsPhongColor, true);
         //return new Shader(vsTest, fsTest);
     }
 
     static getDefaultTextureLightShader()
     {
-        return new Shader(vsPhongTexture, fsPhongTexture);
+        return new Shader(vsPhongTexture, fsPhongTexture, true);
     }
 }
 

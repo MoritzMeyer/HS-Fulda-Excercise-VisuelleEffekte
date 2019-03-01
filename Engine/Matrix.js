@@ -36,6 +36,14 @@ class Matrix
         this.rotate(angle, [0, 0, 1]);
     }
 
+    translatePosition(x, y, z)
+    {
+        mat4.set(this.matrix, this.matrix[0], this.matrix[1], this.matrix[2], this.matrix[3],
+                              this.matrix[4], this.matrix[5], this.matrix[6], this.matrix[7],
+                              this.matrix[8], this.matrix[9], this.matrix[10], this.matrix[11],
+                              this.matrix[12] + x, this.matrix[13] + y, this.matrix[14] + z, this.matrix[15]);
+    }
+
     inverse()
     {
         let inverse = this.matrix;

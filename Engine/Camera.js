@@ -15,7 +15,7 @@ class Camera
 
     getViewProjectionMatrix()
     {
-        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.camera.getViewMatrix());
+        this.viewProjectionMatrix = mat4.multiply(this.viewProjectionMatrix, this.projectionMatrix.matrix, this.getViewMatrix());
         return this.viewProjectionMatrix;
     }
 
@@ -66,6 +66,113 @@ class Camera
     getProjectionMatrix()
     {
         return this.projectionMatrix.matrix;
+    }
+
+    moveForwards(lookAtPosition, movementSpeed)
+    {
+        let cameraPosition = this.getEye();
+        let forwardVector = vec3.create();
+        let movement = vec3.create();
+        let newLookAt = vec3.create();
+
+        vec3.subtract(forwardVector, lookAtPosition, cameraPosition);
+        vec3.normalize(forwardVector, forwardVector);
+        vec3.scale(movement, forwardVector, movementSpeed);
+
+        // Move forward and adjust new lookAt
+        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        vec3.add(newLookAt, lookAtPosition, movement);
+
+        // next calc won't work, if they are equal
+        if (vec3.equals(this.getEye(), newLookAt))
+        {
+            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            vec3.add(newLookAt, lookAtPosition, movement);
+        }
+
+        return newLookAt;
+    }
+
+    moveBackwards(lookAtPosition, movementSpeed)
+    {
+        let cameraPosition = this.getEye();
+        let forwardVector = vec3.create();
+        let movement = vec3.create();
+        let newLookAt = vec3.create();
+
+        vec3.subtract(forwardVector, lookAtPosition, cameraPosition);
+        vec3.normalize(forwardVector, forwardVector);
+        vec3.scale(movement, forwardVector, movementSpeed);
+        vec3.negate(movement, movement);
+
+        // Move backward and adjust new LookAt
+        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        vec3.add(newLookAt, lookAtPosition, movement);
+
+        // next calc won't work, if they are equal
+        if (vec3.equals(this.getEye(), newLookAt))
+        {
+            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            vec3.add(newLookAt, lookAtPosition, movement);
+        }
+
+        return newLookAt;
+    }
+
+    moveLeft(lookAtPosition, movementSpeed)
+    {
+        let upVector = this.getUp();
+        let cameraPosition = this.getEye();
+        let forwardVector = vec3.create();
+        let movement = vec3.create();
+        let leftVector = vec3.create();
+        let newLookAt = vec3.create();
+
+        vec3.subtract(forwardVector, lookAtPosition, cameraPosition);
+        vec3.normalize(forwardVector, forwardVector);
+        vec3.cross(leftVector, upVector, forwardVector);
+        vec3.scale(movement, leftVector, movementSpeed);
+
+        // Move left and adjust new LookAt
+        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        vec3.add(newLookAt, lookAtPosition, movement);
+
+        // next calc won't work, if they are equal
+        if (vec3.equals(this.getEye(), newLookAt))
+        {
+            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            vec3.add(newLookAt, lookAtPosition, movement);
+        }
+
+        return newLookAt;
+    }
+
+    moveRight(lookAtPosition, movementSpeed)
+    {
+        let upVector = this.getUp();
+        let cameraPosition = this.getEye();
+        let forwardVector = vec3.create();
+        let movement = vec3.create();
+        let rightVector = vec3.create();
+        let newLookAt = vec3.create();
+
+        vec3.subtract(forwardVector, lookAtPosition, cameraPosition);
+        vec3.normalize(forwardVector, forwardVector);
+        vec3.cross(rightVector, forwardVector, upVector);
+        vec3.scale(movement, rightVector, movementSpeed);
+
+        // Move right and adjust new LookAt
+        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        vec3.add(newLookAt, lookAtPosition, movement);
+
+        // next calc won't work, if they are equal
+        if (vec3.equals(this.getEye(), newLookAt))
+        {
+            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            vec3.add(newLookAt, lookAtPosition, movement);
+        }
+
+        return newLookAt;
     }
     /*
     lookAt(target) {

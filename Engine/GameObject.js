@@ -33,7 +33,7 @@ class GameObject
             this.positionLocation = material.shader.getAttribLocation("aPosition");
             this.vertexArray.addBuffer(this.vertexBuffer, [this.positionLocation], 0);
 
-            if (vertexBufferNormals)
+            if (vertexBufferNormals && this.material.shader.hasLightning)
             {
                 this.normalLocation = material.shader.getAttribLocation("aNormal");
                 this.vertexArray.addBuffer(this.vertexBufferNormals, [this.normalLocation], 0);

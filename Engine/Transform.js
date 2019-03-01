@@ -21,27 +21,40 @@ class Transform
 
     getWorldSpaceMatrix()
     {
+        this.recalcWorldSpaceMatrix();
+        return this.worldSpace;
+    }
+
+    getLocalSpaceMatrix()
+    {
+        this.recalcLocalSpaceMatrix();
+        return this.localSpace;
+    }
+
+    recalcLocalSpaceMatrix()
+    {
+        if (this.localChanged)
+        {
+            mat4.fromRotationTranslationScale(this.localSpace, this.rotationQuaternion, this.position, this.scale);
+            this.localChanged = false;
+        }
+    }
+
+    recalcWorldSpaceMatrix()
+    {
         if (this.localChanged || this.worldChanged)
         {
-            if (this.localChanged)
-            {
-                mat4.fromRotationTranslationScale(this.localSpace, this.rotationQuaternion, this.position, this.scale);
-                this.localChanged = false;
-            }
-
             if (this.parent)
             {
-                mat4.multiply(this.worldSpace, this.parent.getWorldSpaceMatrix(), this.localSpace);
+                mat4.multiply(this.worldSpace, this.parent.getWorldSpaceMatrix(), this.getLocalSpaceMatrix());
             }
             else
             {
-                mat4.copy(this.worldSpace, this.localSpace);
+                mat4.copy(this.worldSpace, this.getLocalSpaceMatrix());
             }
 
             this.worldChanged = false;
         }
-
-        return this.worldSpace;
     }
 
     setParent(parent)

@@ -12,6 +12,15 @@ class Color extends Material
         }
 
         this.colors = colors;
+
+        // sicherstellen, dass die Farben nicht 0 sind, da ansonsten der Shader falsch berechnet
+        for (let i = 0; i < this.colors.length; i++)
+        {
+            if (this.colors[i] <= 0)
+            {
+                this.colors[i] = 0.03;
+            }
+        }
     }
 
     bind()
