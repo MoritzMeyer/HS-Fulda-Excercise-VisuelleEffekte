@@ -25,7 +25,7 @@ renderer.enableBelnding();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
-camera.viewMatrix.translate([0, 0, -10.0]);
+camera.gameObject.transform.translate([0, 0, -10.0]);
 //camera.viewMatrix.rotateX(35);
 
 let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0, 0], 0.5));

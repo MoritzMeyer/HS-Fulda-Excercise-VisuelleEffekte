@@ -17,7 +17,7 @@ let renderer = new Renderer();
 let camera = new Camera();
 
 
-camera.viewMatrix.translate([0.0, 0.0, -10.0]);
+camera.gameObject.transform.translate([0.0, 0.0, -10.0]);
 cube.gameObject.transform.translate([-2, 0, 0]);
 sphere.gameObject.transform.translate([2, 0, 0]);
 

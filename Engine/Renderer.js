@@ -21,6 +21,7 @@ class Renderer
 
     drawElements(elements, camera)
     {
+        console.log("camera: p(" + camera.gameObject.transform.position + "), e(" + camera.getEye() + ")" );
         if (this.blendingEnabled)
         {
             const zSorting = [];

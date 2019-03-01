@@ -99,7 +99,7 @@ let colorSecondsPointer = new Color("uObjectColor", shaderSecondsPointer, second
 let gameObjectSecondsPointer = new GameObject(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 let camera = new Camera();
-camera.viewMatrix.translate([0.0, 0.0, -6.0]);
+camera.gameObject.transform.translate([0.0, 0.0, -6.0]);
 
 let then = 0;
 let secondsCounter = 0;
@@ -126,7 +126,7 @@ function render(now)
 
 
     // rotate minutes counter
-    if (minutesCounter > 60)
+    if (minutesCounter > 61)
     {
         // rotate around z axis minus 6 degrees
         gameObjectMinutePointer.transform.rotateZ(-6);

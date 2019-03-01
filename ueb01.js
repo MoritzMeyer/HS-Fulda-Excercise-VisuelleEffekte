@@ -78,7 +78,7 @@ let colorTriangle = new Color("uObjectColor", shaderTriangle, triangleColors);
 let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
 const camera = new Camera();
-camera.viewMatrix.translate([0.0, 0.0, -2.5]);
+camera.gameObject.transform.translate([0.0, 0.0, -2.5]);
 renderer.clear(canvas, canvasColor);
 // Draw Cube and delete
 renderer.drawGameObject(gameObjectCube, camera);

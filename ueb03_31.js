@@ -19,7 +19,7 @@ let renderer = new Renderer();
 let camera = new Camera();
 
 
-camera.viewMatrix.translate([0, 0, -15.0]);
+camera.gameObject.transform.translate([0, 0, -15.0]);
 
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraExamine(canvas, camera);
@@ -28,7 +28,7 @@ requestAnimationFrame(render);
 function render(now)
 {
     renderer.clear(canvas, canvasColor);
-    renderer.drawGameObject(coord.gameObject, camera);
+    renderer.drawGameObject(tree.gameObject, camera);
     requestAnimationFrame(render);
 }
 

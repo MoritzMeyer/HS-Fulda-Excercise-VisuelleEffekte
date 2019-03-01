@@ -1,16 +1,19 @@
 import Webgl from "./Webgl.js";
 import Matrix from "./Matrix.js";
 import ProjectionMatrix from "./ProjectionMatrix.js";
+import GameObject from "./GameObject.js";
 
 class Camera
 {
     constructor()
     {
         this.gl = Webgl.getGL();
-        this.viewMatrix = new Matrix();
+        //this.viewMatrix = new Matrix();
         this.projectionMatrix = new ProjectionMatrix();
         this.cameraMatrix = new Matrix();
         this.viewProjectionMatrix = mat4.create();
+
+        this.gameObject = GameObject.createEmpty();
     }
 
     getViewProjectionMatrix()
@@ -28,12 +31,20 @@ class Camera
 
     getViewMatrix()
     {
-        return this.viewMatrix.matrix;
+        //return this.viewMatrix.matrix;
+        return this.gameObject.transform.getWorldSpaceMatrix();
+    }
+
+    getCameraMatrix()
+    {
+        //return this.cameraMatrix.matrix;
+        return this.gameObject.transform.getLocalSpaceMatrix();
     }
 
     setViewMatrix(matrix)
     {
-        mat4.copy(this.viewMatrix.matrix, matrix);
+        throw "Method not implemented";
+        //mat4.copy(this.viewMatrix.matrix, matrix);
     }
 
     lookAt(target)
@@ -80,13 +91,15 @@ class Camera
         vec3.scale(movement, forwardVector, movementSpeed);
 
         // Move forward and adjust new lookAt
-        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        this.gameObject.transform.setPosition(movement);
         vec3.add(newLookAt, lookAtPosition, movement);
 
         // next calc won't work, if they are equal
         if (vec3.equals(this.getEye(), newLookAt))
         {
-            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            this.gameObject.transform.setPosition(movement);
             vec3.add(newLookAt, lookAtPosition, movement);
         }
 
@@ -106,13 +119,15 @@ class Camera
         vec3.negate(movement, movement);
 
         // Move backward and adjust new LookAt
-        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        this.gameObject.transform.setPosition(movement);
         vec3.add(newLookAt, lookAtPosition, movement);
 
         // next calc won't work, if they are equal
         if (vec3.equals(this.getEye(), newLookAt))
         {
-            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            this.gameObject.transform.setPosition(movement);
             vec3.add(newLookAt, lookAtPosition, movement);
         }
 
@@ -134,13 +149,15 @@ class Camera
         vec3.scale(movement, leftVector, movementSpeed);
 
         // Move left and adjust new LookAt
-        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        this.gameObject.transform.setPosition(movement);
         vec3.add(newLookAt, lookAtPosition, movement);
 
         // next calc won't work, if they are equal
         if (vec3.equals(this.getEye(), newLookAt))
         {
-            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            this.gameObject.transform.setPosition(movement);
             vec3.add(newLookAt, lookAtPosition, movement);
         }
 
@@ -162,13 +179,15 @@ class Camera
         vec3.scale(movement, rightVector, movementSpeed);
 
         // Move right and adjust new LookAt
-        this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+        this.gameObject.transform.setPosition(movement);
         vec3.add(newLookAt, lookAtPosition, movement);
 
         // next calc won't work, if they are equal
         if (vec3.equals(this.getEye(), newLookAt))
         {
-            this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            //this.viewMatrix.translatePosition(movement[0], movement[1], movement[2]);
+            this.gameObject.transform.setPosition(movement);
             vec3.add(newLookAt, lookAtPosition, movement);
         }
 
@@ -212,7 +231,8 @@ class Camera
         let radAngleAlpha = glMatrix.toRadian(angleAlpha);
         let radAngleBeta = glMatrix.toRadian(angleBeta);
 
-        let worldCam = this.viewMatrix.inverse();
+        let worldCam = this.getViewMatrix();
+        mat4.invert(worldCam, worldCam);
         let eye = vec3.fromValues(worldCam[12], worldCam[13], worldCam[14]);
         vec3.subtract(eye, eye, target);
 
@@ -254,7 +274,9 @@ class Camera
                                             0, 0, 0, 1);
         */
 
-        mat4.invert(this.viewMatrix, cameraMatrix);
+        let vm = mat4.create();
+        mat4.invert(vm, cameraMatrix);
+        this.setViewMatrix(vm);
     }
 
     examineModelX3Dom(target, angleAlpha, angleBeta)

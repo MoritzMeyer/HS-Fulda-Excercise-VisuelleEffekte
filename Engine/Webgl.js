@@ -19,26 +19,26 @@ class Webgl
             switch(event.keyCode)
             {
                 case 37:    // left
-                    camera.viewMatrix.translate([-0.1, 0, 0]);
+                    camera.gameObject.transform.translate([-0.1, 0, 0]);
                     //lookAtPosition = camera.moveLeft(lookAtPosition, 0.1);
                     break;
                 case 38:    // up
-                    camera.viewMatrix.translate([0, 0.1, 0]);
+                    camera.gameObject.transform.translate([0, 0.1, 0]);
                     break;
                 case 39:    // right
-                    camera.viewMatrix.translate([0.1, 0, 0]);
+                    camera.gameObject.transform.translate([0.1, 0, 0]);
                     //lookAtPosition = camera.moveRight(lookAtPosition, 0.1);
                     break;
                 case 40:    // down
-                    camera.viewMatrix.translate([0, -0.1, 0]);
+                    camera.gameObject.transform.translate([0, -0.1, 0]);
                     break;
                 case 107:   // +
                 case 187:
-                    camera.viewMatrix.translate([0, 0, 0.1]);
+                    camera.gameObject.transform.translate([0, 0, 0.1]);
                     break;
                 case 109:   // -
                 case 189:
-                    camera.viewMatrix.translate([0, 0, -0.1]);
+                    camera.gameObject.transform.translate([0, 0, -0.1]);
                     break;
             }
         }, true);
@@ -62,7 +62,7 @@ class Webgl
                 delta = delta * (-1);
                 lookAtPosition = camera.moveBackwards(lookAtPosition, delta);
             }*/
-            camera.viewMatrix.translate([0, 0, delta]);
+            camera.gameObject.transform.translate([0, 0, delta]);
             /*
             camera.viewMatrix.translate([0, 0, delta]);
             let cameraPosition = camera.getEye();
@@ -151,8 +151,8 @@ class Webgl
             {
                 let rotationX = event.movementX / 2;
                 let rotationY = event.movementY / 2;
-                camera.viewMatrix.rotateY(rotationX);
-                camera.viewMatrix.rotateZ(rotationY);
+                camera.gameObject.transform.rotateY(rotationX);
+                camera.gameObject.transform.rotateZ(rotationY);
             }
         });
     }

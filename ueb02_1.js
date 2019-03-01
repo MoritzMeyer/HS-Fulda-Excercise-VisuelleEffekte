@@ -87,7 +87,7 @@ let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoord
 let gameObject = new GameObject(vertexBuffer, indices, texture);
 
 const camera = new Camera();
-camera.viewMatrix.translate([0.0, 0.0, -2.5]);
+camera.gameObject.transform.translate([0.0, 0.0, -2.5]);
 
 function render(now)
 {

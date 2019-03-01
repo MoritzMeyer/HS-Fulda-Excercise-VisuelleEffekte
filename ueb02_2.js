@@ -81,7 +81,7 @@ let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTria
 
 Webgl.addNavigationListener(canvas, camera);
 
-camera.viewMatrix.translate([0.0, 0.0, -4.0]);
+camera.gameObject.transform.translate([0.0, 0.0, -4.0]);
 requestAnimationFrame(render);
 
 function render(now)

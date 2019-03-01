@@ -14,7 +14,7 @@ let renderer = new Renderer();
 let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
-camera.viewMatrix.translate([0, 0, -10.0]);
+camera.gameObject.transform.translate([0, 0, -10.0]);
 
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
 //let capsule = new OBJ("./textures/bunny/bunny.obj", 1, Shader.getDefaultTextureShader());

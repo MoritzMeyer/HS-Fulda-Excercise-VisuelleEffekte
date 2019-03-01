@@ -21,8 +21,8 @@ let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
-camera.viewMatrix.translate([0, 2, -15.0]);
-camera.viewMatrix.rotateX(35);
+camera.gameObject.transform.translate([0, 2, -15.0]);
+camera.gameObject.transform.rotateX(35);
 
 
 let light = Light.getDefaultLight();
