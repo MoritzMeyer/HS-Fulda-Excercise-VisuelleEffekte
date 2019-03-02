@@ -27,6 +27,8 @@ camera.gameObject.transform.rotateX(35);
 
 let light = Light.getDefaultLight();
 renderer.lights.push(light);
+
+
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([2.0, 1.0, 0]);
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureLightShader());

@@ -4,23 +4,29 @@
     <title>WebGL Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--link rel="stylesheet" href="../../webgl.css" type="text/css"-->
+    <link rel="stylesheet" href="./webgl.css" type="text/css">
 </head>
 
 <body>
 <div style="margin: 10px">
     <a href="index.html">&lt; Zurück</a>
 </div>
-<canvas id="glcanvas" width="640" height="480"></canvas>
+<div id="container">
+    <div id="webgl">
+        <canvas id="glcanvas" width="640" height="480"></canvas>
+    </div>
+    <div id="sliderContainer" style="margin-top: 10px">
+        <div>
+            <label for="cube">Cube </label><input id="cube" type="checkbox" />
+            <label for="plane">Plane </label><input id="plane" type="checkbox" checked/>
+            <label for="capsule">Capsule </label><input id="capsule" type="checkbox" />
+        </div>
+        <div>
+            <p id="error" style="display: none; color: red">Achtung: Texture noch nicht geladen.</p>
+        </div>
+    </div>
+</div>
 </body>
-<div>
-    <label for="cube">Cube </label><input id="cube" type="checkbox" />
-    <label for="plane">Plane </label><input id="plane" type="checkbox" checked/>
-    <label for="capsule">Capsule </label><input id="capsule" type="checkbox" />
-</div>
-<div>
-    <p id="error" style="display: none; color: red">Achtung: Texture noch nicht geladen.</p>
-</div>
 
 <script text="text/javascript" src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="gl-matrix.js"></script>

@@ -4,16 +4,26 @@
     <title>WebGL Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--link rel="stylesheet" href="../../webgl.css" type="text/css"-->
+    <link rel="stylesheet" href="./webgl.css" type="text/css">
 </head>
 
 <body>
 <div style="margin: 10px">
     <a href="index.html">&lt; Zurück</a>
 </div>
-<canvas id="glcanvas" width="640" height="480"></canvas>
+
+<section class="container">
+    <div id="webgl">
+        <canvas id="glcanvas" width="640" height="480"></canvas>
+    </div>
+
+    <div id="sliderContainer">
+    </div>
+</section>
+
 </body>
 
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="gl-matrix.js"></script>
 <script type="text/javascript" src="x3dom.js"></script>
 <script type="text/javascript" src="./Engine/OBJLoader.js"></script>

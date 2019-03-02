@@ -37,6 +37,9 @@ class Light
         this.drawLightObject = drawLightObject;
         this.gameObject = GameObject.createEmpty();
         this.lightObject = null;
+        this.ambientStrength = 1.0;
+        this.specularStrength = 0.5;
+        this.specularFactor = 16.0;
 
         if (this.drawLightObject)
         {
@@ -54,6 +57,9 @@ class Light
         shader.bind();
         shader.setUniform3f("uLightPosition", this.gameObject.transform.position[0], this.gameObject.transform.position[1], this.gameObject.transform.position[2])
         shader.setUniform3f(this.uniformName, this.lightColor[0], this.lightColor[1], this.lightColor[2]);
+        shader.setUniform1f("uAmbientStrength", this.ambientStrength);
+        shader.setUniform1f("uSpecStrength", this.specularStrength);
+        shader.setUniform1f("uSpecFac", this.specularFactor);
     }
 
     static getDefaultLight()

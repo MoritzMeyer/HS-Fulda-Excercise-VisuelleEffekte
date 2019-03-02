@@ -157,7 +157,20 @@ class Webgl
         });
     }
 
+    static addSlider(sliderId, value, min, max, step, func)
+    {
+        $('#sliderContainer').append("" +
+            "<p id=\"" + sliderId + "_Value\">" + sliderId  + ": " + value + "</p>" +
+            "<input type=\"range\" min=\"" + min + "\" max=\"" + max + "\" value=\"" + value +
+            "\" step=\"" + step + "\" class=\"slider\" id=\"" + sliderId + "\"/>");
 
+        let slider = $('#' + sliderId);
+        slider.on("change", function(e)
+        {
+            $('#' + sliderId + '_Value').text(sliderId  + ": " + slider.val());
+            func(slider.val());
+        });
+    }
 }
 
 export default Webgl;

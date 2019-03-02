@@ -128,6 +128,53 @@ const fsPhongColor =
     }
 `;
 
+const fsPhongColor1Variable =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    //uniform float uAmbientStrength;
+    uniform vec3 uLightPosition;
+    uniform vec3 uViewPosition;
+    uniform vec3 uLightColor;
+    uniform vec3 uObjectColor;
+    uniform float uAlpha;
+    
+    uniform float uAmbientStrength;
+    uniform float uSpecFac;
+    uniform float uSpecStrength;
+    
+    void main() {
+        // ambient
+        float ambientStrength = uAmbientStrength;
+        vec3 ambient = ambientStrength * uLightColor;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        //vec3 normalizedFragPos = normalize(vFragPos);
+        //vec3 normalizedLightPos = normalize(uLightPosition);
+        vec3 lightDirection = normalize(uLightPosition - vFragPos);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  diff * uLightColor;
+        
+        // sepcular
+        float specularStrength = uSpecStrength;
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), uSpecFac);
+        vec3 specular = specularStrength * spec * uLightColor;
+        
+        vec3 result = (ambient + diffuse + specular) * uObjectColor;
+        gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+
 const vsPhongColor2 =
     `
         attribute vec3 aPosition;
@@ -482,7 +529,7 @@ class Shader
 
     static getDefaultColorLightShader()
     {
-        return new Shader(vsPhongColor, fsPhongColor, true);
+        return new Shader(vsPhongColor, fsPhongColor1Variable, true);
         //return new Shader(vsTest, fsTest);
     }
 

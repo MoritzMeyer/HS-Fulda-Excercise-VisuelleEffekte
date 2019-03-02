@@ -28,6 +28,14 @@ camera.gameObject.transform.rotateX(40);
 
 let light = Light.getDefaultLight();
 renderer.lights.push(light);
+
+
+Webgl.addSlider("AmbientStrength", 1.0, 0.1, 1.0, 0.1, (value) => {
+    console.log("AmbientStrength: " + value);
+    light.ambientStrength = value});
+Webgl.addSlider("SpecularStrength", 0.5, 0.1, 1.0, 0.1, (value) => {light.specularStrength = value});
+Webgl.addSlider("SpecularFactor", 16.0, 1.0, 64.0, 1.0, (value) => {light.specularFactor = value});
+
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
 let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
