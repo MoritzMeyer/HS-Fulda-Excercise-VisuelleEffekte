@@ -21,8 +21,7 @@ let coord = new CoordinateAxises3D();
 
 camera.gameObject.transform.translate([0.0, 0.0, -20.0]);
 camera.gameObject.transform.rotateX(35);
-
-coord.gameObject.transform.translate([-4, 0 ,0]);
+tree.gameObject.transform.translate([-4, 0, 0]);
 
 Webgl.addNavigationListener(canvas, camera);
 let elements = [coord, tree];

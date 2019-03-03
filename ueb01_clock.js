@@ -21,7 +21,8 @@ const vsSource =
     uniform mat4 uModelMatrix;    
     void main() {
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
     }
 `;
 /*

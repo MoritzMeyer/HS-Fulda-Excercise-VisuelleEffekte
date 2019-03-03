@@ -8,7 +8,8 @@ const vsColorSource =
     uniform mat4 uModelMatrix;
     void main() {
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
     }
 `;
 
@@ -36,8 +37,9 @@ const vsTextureSource =
     uniform mat4 uModelMatrix;
     void main() {
         vTexCoords = aTexCoords;
+        vec4 flipX = vec4(-1, 1, 1, 1);
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
     }       
 `;
 
@@ -75,13 +77,14 @@ const vsPhongColor =
     
     void main() {
         gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
     }        
 `;
 
@@ -189,13 +192,14 @@ const vsPhongColor2 =
         varying vec3 vertPos;
         
         void main() {
+            vec4 flipX = vec4(-1, 1, 1, 1);
             //mat4 modelViewMat = uViewMatrix * uModelMatrix;
             vec4 vertPos4 = uModelViewMatrix * vec4(aPosition, 1.0);
             vertPos = normalize(vec3(vertPos4) / vertPos4.w);
             //vertPos = vec3(vertPos4) / vertPos4.w;
             normalInterp = vec3(uNormalMatrix * vec4(aNormal, 0.0));
             
-            gl_Position = uProjectionMatrix * vertPos4;
+            gl_Position = uProjectionMatrix * vertPos4 * flipX;
         }
     `;
 
@@ -261,13 +265,14 @@ const vsPhongTexture =
     void main() {
         gl_PointSize = 10.0;
         vTexCoords = aTexCoords;
+        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
     }        
 `;
 
@@ -337,6 +342,7 @@ const vsGourand =
         
         
         void main() {
+            vec4 flipX = vec4(-1, 1, 1, 1);
             float Ka = 1.0;
             float Kd = 1.0;
             float Ks = 1.0;
@@ -361,7 +367,7 @@ const vsGourand =
                 specular = pow(specAngle, shininessVal);
             }  
             
-            vColor = vec3(Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor);
+            vColor = vec3(Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * flipX;
         }
     `;
 

@@ -3,31 +3,6 @@ import Shader from "./Shader.js";
 import Color from "./Color.js";
 import Sphere3D from "./GameObjects/Sphere3D.js";
 
-const vsSource =
-    `
-        attribute vec3 aPosition;
-        uniform mat4 uProjectionMatrix;
-        uniform mat4 uViewMatrix;
-        uniform mat4 uModelMatrix;
-        void main() {
-            gl_PointSize = 10.0;
-            gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
-    }`;
-
-const fsSource =
-    `
-        #ifdef GL_FRAGMENT_PRECISION_HIGH
-        precision highp float;
-        #else
-        precision mediump float;
-        #endif
-        uniform vec3 uObjectColor;
-        uniform float uAlpha;
-        
-        void main() {
-            gl_FragColor =  vec4(uObjectColor, uAlpha);
-    }`;
-
 class Light
 {
     constructor(lightColor, uniformName = "uLightColor", drawLightObject = true)
@@ -44,7 +19,7 @@ class Light
         if (this.drawLightObject)
         {
             let lightObjectShader = new Shader(vsSource, fsSource);
-            let color = new Color("uObjectColor", lightObjectShader, lightColor);
+            let color = new Color("uObjectColor", Shader.getDefaultColorShader(), lightColor);
             this.lightObject = new Sphere3D(color);
             this.lightObject.gameObject.transform.setScale([0.2, 0.2, 0.2]);
             this.lightObject.gameObject.setParent(this.gameObject);

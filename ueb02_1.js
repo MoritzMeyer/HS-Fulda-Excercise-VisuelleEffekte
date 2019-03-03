@@ -21,7 +21,8 @@ const vsSource =
     void main() {
         vTexCoord = aTexCoords;
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
     }
 `;
 
@@ -57,14 +58,16 @@ let positions =
 
 let texCoords =
     [
-         0.75, -0.5,
-        -0.2, 0.5,
-        -0.2, -0.5,
-        0.75, 0.5,
+        // cube
+        0, 1,
+        1, 0,
+        0, 0,
+        1, 1,
 
-        -0.2, 0.75,
-        -0.2, -0.75,
-        -0.9, 0,
+        // triangle
+        0, 0.5,
+        0.5, 1,
+        0.5, 0.5,
     ];
 
 // Index Arrays

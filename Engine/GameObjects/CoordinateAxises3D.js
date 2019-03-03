@@ -41,7 +41,7 @@ class CoordinateAxises3D extends RenderObject
         yAxis.gameObject.transform.setScale([0.01, 1, 0.01]);
         zAxis.gameObject.transform.setScale([0.01, 0.01, 1]);
 
-        xAxis.gameObject.transform.setPosition([0.7, 0, 0]);
+        xAxis.gameObject.transform.setPosition([-0.7, 0, 0]);
         yAxis.gameObject.transform.setPosition([0, 0.7, 0]);
         zAxis.gameObject.transform.setPosition([0, 0, 0.7]);
 
