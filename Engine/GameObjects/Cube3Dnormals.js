@@ -99,7 +99,7 @@ class Cube3Dnormals extends RenderObject
     {
         if (!material)
         {
-            const shader = Shader.getDefaultColorLightShader();
+            const shader = Shader.getDefaultColorShader(true);
             material = new Color("uObjectColor", shader, colors);
         }
 

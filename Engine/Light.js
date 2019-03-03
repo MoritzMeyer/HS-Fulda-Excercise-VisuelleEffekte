@@ -18,8 +18,7 @@ class Light
 
         if (this.drawLightObject)
         {
-            let lightObjectShader = new Shader(vsSource, fsSource);
-            let color = new Color("uObjectColor", Shader.getDefaultColorShader(), lightColor);
+            let color = new Color("uObjectColor", Shader.getDefaultColorShader(false), lightColor);
             this.lightObject = new Sphere3D(color);
             this.lightObject.gameObject.transform.setScale([0.2, 0.2, 0.2]);
             this.lightObject.gameObject.setParent(this.gameObject);

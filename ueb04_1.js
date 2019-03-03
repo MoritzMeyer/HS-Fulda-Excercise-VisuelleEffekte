@@ -38,13 +38,22 @@ Webgl.addSlider("SpecularFactor", 16.0, 1.0, 64.0, 1.0, (value) => {light.specul
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
-let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
-let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorLightShader(), [0.5, 0.1, 0.1]));
-let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureLightShader());
+let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
+let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
+let capsule = new OBJ("./textures/capsule/capsule.obj", 1, true, null);
+let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
+let f16 = new OBJ("./textures/f16tex/f16.obj", 1, true, null);
+let teapot = new OBJ("./textures/teapot.obj", 1, true, null);
 plane.gameObject.transform.setScale([2.0, 0, 2.0]);
+
 capsule.checkLoaded(() =>
 {
     capsule.gameObject.transform.rotateX(90);
+});
+
+teapot.checkLoaded(() =>
+{
+    teapot.gameObject.transform.setScale([0.25, 0.25, 0.25]);
 });
 
 let elements = [plane];
@@ -102,7 +111,8 @@ $('#capsule').change((e) =>
         {
             $('#error').hide();
             light.gameObject.transform.setPosition([2.0, 1.0, 0]);
-            elements = [capsule];
+            //elements = [capsule];
+            elements = [teapot];
             console.log("Checkbox Capsule is checked. Elements: ", elements);
             $('#cube').prop('checked', false);
             $('#plane').prop('checked', false);

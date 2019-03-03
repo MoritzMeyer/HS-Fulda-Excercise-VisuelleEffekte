@@ -19,14 +19,14 @@ class Webgl
             switch(event.keyCode)
             {
                 case 37:    // left
-                    camera.gameObject.transform.translate([-0.1, 0, 0]);
+                    camera.gameObject.transform.translate([0.1, 0, 0]);
                     //lookAtPosition = camera.moveLeft(lookAtPosition, 0.1);
                     break;
                 case 38:    // up
                     camera.gameObject.transform.translate([0, 0.1, 0]);
                     break;
                 case 39:    // right
-                    camera.gameObject.transform.translate([0.1, 0, 0]);
+                    camera.gameObject.transform.translate([-0.1, 0, 0]);
                     //lookAtPosition = camera.moveRight(lookAtPosition, 0.1);
                     break;
                 case 40:    // down

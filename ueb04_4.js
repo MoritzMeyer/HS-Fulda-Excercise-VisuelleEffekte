@@ -25,9 +25,9 @@ Webgl.addCameraRotation(canvas, camera);
 camera.gameObject.transform.translate([0, 0, -10.0]);
 //camera.viewMatrix.rotateX(35);
 
-let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0.8, 0, 0], 0.5));
-let sphere = new Sphere3D(new Color("uObjectColor", Shader.getDefaultColorShader(), [0, 0, 0.8], 0.5));
-let capsule = new OBJ("./textures/capsule/capsule.obj", 1, Shader.getDefaultTextureShader());
+let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(false), [0.8, 0, 0], 0.5));
+let sphere = new Sphere3D(new Color("uObjectColor", Shader.getDefaultColorShader(false), [0, 0, 0.8], 0.5));
+let capsule = new OBJ("./textures/capsule/capsule.obj", 1, false, null);
 
 cube.gameObject.transform.translate([-4, 0, 0]);
 sphere.gameObject.transform.translate([2, 0, 0]);

@@ -9,7 +9,7 @@ import Camera from "./Engine/Camera.js";
 import Matrix from "./Engine/Matrix.js";
 
 // Webgl context holen und laden.
-const canvas = document.querySelector('#glcanvas');
+const canvas = document.querySelector('#glcanvasClock');
 Webgl.loadGL(canvas);
 const gl = Webgl.getGL();
 
@@ -121,7 +121,7 @@ function render(now)
     if (secondsCounter >= 1)
     {
         // rotate around z axis minus 6 degrees
-        gameObjectSecondsPointer.transform.rotateZ(-6);
+        gameObjectSecondsPointer.transform.rotateZ(6);
         secondsCounter = 0;
     }
 
@@ -130,7 +130,7 @@ function render(now)
     if (minutesCounter > 61)
     {
         // rotate around z axis minus 6 degrees
-        gameObjectMinutePointer.transform.rotateZ(-6);
+        gameObjectMinutePointer.transform.rotateZ(6);
         minutesCounter = 0;
     }
 

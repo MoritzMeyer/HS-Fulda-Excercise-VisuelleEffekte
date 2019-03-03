@@ -295,10 +295,14 @@ const fsPhongTexture =
     uniform sampler2D uTexture;  
     uniform float uAlpha;
     
+    uniform float uAmbientStrength;
+    uniform float uSpecFac;
+    uniform float uSpecStrength;
+    
     void main() {
                
         // ambient
-        float ambientStrength = 1.0;
+        float ambientStrength = uAmbientStrength;
         vec3 ambient = ambientStrength * uLightColor;
         
         // diffuse
@@ -310,10 +314,10 @@ const fsPhongTexture =
         vec3 diffuse =  diff * uLightColor;
         
         // sepcular
-        float specularStrength = 0.5;
+        float specularStrength = uSpecStrength;
         vec3 viewDir = normalize(uViewPosition - vFragPos);
         vec3 reflectDir = reflect(-lightDirection, normal);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16.0);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), uSpecFac);
         vec3 specular = specularStrength * spec * uLightColor;
         
         vec4 texColor = texture2D(uTexture, vTexCoords);
@@ -523,25 +527,28 @@ class Shader
         return shader;
     }
 
-    static getDefaultColorShader()
+    static getDefaultColorShader(hasLightning)
     {
-        return new Shader(vsColorSource, fsColorSource);
+        if (hasLightning)
+        {
+            return new Shader(vsPhongColor, fsPhongColor1Variable, true);
+        }
+        else
+        {
+            return new Shader(vsColorSource, fsColorSource);
+        }
     }
 
-    static getDefaultTextureShader()
+    static getDefaultTextureShader(hasLightning)
     {
-        return new Shader(vsTextureSource, fsTextureSource);
-    }
-
-    static getDefaultColorLightShader()
-    {
-        return new Shader(vsPhongColor, fsPhongColor1Variable, true);
-        //return new Shader(vsTest, fsTest);
-    }
-
-    static getDefaultTextureLightShader()
-    {
-        return new Shader(vsPhongTexture, fsPhongTexture, true);
+        if (hasLightning)
+        {
+            return new Shader(vsPhongTexture, fsPhongTexture, true);
+        }
+        else
+        {
+            return new Shader(vsTextureSource, fsTextureSource);
+        }
     }
 }
 

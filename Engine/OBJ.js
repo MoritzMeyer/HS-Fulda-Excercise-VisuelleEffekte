@@ -2,13 +2,14 @@ import VertexBuffer from "./VertexBuffer.js";
 import GameObject from "./GameObject.js";
 import Color from "./Color.js";
 import Texture from "./Texture.js";
+import Shader from "./Shader.js";
 
 class OBJ
 {
-    constructor(filePath, scale, shader, textureFile = null)
+    constructor(filePath, scale, hasLightning, textureFile = null)
     {
-        this.shader = shader;
         this.isLoaded = false;
+        this.hasLightning = hasLightning;
 
         let objDataRequest = new XMLHttpRequest();
         objDataRequest.open('GET', filePath, true);
@@ -42,7 +43,7 @@ class OBJ
 
             if (!textureFile && !drawingInfo.textureName)
             {
-                let color = new Color("uObjectColor", shader, [248, 24, 148]);
+                let color = new Color("uObjectColor", Shader.getDefaultColorShader(this.hasLightning), [248, 24, 148]);
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color, false, vertexBufferNormals);
             }
             else
@@ -53,7 +54,7 @@ class OBJ
                 }
 
                 let texCoordsBuffer = new VertexBuffer(drawingInfo.texCoords, 2);
-                let texture = new Texture("uTexture", shader, textureFile, 0, texCoordsBuffer, "aTexCoords");
+                let texture = new Texture("uTexture", Shader.getDefaultTextureShader(this.hasLightning), textureFile, 0, texCoordsBuffer, "aTexCoords");
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture, false, vertexBufferNormals);
             }
 
