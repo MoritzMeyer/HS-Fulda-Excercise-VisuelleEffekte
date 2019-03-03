@@ -1,5 +1,6 @@
 import Webgl from "./Webgl.js";
 
+//region Color
 const vsColorSource =
 `
     attribute vec3 aPosition;
@@ -26,7 +27,9 @@ const fsColorSource =
         gl_FragColor = vec4(uObjectColor, uAlpha);
     }
 `;
+//endregion
 
+//region Texture
 const vsTextureSource =
 `
     attribute vec3 aPosition;
@@ -60,7 +63,9 @@ const fsTextureSource =
         
     }
 `;
+//endregion
 
+//region PhongColor
 const vsPhongColor =
 `
     attribute vec3 aPosition;
@@ -106,49 +111,6 @@ const fsPhongColor =
     uniform vec3 uObjectColor;
     uniform float uAlpha;
     
-    void main() {
-        // ambient
-        float ambientStrength = 1.0;
-        vec3 ambient = ambientStrength * uLightColor;
-        
-        // diffuse
-        vec3 normal = normalize(vNormal);
-        //vec3 normalizedFragPos = normalize(vFragPos);
-        //vec3 normalizedLightPos = normalize(uLightPosition);
-        vec3 lightDirection = normalize(uLightPosition - vFragPos);
-        float diff = max(dot(normal, lightDirection), 0.0);
-        vec3 diffuse =  diff * uLightColor;
-        
-        // sepcular
-        float specularStrength = 0.5;
-        vec3 viewDir = normalize(uViewPosition - vFragPos);
-        vec3 reflectDir = reflect(-lightDirection, normal);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16.0);
-        vec3 specular = specularStrength * spec * uLightColor;
-        
-        vec3 result = (ambient + diffuse + specular) * uObjectColor;
-        gl_FragColor = vec4(result, uAlpha);
-    }
-`;
-
-const fsPhongColor1Variable =
-    `
-    #ifdef GL_FRAGMENT_PRECISION_HIGH
-    precision highp float;
-    #else
-    precision mediump float;
-    #endif
-    
-    varying vec3 vFragPos;
-    varying vec3 vNormal;
-    
-    //uniform float uAmbientStrength;
-    uniform vec3 uLightPosition;
-    uniform vec3 uViewPosition;
-    uniform vec3 uLightColor;
-    uniform vec3 uObjectColor;
-    uniform float uAlpha;
-    
     uniform float uAmbientStrength;
     uniform float uSpecFac;
     uniform float uSpecStrength;
@@ -177,7 +139,9 @@ const fsPhongColor1Variable =
         gl_FragColor = vec4(result, uAlpha);
     }
 `;
+//endregion
 
+//region PhongColor2
 const vsPhongColor2 =
     `
         attribute vec3 aPosition;
@@ -245,7 +209,9 @@ const fsPhongColor2 =
         gl_FragColor = vec4((Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * uObjectColor, uAlpha);
     }   
     `;
+//endregion
 
+//region PhongTexture
 const vsPhongTexture =
     `
     attribute vec3 aPosition;
@@ -330,8 +296,137 @@ const fsPhongTexture =
         //gl_FragColor = vec4(result, uAlpha);
     }
 `;
+//endregion
 
+//region PhongPerVertex
+const vsPhongPerVertex =
+`
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    
+    uniform vec3 uLightPosition;
+    uniform float uAmbientStrength;
+    uniform float uSpecFac;
+    uniform float uSpecStrength;
+    uniform vec3 uObjectColor;
+    uniform float uAlpha;
+    
+    varying vec4 vFragColor;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        
+        // all following gemetric computations are performed in the
+        // camera coordinate system (aka eye coordinates)
+        mat4 modelViewMat = uViewMatrix * uModelMatrix;
+        vec3 normal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        vec4 vertPos4 = modelViewMat * vec4(aPosition, 1.0);
+        vec3 vertPos = vec3(vertPos4) / vertPos4.w;
+        vec3 lightDir = normalize(uLightPosition - vertPos);
+        vec3 reflectDir = reflect(-lightDir, normal);
+        vec3 viewDir = normalize(vertPos);
+        
+        float lambertian = max(dot(lightDir, normal), 0.0);
+        float specular = uSpecStrength;
+        
+        if (lambertian > 0.0) {
+            float specAngle = max(dot(reflectDir, viewDir), 0.0);
+            specular = pow(specAngle, uSpecFac);
+            
+            // specular = pow(specAngle, uSpecFac);            
+            //specular *= lambertian;
+            // specular *= 0.0;
+        }
+        vFragColor = vec4((lambertian + specular) * uObjectColor, uAlpha);
+    }
+`;
 
+const fsPhongPerVertex =
+`
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec4 vFragColor;
+    
+    void main() {
+        gl_FragColor = vFragColor;
+    }    
+`;
+//endregion
+
+//region PhongPerFragment
+const vsPhongPerFragment =
+`
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    
+    varying vec3 vNormal;
+    varying vec3 vPos;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);        
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        
+        vec4 vertPos4 = uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
+        vPos = vec3(vertPos4) / vertPos4.w;
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));        
+    }    
+`;
+
+const fsPhongPerFragment =
+`
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vNormal;
+    varying vec3 vPos;
+    
+    uniform vec3 uLightPosition;
+    uniform float uSpecFac;
+    uniform float uSpecStrength;
+    uniform float uAlpha;
+    uniform vec3 uObjectColor;
+    
+    void main() {
+        vec3 normal = normalize(vNormal);
+        vec3 lightDir = normalize(uLightPosition - vPos);
+        
+        float lambertian = max(dot(lightDir, normal), 0.0);
+        float specular = uSpecStrength;
+        
+        if (lambertian > 0.0) {
+            vec3 reflectDir = reflect(-lightDir, normal);
+            vec3 viewDir = normalize(-vPos);
+            
+            float specAngle = max(dot(reflectDir, viewDir), 0.0);
+            specular = pow(specAngle, uSpecFac);
+        }
+        
+        gl_FragColor = vec4((lambertian + specular) * uObjectColor, uAlpha);
+    }
+`;
+//endregion
+
+//region Gourand
 const vsGourand =
     `
         attribute vec3 aPosition;
@@ -389,6 +484,7 @@ const fsGourand =
         gl_FragColor = vec4(vColor * uObjectColor, 1.0);
     }
     `;
+//endregion
 
 class Shader
 {
@@ -531,7 +627,10 @@ class Shader
     {
         if (hasLightning)
         {
-            return new Shader(vsPhongColor, fsPhongColor1Variable, true);
+            return new Shader(vsPhongColor, fsPhongColor, true);
+            //return new Shader(vsPhongPerVertex, fsPhongPerVertex, true);
+            //return new Shader(vsPhongPerFragment, fsPhongPerFragment, true);
+
         }
         else
         {

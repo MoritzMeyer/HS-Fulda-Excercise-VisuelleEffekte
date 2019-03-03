@@ -151,8 +151,8 @@ class Webgl
             {
                 let rotationX = event.movementX / 2;
                 let rotationY = event.movementY / 2;
-                camera.gameObject.transform.rotateY(rotationX);
-                camera.gameObject.transform.rotateZ(rotationY);
+                camera.gameObject.transform.rotateY(-rotationX);
+                camera.gameObject.transform.rotateZ(-rotationY);
             }
         });
     }
