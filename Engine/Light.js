@@ -29,7 +29,8 @@ class Light
     bind(shader)
     {
         shader.bind();
-        shader.setUniform3f("uLightPosition", this.gameObject.transform.position[0], this.gameObject.transform.position[1], this.gameObject.transform.position[2])
+        let lightWorldMat = this.gameObject.transform.getWorldSpaceMatrix();
+        shader.setUniform3f("uLightPosition", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
         shader.setUniform3f(this.uniformName, this.lightColor[0], this.lightColor[1], this.lightColor[2]);
         shader.setUniform1f("uAmbientStrength", this.ambientStrength);
         shader.setUniform1f("uSpecStrength", this.specularStrength);

@@ -5,8 +5,8 @@ import Color from "./Engine/Color.js";
 import Shader from "./Engine/Shader.js";
 import Light from "./Engine/Light.js";
 import Plane from "./Engine/GameObjects/Plane.js";
-import Cube3Dnormals from "./Engine/GameObjects/Cube3Dnormals.js";
 import OBJ from "./Engine/OBJ.js";
+import Cube3D from "./Engine/GameObjects/Cube3D.js";
 
 
 
@@ -14,6 +14,7 @@ import OBJ from "./Engine/OBJ.js";
 const canvas = document.querySelector('#glcanvas');
 Webgl.loadGL(canvas);
 let canvasColor = [0.42, 0.6, 0.0, 1.0];
+let rotation = true;
 
 // initialize Application
 let renderer = new Renderer();
@@ -38,7 +39,7 @@ Webgl.addSlider("SpecularFactor", 16.0, 1.0, 64.0, 1.0, (value) => {light.specul
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
-let cube = new Cube3Dnormals(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
+let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
 let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, true, null);
 //let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
@@ -60,8 +61,24 @@ teapot.checkLoaded(() =>
 let elements = [plane];
 
 requestAnimationFrame(render);
+
+let time = 0.0;
 function render(now)
 {
+    if (rotation)
+    {
+        /*
+        let time = now * 0.00005;
+        let x = Math.cos(time * 10) * 4;
+        let y= Math.cos(time * 7) * 3;
+        let z = Math.cos(time * 8) * 4;
+        light.gameObject.transform.setPosition([x, light.gameObject.transform.getWorldPosition()[1], z]);
+        */
+        time += 0.05;
+        light.gameObject.transform.rotateY(1);
+        light.gameObject.transform.setPosition([4 * Math.cos(time), 2, 4 * Math.sin(time)]);
+    }
+
     renderer.clear(canvas, canvasColor);
     renderer.drawWithoutLights(light.lightObject.gameObject, camera);
     renderer.drawElements(elements, camera);
@@ -73,7 +90,10 @@ $('#cube').change((e) =>
     if ($('#cube').is(":checked"))
     {
         $('#error').hide();
-        light.gameObject.transform.setPosition([2.0, 2.0, 0]);
+        if (!$('#rotation').is(":checked"))
+        {
+            light.gameObject.transform.setPosition([2.0, 2.0, 0]);
+        }
         elements = [cube];
         console.log("Checkbox Cube is checked. Elements: ", elements);
         $('#plane').prop('checked', false);
@@ -91,7 +111,10 @@ $('#plane').change((e) =>
     if ($('#plane').is(":checked"))
     {
         $('#error').hide();
-        light.gameObject.transform.setPosition([0, 1.0, 0]);
+        if (!$('#rotation').is(":checked"))
+        {
+            light.gameObject.transform.setPosition([0, 1.0, 0]);
+        }
         elements = [plane];
         console.log("Checkbox Plane is checked. Elements: ", elements);
         $('#cube').prop('checked', false);
@@ -111,7 +134,10 @@ $('#capsule').change((e) =>
         if (capsule.isLoaded)
         {
             $('#error').hide();
-            light.gameObject.transform.setPosition([2.0, 1.0, 0]);
+            if (!$('#rotation').is(":checked"))
+            {
+                light.gameObject.transform.setPosition([2.0, 1.0, 0]);
+            }
             //elements = [capsule];
             elements = [capsule];
             console.log("Checkbox Capsule is checked. Elements: ", elements);
@@ -129,5 +155,32 @@ $('#capsule').change((e) =>
         elements = [];
         $('#error').hide();
     }
+});
+
+$('#rotation').change((e) =>
+{
+   if ($('#rotation').is(":checked"))
+   {
+       rotation = true;
+   }
+   else
+   {
+       if ($('#capsule').is(":checked"))
+       {
+           light.gameObject.transform.setPosition([2.0, 1.0, 0]);
+       }
+
+       if ($('#cube').is(":checked"))
+       {
+           light.gameObject.transform.setPosition([2.0, 2.0, 0]);
+       }
+
+       if ($('#plane').is(":checked"))
+       {
+           light.gameObject.transform.setPosition([0, 1.0, 0]);
+       }
+
+        rotation = false;
+   }
 });
 

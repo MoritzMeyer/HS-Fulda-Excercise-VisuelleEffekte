@@ -43,6 +43,45 @@ const positions =
     -1.0,  1.0, -1.0
 ];
 
+const normals = [
+
+    // vordere Fläche
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+
+    // hintere Fläche
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+    0.0, 0.0, -1.0,
+
+    // obere Fläche
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+
+    // untere Fläche
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+
+    // rechte Fläche
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+
+    // linke Fläche
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0
+];
+
 const indices = [
     0,  1,  2,      0,  2,  3,    // vorne
     4,  5,  6,      4,  6,  7,    // hinten
@@ -60,12 +99,13 @@ class Cube3D extends RenderObject
     {
         if (!material)
         {
-            const shader = Shader.getDefaultColorShader(false);
+            const shader = Shader.getDefaultColorShader(true);
             material = new Color("uObjectColor", shader, colors);
         }
 
         const vertexBuffer = new VertexBuffer(positions, 3);
-        const gameObject = new GameObject(vertexBuffer, indices, material);
+        const vertexBufferNormals = new VertexBuffer(normals, 3);
+        const gameObject = new GameObject(vertexBuffer, indices, material, false, vertexBufferNormals);
         super(positions, indices, gameObject);
     }
 }

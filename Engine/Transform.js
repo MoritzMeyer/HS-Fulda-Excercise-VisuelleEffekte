@@ -95,8 +95,17 @@ class Transform
         this.setLocalChanged();
     }
 
-    translate(translation)
+    getWorldPosition()
     {
+        let worldMat = this.getWorldSpaceMatrix();
+        let position = vec3.create();
+        mat4.getTranslation(position, worldMat);
+        return position;
+    }
+
+    translate(trans)
+    {
+        let translation = vec3.fromValues(trans[0], trans[1], trans[2]);
         this.position = vec3.add(this.position, this.position, translation);
         this.setLocalChanged();
     }
