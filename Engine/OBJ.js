@@ -43,7 +43,7 @@ class OBJ
 
             if (!textureFile && !drawingInfo.textureName)
             {
-                let color = new Color("uObjectColor", Shader.getDefaultColorShader(this.hasLightning), [248, 24, 148]);
+                let color = new Color(Shader.getDefaultColorShader(this.hasLightning), [248, 24, 148]);
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, color, false, vertexBufferNormals);
             }
             else
@@ -54,7 +54,7 @@ class OBJ
                 }
 
                 let texCoordsBuffer = new VertexBuffer(drawingInfo.texCoords, 2);
-                let texture = new Texture("uTexture", Shader.getDefaultTextureShader(this.hasLightning), textureFile, 0, texCoordsBuffer, "aTexCoords");
+                let texture = new Texture(Shader.getDefaultTextureShader(this.hasLightning), textureFile, 0, texCoordsBuffer);
                 this.gameObject = new GameObject(vertexBuffer, drawingInfo.indices, texture, false, vertexBufferNormals);
             }
 

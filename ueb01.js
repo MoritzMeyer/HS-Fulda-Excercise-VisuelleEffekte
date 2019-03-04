@@ -68,13 +68,13 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 // initialize Cube data
 // shader
 let shaderCube = new Shader(vsSource, fsSource);
-let colorCube = new Color("uObjectColor", shaderCube, cubeColors);
+let colorCube = new Color(shaderCube, cubeColors);
 let gameObjectCube = new GameObject(vertexBuffer, indicesCube, colorCube);
 
 // initialize Triangle Data
 // shader
 let shaderTriangle = new Shader(vsSource, fsSource);
-let colorTriangle = new Color("uObjectColor", shaderTriangle, triangleColors);
+let colorTriangle = new Color(shaderTriangle, triangleColors);
 let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
 const camera = new Camera();

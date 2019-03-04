@@ -32,7 +32,7 @@ class Plane extends RenderObject
         if (!material)
         {
             const shader = Shader.getDefaultColorShader(false);
-            material = new Color("uObjectColor", shader, colors);
+            material = new Color(shader, colors);
         }
 
         const vertexBuffer = new VertexBuffer(positions, 3);

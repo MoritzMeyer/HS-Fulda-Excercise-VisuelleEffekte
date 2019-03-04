@@ -69,11 +69,15 @@ class Renderer
             gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
             //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
 
-            light.bind(gameObject.material.shader);
+            light.bind(gameObject.material);
             let worldPosition = camera.gameObject.transform.getWorldPosition();
             gameObject.material.shader.setUniform3f("uViewPosition", worldPosition[0], worldPosition[1], worldPosition[2]);
             gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
             gameObject.draw();
+            if (light.drawLightObject)
+            {
+                this.drawWithoutLights(light.lightObject.gameObject, camera);
+            }
         }
 
         if (gameObject.childs.length > 0)

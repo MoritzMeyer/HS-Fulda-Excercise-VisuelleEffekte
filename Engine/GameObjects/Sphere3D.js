@@ -13,7 +13,7 @@ class Sphere3D extends RenderObject
         if (!material)
         {
             const shader = Shader.getDefaultColorShader(false);
-            material = new Color("uObjectColor", shader, colors);
+            material = new Color(shader, colors);
         }
 
         let rawData = Sphere3D.CalcSphereData(18);

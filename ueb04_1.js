@@ -14,7 +14,7 @@ import Cube3D from "./Engine/GameObjects/Cube3D.js";
 const canvas = document.querySelector('#glcanvas');
 Webgl.loadGL(canvas);
 let canvasColor = [0.42, 0.6, 0.0, 1.0];
-let rotation = true;
+let rotation = false;
 
 // initialize Application
 let renderer = new Renderer();
@@ -39,8 +39,8 @@ Webgl.addSlider("SpecularFactor", 16.0, 1.0, 64.0, 1.0, (value) => {light.specul
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
-let cube = new Cube3D(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
-let plane = new Plane(new Color("uObjectColor", Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
+let cube = new Cube3D(new Color(Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
+let plane = new Plane(new Color(Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, true, null);
 //let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
 //let f16 = new OBJ("./textures/f16tex/f16.obj", 1, true, null);
@@ -80,7 +80,7 @@ function render(now)
     }
 
     renderer.clear(canvas, canvasColor);
-    renderer.drawWithoutLights(light.lightObject.gameObject, camera);
+    //renderer.drawWithoutLights(light.lightObject.gameObject, camera);
     renderer.drawElements(elements, camera);
     requestAnimationFrame(render);
 }
@@ -92,7 +92,7 @@ $('#cube').change((e) =>
         $('#error').hide();
         if (!$('#rotation').is(":checked"))
         {
-            light.gameObject.transform.setPosition([2.0, 2.0, 0]);
+            light.gameObject.transform.setPosition([2.0, 1.0, 0]);
         }
         elements = [cube];
         console.log("Checkbox Cube is checked. Elements: ", elements);
@@ -172,7 +172,7 @@ $('#rotation').change((e) =>
 
        if ($('#cube').is(":checked"))
        {
-           light.gameObject.transform.setPosition([2.0, 2.0, 0]);
+           light.gameObject.transform.setPosition([2.0, 1.0, 0]);
        }
 
        if ($('#plane').is(":checked"))

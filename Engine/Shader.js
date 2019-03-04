@@ -93,6 +93,53 @@ const vsPhongColor =
     }        
 `;
 
+const fsPhongColorMat =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    //uniform float uAmbientStrength;
+    uniform vec3 uLightPosition;
+    uniform vec3 uViewPosition;
+    uniform vec3 uLightColor;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    void main() {
+        // ambient
+        vec3 ambient = uLightColor * material.ambient;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        vec3 lightDirection = normalize(uLightPosition - vFragPos);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  uLightColor * (diff * material.diffuse);
+        
+        // sepcular
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = uLightColor * (spec *  material.specular) * 0.5;
+        
+        vec3 result = ambient + diffuse + specular;
+        gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+
+
 const fsPhongColor =
     `
     #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -627,10 +674,10 @@ class Shader
     {
         if (hasLightning)
         {
-            return new Shader(vsPhongColor, fsPhongColor, true);
+            //return new Shader(vsPhongColor, fsPhongColor, true);
             //return new Shader(vsPhongPerVertex, fsPhongPerVertex, true);
             //return new Shader(vsPhongPerFragment, fsPhongPerFragment, true);
-
+            return new Shader(vsPhongColor, fsPhongColorMat, true);
         }
         else
         {

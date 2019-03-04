@@ -86,7 +86,7 @@ const texCoordsBuffer = new VertexBuffer(texCoords, 2);
 // initialize Cube data
 // shader
 let shader = new Shader(vsSource, fsSource);
-let texture = new Texture("uTexture", shader, "./textures/todo.jpg", 0, texCoordsBuffer, "aTexCoords");
+let texture = new Texture(shader, "./textures/todo.jpg", 0, texCoordsBuffer);
 let gameObject = new GameObject(vertexBuffer, indices, texture);
 
 const camera = new Camera();

@@ -18,7 +18,7 @@ class Light
 
         if (this.drawLightObject)
         {
-            let color = new Color("uObjectColor", Shader.getDefaultColorShader(false), lightColor);
+            let color = new Color(Shader.getDefaultColorShader(false), lightColor);
             this.lightObject = new Sphere3D(color);
             this.lightObject.gameObject.transform.setScale([0.2, 0.2, 0.2]);
             this.lightObject.gameObject.setParent(this.gameObject);
@@ -26,15 +26,19 @@ class Light
 
     }
 
-    bind(shader)
+    bind(material)
     {
-        shader.bind();
+        material.shader.bind();
         let lightWorldMat = this.gameObject.transform.getWorldSpaceMatrix();
-        shader.setUniform3f("uLightPosition", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
-        shader.setUniform3f(this.uniformName, this.lightColor[0], this.lightColor[1], this.lightColor[2]);
-        shader.setUniform1f("uAmbientStrength", this.ambientStrength);
-        shader.setUniform1f("uSpecStrength", this.specularStrength);
-        shader.setUniform1f("uSpecFac", this.specularFactor);
+        material.shader.setUniform3f("uLightPosition", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
+        material.shader.setUniform3f(this.uniformName, this.lightColor[0], this.lightColor[1], this.lightColor[2]);
+
+        if (material.isTexture)
+        {
+            material.shader.setUniform1f("uAmbientStrength", this.ambientStrength);
+            material.shader.setUniform1f("uSpecStrength", this.specularStrength);
+            material.shader.setUniform1f("uSpecFac", this.specularFactor);
+        }
     }
 
     static getDefaultLight()

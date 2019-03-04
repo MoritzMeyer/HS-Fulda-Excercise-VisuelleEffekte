@@ -17,7 +17,7 @@ class Cylinder3D
         this.openEnded = openEnded !== undefined ? openEnded : false;
         this.thetaStart = thetaStart !== undefined ? thetaStart : 0.0;
         this.thetaLength = thetaLength !== undefined ? thetaLength : Math.PI * 2;
-        this.material = material !== undefined ? material : new Color("uObjectColor", Shader.getDefaultColorShader(false), [0.0, 0.0, 0.8]);
+        this.material = material !== undefined ? material : new Color(Shader.getDefaultColorShader(false), [0.0, 0.0, 0.8]);
 
         let data = Cylinder3D.calcConeData(this.radiusTop, this.radiusBottom, this.height, this.radialSegments, this.heightSegments, this.openEnded, this.thetaStart, this.thetaLength);
 

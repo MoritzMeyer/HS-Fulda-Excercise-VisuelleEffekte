@@ -99,8 +99,7 @@ class Cube3D extends RenderObject
     {
         if (!material)
         {
-            const shader = Shader.getDefaultColorShader(true);
-            material = new Color("uObjectColor", shader, colors);
+            material = new Color(Shader.getDefaultColorShader(false), colors);
         }
 
         const vertexBuffer = new VertexBuffer(positions, 3);

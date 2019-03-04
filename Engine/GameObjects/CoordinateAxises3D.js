@@ -10,9 +10,9 @@ class CoordinateAxises3D extends RenderObject
     {
         let shader = Shader.getDefaultColorShader(lightning);
 
-        let blue = new Color("uObjectColor", shader, [0, 0, 0.8]);
-        let green = new Color("uObjectColor", shader, [0, 0.8, 0]);
-        let red = new Color("uObjectColor", shader, [0.8, 0, 0]);
+        let blue = new Color(shader, [0, 0, 0.8]);
+        let green = new Color(shader, [0, 0.8, 0]);
+        let red = new Color(shader, [0.8, 0, 0]);
 
         let xAxis = new Cube3D(red);
         let yAxis = new Cube3D(green);

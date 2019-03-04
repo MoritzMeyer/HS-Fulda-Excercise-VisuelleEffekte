@@ -2,9 +2,9 @@ import Material from "./Material.js";
 
 class Color extends Material
 {
-    constructor(uniformName, shader, colors, alpha = 1.0)
+    constructor(shader, colors, alpha = 1.0, uniformName = "uObjectColor")
     {
-        super(uniformName, shader, false, alpha);
+        super(uniformName, shader, colors, colors, colors, 16.0, alpha);
 
         if (colors.length < 3 || colors.length > 4)
         {
@@ -27,13 +27,16 @@ class Color extends Material
     {
         super.bind();
 
-        if (this.colors.length < 4)
+        if (!this.shader.hasLightning)
         {
-            this.shader.setUniform3f(this.uniformName, this.colors[0], this.colors[1], this.colors[2]);
-        }
-        else
-        {
-            this.shader.setUniform4f(this.uniformName, this.colors[0], this.colors[1], this.colors[2], this.colors[3]);
+            if (this.colors.length < 4)
+            {
+                this.shader.setUniform3f(this.uniformName, this.colors[0], this.colors[1], this.colors[2]);
+            }
+            else
+            {
+                this.shader.setUniform4f(this.uniformName, this.colors[0], this.colors[1], this.colors[2], this.colors[3]);
+            }
         }
     }
 

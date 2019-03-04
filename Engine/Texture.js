@@ -1,18 +1,18 @@
 import Material from "./Material.js";
-import VertexBuffer from "./VertexBuffer.js";
 import Webgl from "./Webgl.js";
 
 class Texture extends Material
 {
-    constructor(uniformName, shader, url, slot, texCoordsBuffer, attributeTexCoordsName, alpha = 1.0)
+    constructor(shader, url, slot, texCoordsBuffer, alpha = 1.0, attributeTexCoordsName = "aTexCoords", uniformName="uTexture")
     {
-        super(uniformName, shader, true, alpha);
+        super(uniformName, shader, alpha);
         const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;
         this.texture = this.gl.createTexture();
         this.texCoords = texCoordsBuffer;
         this.attributeName = attributeTexCoordsName;
+        this.isTexture = true;
 
         // define texture data
         const level = 0;

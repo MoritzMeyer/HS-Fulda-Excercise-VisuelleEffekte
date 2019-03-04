@@ -1,4 +1,3 @@
-import Material from "./Engine/Material.js";
 import Webgl from "./Engine/Webgl.js";
 import Renderer from "./Engine/Renderer.js";
 import Shader from "./Engine/Shader.js";
@@ -91,12 +90,12 @@ const vertexBuffer = new VertexBuffer(positions, 2);
 
 // initialize MinutesPointer data
 let shaderMinutePointer = new Shader(vsSource, fsSource);
-let colorMinutePointer = new Color("uObjectColor", shaderMinutePointer, minutesColors);
+let colorMinutePointer = new Color(shaderMinutePointer, minutesColors);
 let gameObjectMinutePointer = new GameObject(vertexBuffer, indicesMinutes, colorMinutePointer);
 
 // initialize SecondsPointer data
 let shaderSecondsPointer = new Shader(vsSource, fsSource);
-let colorSecondsPointer = new Color("uObjectColor", shaderSecondsPointer, secondsColors);
+let colorSecondsPointer = new Color(shaderSecondsPointer, secondsColors);
 let gameObjectSecondsPointer = new GameObject(vertexBuffer, indicesSeconds, colorSecondsPointer);
 
 let camera = new Camera();
