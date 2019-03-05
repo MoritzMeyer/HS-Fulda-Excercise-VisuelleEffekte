@@ -27,7 +27,7 @@ class Material
     {
         this.shader.bind();
         this.shader.setUniform1f("uAlpha", this.alpha);
-        if (!this.isTexture && this.shader.hasLightning)
+        if (/*!this.isTexture &&*/ this.shader.hasLightning)
         {
             this.shader.setUniform3f("material.ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
             this.shader.setUniform3f("material.diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);

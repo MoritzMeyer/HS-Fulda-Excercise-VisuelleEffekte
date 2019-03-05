@@ -85,9 +85,7 @@ const vsPhongColor =
         vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
-        // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
-        //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
         
         gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
     }        
@@ -117,6 +115,7 @@ const fsPhongColorMat =
     
     struct Light {
         vec3 position;
+        vec3 color;
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
@@ -125,19 +124,19 @@ const fsPhongColorMat =
     
     void main() {
         // ambient
-        vec3 ambient = light.ambient * material.ambient;
+        vec3 ambient = light.ambient * material.ambient * light.color;
         
         // diffuse
         vec3 normal = normalize(vNormal);
         vec3 lightDirection = normalize(light.position - vFragPos);
         float diff = max(dot(normal, lightDirection), 0.0);
-        vec3 diffuse =  light.diffuse * (diff * material.diffuse);
+        vec3 diffuse =  light.diffuse * (diff * material.diffuse) * light.color;
         
         // sepcular
         vec3 viewDir = normalize(uViewPosition - vFragPos);
         vec3 reflectDir = reflect(-lightDirection, normal);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-        vec3 specular = light.specular * (spec *  material.specular);
+        vec3 specular = light.specular * (spec *  material.specular) * light.color;
         
         vec3 result = ambient + diffuse + specular;
         gl_FragColor = vec4(result, uAlpha);
@@ -188,6 +187,165 @@ const fsPhongColor =
         vec3 specular = specularStrength * spec * uLightColor;
         
         vec3 result = (ambient + diffuse + specular) * uObjectColor;
+        gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+//endregion
+
+//region PhongColorDirectionalLight
+const vsPhongColorDirectionalLight =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }        
+`;
+
+const fsPhongColorDirectionalLight =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct DirectionalLight {
+        vec3 direction;
+    
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+    };    
+    uniform DirectionalLight directLight;
+    
+    void main() {
+    
+        // ambient
+        vec3 ambient = directLight.ambient * material.ambient;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        //vec3 lightDirection = normalize(light.position - vFragPos);
+        vec3 lightDirection = normalize(-directLight.direction);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  directLight.diffuse * (diff * material.diffuse);
+        
+        // sepcular
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = directLight.specular * (spec *  material.specular);
+        
+        vec3 result = ambient + diffuse + specular;
+        gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+//endregion
+
+//region PhongColorMultLights
+const vsPhongColorMultLights =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }        
+`;
+
+const fsPhongColorMultLights =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct Light {
+        vec3 position;
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+    };    
+    uniform Light light;
+    
+    void main() {
+        // ambient
+        vec3 ambient = light.ambient * material.ambient;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        vec3 lightDirection = normalize(light.position - vFragPos);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  light.diffuse * (diff * material.diffuse);
+        
+        // sepcular
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = light.specular * (spec *  material.specular);
+        
+        vec3 result = ambient + diffuse + specular;
         gl_FragColor = vec4(result, uAlpha);
     }
 `;
@@ -286,9 +444,7 @@ const vsPhongTexture =
         vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
-        // mat4 normalMatrix = mat4(transpose(inverse(uModelMatrix)));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
-        //vNormal = mat3(transpose(inverse(uModelMatrix))) * aNormal;
         
         gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
     }        
@@ -306,14 +462,14 @@ const fsPhongTextureMat =
     varying vec3 vNormal;
     varying vec2 vTexCoords;
     
-    //uniform float uAmbientStrength;
-    uniform vec3 uLightPosition;
-    uniform vec3 uViewPosition;    
-    uniform sampler2D uTexture;  
+    uniform vec3 uViewPosition;
+    uniform sampler2D uTexture;
     uniform float uAlpha;
     
     struct Material {
         vec3 ambient;
+        //sampler2D diffuse;
+        //sampler2D specular;
         vec3 diffuse;
         vec3 specular;
         float shininess;
@@ -322,6 +478,7 @@ const fsPhongTextureMat =
     
     struct Light {
         vec3 position;
+        vec3 color;
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
@@ -331,32 +488,27 @@ const fsPhongTextureMat =
     void main() {
                
         // ambient
-        float ambientStrength = uAmbientStrength;
-        vec3 ambient = ambientStrength * uLightColor;
+        //vec3 ambient = light.ambient * texture2D(material.diffuse, vTexCoords).rgb * light.color;
+        vec3 ambient = light.ambient * material.ambient * light.color;
         
         // diffuse
         vec3 normal = normalize(vNormal);
-        //vec3 normalizedFragPos = normalize(vFragPos);
-        //vec3 normalizedLightPos = normalize(uLightPosition);
-        vec3 lightDirection = normalize(uLightPosition - vFragPos);
+        vec3 lightDirection = normalize(light.position - vFragPos);
         float diff = max(dot(normal, lightDirection), 0.0);
-        vec3 diffuse =  diff * uLightColor;
+        //vec3 diffuse =  light.diffuse * diff * texture2D(material.diffuse, vTexCoords).rgb * light.color;
+        vec3 diffuse =  light.diffuse * diff * material.diffuse * light.color;
         
         // sepcular
-        float specularStrength = uSpecStrength;
         vec3 viewDir = normalize(uViewPosition - vFragPos);
         vec3 reflectDir = reflect(-lightDirection, normal);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), uSpecFac);
-        vec3 specular = specularStrength * spec * uLightColor;
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        //vec3 specular = light.specular * spec * texture2D(material.specular, vTexCoords).rgb * light.color;
+        vec3 specular = light.specular * spec * material.specular * light.color;
         
-        vec4 texColor = texture2D(uTexture, vTexCoords);
-        texColor.a = uAlpha;
-        
-        vec4 result = vec4((ambient + diffuse + specular), 1.0);
-        gl_FragColor = result * texColor;
-        
-        //vec3 result = vec3((ambient + diffuse + specular) * texColor.xyz);        
-        //gl_FragColor = vec4(result, uAlpha);
+        vec4 texColor = texture2D(uTexture, vTexCoords);        
+        vec3 result = vec3((ambient + diffuse + specular) * texColor.xyz);
+        //vec3 result = ambient + diffuse + specular;   
+        gl_FragColor = vec4(result, uAlpha);        
     }
 `;
 
@@ -760,12 +912,17 @@ class Shader
     {
         if (hasLightning)
         {
-            return new Shader(vsPhongTexture, fsPhongTexture, true);
+            return new Shader(vsPhongTexture, fsPhongTextureMat, true);
         }
         else
         {
             return new Shader(vsTextureSource, fsTextureSource);
         }
+    }
+
+    static getDirectionalLightColorShader()
+    {
+        return new Shader(vsPhongColorDirectionalLight, fsPhongColorDirectionalLight, true);
     }
 }
 

@@ -12,14 +12,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.37889272">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="763">
-                  <caret line="328" column="24" selection-start-line="328" selection-start-column="24" selection-end-line="328" selection-end-column="24" />
+                <state relative-caret-position="5202">
+                  <caret line="485" column="24" selection-start-line="485" selection-start-column="24" selection-end-line="485" selection-end-column="24" />
                   <folding>
                     <element signature="e#684#700#0" />
                     <element signature="e#5143#5163#0" />
@@ -31,8 +31,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/ueb04_1.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="717">
-                  <caret line="72" column="40" lean-forward="true" selection-end-line="213" />
+                <state relative-caret-position="1196">
+                  <caret line="55" column="2" lean-forward="true" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
                   <folding>
                     <element signature="e#0#38#0" expanded="true" />
                   </folding>
@@ -43,8 +43,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/ueb04_2.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1177">
-                  <caret line="213" lean-forward="true" selection-start-line="213" selection-end-line="213" />
+                <state relative-caret-position="782">
+                  <caret line="53" column="1" lean-forward="true" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
                   <folding>
                     <element signature="e#0#38#0" expanded="true" />
                   </folding>
@@ -86,21 +86,24 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="138">
-                  <caret line="33" column="40" selection-start-line="33" selection-start-column="40" selection-end-line="33" selection-end-column="40" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/GameObjects/Cube3D.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="832">
                   <caret line="100" column="9" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
                   <folding>
                     <element signature="e#0#46#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Engine/Light.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="286">
+                  <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+                  <folding>
+                    <element signature="e#0#41#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -118,7 +121,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/ueb04_2.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="736">
@@ -134,14 +137,70 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-137">
-                  <caret line="360" column="2" selection-start-line="360" selection-start-column="2" selection-end-line="360" selection-end-column="2" />
+                <state relative-caret-position="579">
+                  <caret line="489" column="8" selection-start-line="489" selection-start-column="8" selection-end-line="489" selection-end-column="8" />
                   <folding>
+                    <element signature="e#33#47#0" />
                     <element signature="e#684#700#0" />
+                    <element signature="e#1549#1568#0" />
+                    <element signature="e#5193#5228#0" />
+                    <element signature="e#5193#5222#0" />
+                    <element signature="e#5193#5213#0" />
+                    <element signature="e#11631#11654#0" />
+                    <element signature="e#13586#13611#0" />
+                    <element signature="e#15274#15290#0" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/DirectionalLight.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="621">
+                  <caret line="27" column="67" lean-forward="true" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="138">
+                  <caret line="33" column="40" selection-start-line="33" selection-start-column="40" selection-end-line="33" selection-end-column="40" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/Texture.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1683">
+                  <caret line="80" column="62" selection-start-line="80" selection-start-column="62" selection-end-line="80" selection-end-column="62" />
+                  <folding>
+                    <element signature="e#0#37#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Engine/Material.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="667">
+                  <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Engine/Color.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="253">
+                  <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
@@ -168,6 +227,7 @@
       <find>transla</find>
       <find>function translate</find>
       <find>var</find>
+      <find>vec3 specular = light.specular * spec * texture2D(material.specular, vTexCoords).rgb * light.color;</find>
     </findStrings>
     <replaceStrings>
       <replace>this.gl</replace>
@@ -180,7 +240,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Engine/GameObjects/Rectangle.js" />
         <option value="$PROJECT_DIR$/Engine/GameObjects/Sphere.js" />
         <option value="$PROJECT_DIR$/Engine/RenderObject.js" />
         <option value="$PROJECT_DIR$/ueb04_3.html" />
@@ -220,17 +279,18 @@
         <option value="$PROJECT_DIR$/Engine/GameObjects/Cube3D.js" />
         <option value="$PROJECT_DIR$/ueb02_1.js" />
         <option value="$PROJECT_DIR$/Engine/OBJ.js" />
-        <option value="$PROJECT_DIR$/Engine/Texture.js" />
         <option value="$PROJECT_DIR$/Engine/Color.js" />
-        <option value="$PROJECT_DIR$/Engine/Light.js" />
-        <option value="$PROJECT_DIR$/Engine/Material.js" />
         <option value="$PROJECT_DIR$/Engine/Renderer.js" />
-        <option value="$PROJECT_DIR$/Engine/Shader.js" />
         <option value="$PROJECT_DIR$/Engine/GameObjects/Sphere3D.js" />
         <option value="$PROJECT_DIR$/ueb04_1.html" />
         <option value="$PROJECT_DIR$/ueb04_1.js" />
-        <option value="$PROJECT_DIR$/ueb04_2.js" />
         <option value="$PROJECT_DIR$/ueb04_2.html" />
+        <option value="$PROJECT_DIR$/ueb04_2.js" />
+        <option value="$PROJECT_DIR$/Engine/DirectionalLight.js" />
+        <option value="$PROJECT_DIR$/Engine/Light.js" />
+        <option value="$PROJECT_DIR$/Engine/Shader.js" />
+        <option value="$PROJECT_DIR$/Engine/Texture.js" />
+        <option value="$PROJECT_DIR$/Engine/Material.js" />
       </list>
     </option>
   </component>
@@ -256,17 +316,6 @@
               <item name="VisuelleEffekteExcercise" type="b2602c69:ProjectViewProjectNode" />
               <item name="VisuelleEffekteExcercise" type="462c0819:PsiDirectoryNode" />
               <item name="Engine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="VisuelleEffekteExcercise" type="b2602c69:ProjectViewProjectNode" />
-              <item name="VisuelleEffekteExcercise" type="462c0819:PsiDirectoryNode" />
-              <item name="Engine" type="462c0819:PsiDirectoryNode" />
-              <item name="GameObjects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="VisuelleEffekteExcercise" type="b2602c69:ProjectViewProjectNode" />
-              <item name="VisuelleEffekteExcercise" type="462c0819:PsiDirectoryNode" />
-              <item name="textures" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -376,12 +425,12 @@
       <workItem from="1551633404780" duration="8694000" />
       <workItem from="1551716603852" duration="5055000" />
       <workItem from="1551727003133" duration="7262000" />
-      <workItem from="1551795559807" duration="9180000" />
+      <workItem from="1551795559807" duration="18772000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="228759000" />
+    <option name="totallyTimeSpent" value="238351000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -391,7 +440,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.33489096" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.33489096" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3173971" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -407,11 +456,11 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10244287" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08904649" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.26791278" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.33489096" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3173971" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -431,24 +480,10 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ueb03_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Engine/RenderObject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ueb04_4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
@@ -675,16 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Texture.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ueb02_1.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -702,54 +727,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Light.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1177">
-          <caret line="81" column="60" lean-forward="true" selection-start-line="81" selection-start-column="60" selection-end-line="81" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Color.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="6" column="61" selection-start-line="6" selection-start-column="61" selection-end-line="6" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Material.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1016">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="33" column="40" selection-start-line="33" selection-start-column="40" selection-end-line="33" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Engine/OBJ.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="8" column="36" lean-forward="true" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="763">
-          <caret line="328" column="24" selection-start-line="328" selection-start-column="24" selection-end-line="328" selection-end-column="24" />
-          <folding>
-            <element signature="e#684#700#0" />
-            <element signature="e#5143#5163#0" />
           </folding>
         </state>
       </provider>
@@ -781,32 +764,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ueb04_2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1177">
-          <caret line="213" lean-forward="true" selection-start-line="213" selection-end-line="213" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ueb04_1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="759">
           <caret line="33" lean-forward="true" selection-end-line="39" selection-end-column="7" />
           <folding>
             <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ueb04_1.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="72" column="40" lean-forward="true" selection-end-line="213" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -818,6 +781,99 @@
           <folding>
             <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ueb04_1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1196">
+          <caret line="55" column="2" lean-forward="true" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="33" column="40" selection-start-line="33" selection-start-column="40" selection-end-line="33" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ueb04_2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="53" column="1" lean-forward="true" selection-start-line="53" selection-start-column="1" selection-end-line="53" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Light.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ueb04_4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/DirectionalLight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="27" column="67" lean-forward="true" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Color.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="489" column="8" selection-start-line="489" selection-start-column="8" selection-end-line="489" selection-end-column="8" />
+          <folding>
+            <element signature="e#33#47#0" />
+            <element signature="e#684#700#0" />
+            <element signature="e#1549#1568#0" />
+            <element signature="e#5193#5228#0" />
+            <element signature="e#5193#5222#0" />
+            <element signature="e#5193#5213#0" />
+            <element signature="e#11631#11654#0" />
+            <element signature="e#13586#13611#0" />
+            <element signature="e#15274#15290#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Texture.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1683">
+          <caret line="80" column="62" selection-start-line="80" selection-start-column="62" selection-end-line="80" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Material.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
         </state>
       </provider>
     </entry>

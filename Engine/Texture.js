@@ -5,7 +5,7 @@ class Texture extends Material
 {
     constructor(shader, url, slot, texCoordsBuffer, alpha = 1.0, attributeTexCoordsName = "aTexCoords", uniformName="uTexture")
     {
-        super(uniformName, shader, alpha);
+        super(uniformName, shader, [0.8, 0.8, 0.8], [0.8, 0.8, 0.8], [1.0, 1.0, 1.0], 32.0, alpha);
         const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;
@@ -49,6 +49,10 @@ class Texture extends Material
             {
                 // Yes, it's a power of 2. Generate mips.
                 this.gl.generateMipmap(this.gl.TEXTURE_2D);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.REPEAT);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.REPEAT);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+                this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_LINEAR);
             }
             else
             {
@@ -75,6 +79,24 @@ class Texture extends Material
         this.gl.activeTexture(this.gl.TEXTURE0 + this.slot);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
         this.shader.setUniform1i(this.uniformName, this.slot);
+
+        /*
+        if (!this.shader.hasLightning)
+        {
+            this.gl.activeTexture(this.gl.TEXTURE0 + this.slot);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+            this.shader.setUniform1i(this.uniformName, this.slot);
+        }
+        else
+        {
+            this.shader.setUniform3f("material.ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
+            this.shader.setUniform1i("material.specular", this.slot);
+            this.shader.setUniform1f("material.shininess", this.slot);
+            this.shader.setUniform1i("material.diffuse", this.slot);
+            this.gl.activeTexture(this.gl.TEXTURE0 + this.slot);
+            this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+        }
+        */
     }
 
     setAttribLocationInVertexArray(vertexArray)
