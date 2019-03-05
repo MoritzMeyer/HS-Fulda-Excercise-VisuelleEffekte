@@ -5,15 +5,12 @@
 .container {
     width: 80%;
     height: 200px;
-    margin: auto;
     padding: 10px;
 }
 .webgl {
-    width: 15%;
-    height: 200px;
-    float: left;
+    margin-right: 20px;
 }
 .sliderContainer {
-    margin-left: 15%;
-    height: 200px;
+    border-left: 1px solid black;
+    margin-left: 20px;
 }
