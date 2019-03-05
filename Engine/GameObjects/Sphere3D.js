@@ -19,7 +19,8 @@ class Sphere3D extends RenderObject
         let rawData = Sphere3D.CalcSphereData(18);
 
         const vertexBuffer = new VertexBuffer(rawData["vertices"], 3);
-        const gameObject = new GameObject(vertexBuffer, rawData["indices"], material);
+        const normalsBuffer = new VertexBuffer(rawData["normals"], 3);
+        const gameObject = new GameObject(vertexBuffer, rawData["indices"], material, false, normalsBuffer);
         super(rawData["vertices"], rawData["indices"], gameObject);
     }
 
@@ -28,8 +29,9 @@ class Sphere3D extends RenderObject
         let SPHERE_DIV = sphereDiv;
         let i, ai, si, ci;
         let j, aj, sj, cj;
+        let x, y, z;
         let p1, p2;
-        let vertices = [],indices = [];
+        let vertices = [],indices = [], normals = [];
 
         // calc vertices
         for (j = 0; j <= SPHERE_DIV; j++)
@@ -42,9 +44,24 @@ class Sphere3D extends RenderObject
                 ai = i * 2 * Math.PI / SPHERE_DIV;
                 si = Math.sin(ai);
                 ci = Math.cos(ai);
-                vertices.push(si * sj);  // X
-                vertices.push(cj);       // Y
-                vertices.push(ci * sj);  // Z
+
+                x = si * sj;   // x
+                y = cj;        // y
+                z = ci * sj;   // z
+
+                vertices.push(x);
+                vertices.push(y);
+                vertices.push(z);
+
+                // calc normal
+                let vertex = vec3.fromValues(x, y, z);
+                let normal = vec3.create();
+                //vec3.negate(vertex, vertex);
+                vec3.normalize(normal, vertex);
+
+                normals.push(normal[0]);
+                normals.push(normal[1]);
+                normals.push(normal[2]);
             }
         }
 
@@ -64,7 +81,7 @@ class Sphere3D extends RenderObject
             }
         }
 
-        return {"vertices": vertices, "indices" : indices};
+        return {"vertices": vertices, "indices" : indices, "normals": normals};
     }
 }
 export default Sphere3D;
