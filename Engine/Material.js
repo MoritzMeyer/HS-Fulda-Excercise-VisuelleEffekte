@@ -41,6 +41,11 @@ class Material
         this.shader.delete();
     }
 
+    setShininess(value)
+    {
+        this.shininess = value;
+    }
+
     setAlpha(value)
     {
         this.alpha = value;

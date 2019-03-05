@@ -104,10 +104,7 @@ const fsPhongColorMat =
     varying vec3 vFragPos;
     varying vec3 vNormal;
     
-    //uniform float uAmbientStrength;
-    uniform vec3 uLightPosition;
     uniform vec3 uViewPosition;
-    uniform vec3 uLightColor;
     uniform float uAlpha;
     
     struct Material {
@@ -118,21 +115,29 @@ const fsPhongColorMat =
     };    
     uniform Material material;
     
+    struct Light {
+        vec3 position;
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+    };    
+    uniform Light light;
+    
     void main() {
         // ambient
-        vec3 ambient = uLightColor * material.ambient;
+        vec3 ambient = light.ambient * material.ambient;
         
         // diffuse
         vec3 normal = normalize(vNormal);
-        vec3 lightDirection = normalize(uLightPosition - vFragPos);
+        vec3 lightDirection = normalize(light.position - vFragPos);
         float diff = max(dot(normal, lightDirection), 0.0);
-        vec3 diffuse =  uLightColor * (diff * material.diffuse);
+        vec3 diffuse =  light.diffuse * (diff * material.diffuse);
         
         // sepcular
         vec3 viewDir = normalize(uViewPosition - vFragPos);
         vec3 reflectDir = reflect(-lightDirection, normal);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-        vec3 specular = uLightColor * (spec *  material.specular) * 0.5;
+        vec3 specular = light.specular * (spec *  material.specular);
         
         vec3 result = ambient + diffuse + specular;
         gl_FragColor = vec4(result, uAlpha);

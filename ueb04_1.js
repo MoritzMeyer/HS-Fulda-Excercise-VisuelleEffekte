@@ -31,11 +31,10 @@ let light = Light.getDefaultLight();
 renderer.lights.push(light);
 
 
-Webgl.addSlider("AmbientStrength", 1.0, 0.1, 1.0, 0.1, (value) => {
-    console.log("AmbientStrength: " + value);
-    light.ambientStrength = value});
-Webgl.addSlider("SpecularStrength", 0.5, 0.0, 1.0, 0.1, (value) => {light.specularStrength = value});
-Webgl.addSlider("SpecularFactor", 16.0, 1.0, 64.0, 1.0, (value) => {light.specularFactor = value});
+Webgl.addSlider("Ambient", 0.8, 0.0, 1.0, 0.05, (value) => {light.setAmbientByFactor(value)});
+Webgl.addSlider("Diffuse", 0.8, 0.0, 1.0, 0.05, (value) => {light.setDiffuseByFac(value)});
+Webgl.addSlider("Specular", 1.0, 0.0, 1.0, 0.05, (value) => {light.setSpecularByFac(value)});
+Webgl.addSlider("Mat_Shininess", 16, 1, 64, 1, (value) => {elements[0].gameObject.material.setShininess(value)});
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);

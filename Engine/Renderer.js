@@ -70,8 +70,8 @@ class Renderer
             //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
 
             light.bind(gameObject.material);
-            let worldPosition = camera.gameObject.transform.getWorldPosition();
-            gameObject.material.shader.setUniform3f("uViewPosition", worldPosition[0], worldPosition[1], worldPosition[2]);
+            let eye = camera.getEye();
+            gameObject.material.shader.setUniform3f("uViewPosition", eye[0], eye[1], eye[2]);
             gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
             gameObject.draw();
             if (light.drawLightObject)
