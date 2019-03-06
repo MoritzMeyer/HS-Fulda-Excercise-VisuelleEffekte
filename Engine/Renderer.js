@@ -49,13 +49,36 @@ class Renderer
 
     drawGameObject(gameObject, camera)
     {
-        if (this.lights.length > 0)
+        if (!gameObject.isEmpty)
         {
-            this.drawWithLight(gameObject, camera, this.lights[0]);
+            gameObject.material.bind();
+            gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+            gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.getViewMatrix());
+            gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
+            //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
+
+            if (this.lights.length > 0)
+            {
+                let eye = camera.getEye();
+                gameObject.material.shader.setUniform3f("uViewPosition", eye[0], eye[1], eye[2]);
+                gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
+
+                this.lights.forEach((light) =>
+                {
+                    light.bind(gameObject.material);
+                    if (light.drawLightObject)
+                    {
+                        this.drawWithoutLights(light.lightObject.gameObject, camera);
+                    }
+                });
+            }
+
+            gameObject.draw();
         }
-        else
+
+        if (gameObject.childs.length > 0)
         {
-            this.drawWithoutLights(gameObject, camera);
+            gameObject.childs.forEach((child) => this.drawGameObject(child, camera));
         }
     }
 

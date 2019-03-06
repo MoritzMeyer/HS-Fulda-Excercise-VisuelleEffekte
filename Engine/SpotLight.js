@@ -2,9 +2,10 @@ import Light from "./Light.js";
 
 class SpotLight extends Light
 {
-    constructor(lightColor, position, direction, cutOff, outerCutOff = null, Kc = 1.0, Kl = 0.09, Kq = 0.032)
+    constructor(lightColor, position, direction, cutOff, outerCutOff = null, uniformName = "spotLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
         super(lightColor, true);
+        this.uniformName = uniformName;
         this.gameObject.transform.setPosition(position);
         this.direction = direction;
         this.cutOff = cutOff;
@@ -32,22 +33,22 @@ class SpotLight extends Light
         material.shader.bind();
         let lightWorldMat = this.gameObject.transform.getWorldSpaceMatrix();
 
-        material.shader.setUniform3f("spotLight.position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
-        material.shader.setUniform3f("spotLight.direction", this.direction[0], this.direction[1], this.direction[2]);
-        material.shader.setUniform1f("spotLight.cutOff", this.getCutOffCosine());
+        material.shader.setUniform3f(this.uniformName + ".position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
+        material.shader.setUniform3f(this.uniformName + ".direction", this.direction[0], this.direction[1], this.direction[2]);
+        material.shader.setUniform1f(this.uniformName + ".cutOff", this.getCutOffCosine());
 
         if (this.cutOff !== this.outerCutOff)
         {
-            material.shader.setUniform1f("spotLight.outerCutOff", this.getOuterCutOffCosine());
+            material.shader.setUniform1f(this.uniformName + ".outerCutOff", this.getOuterCutOffCosine());
         }
 
-        material.shader.setUniform3f("spotLight.ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
-        material.shader.setUniform3f("spotLight.diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
-        material.shader.setUniform3f("spotLight.specular", this.specular[0], this.specular[1], this.specular[2]);
+        material.shader.setUniform3f(this.uniformName + ".ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
+        material.shader.setUniform3f(this.uniformName + ".diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
+        material.shader.setUniform3f(this.uniformName + ".specular", this.specular[0], this.specular[1], this.specular[2]);
 
-        material.shader.setUniform1f("spotLight.constant", this.constant);
-        material.shader.setUniform1f("spotLight.linear", this.linear);
-        material.shader.setUniform1f("spotLight.quadratic", this.quadratic);
+        material.shader.setUniform1f(this.uniformName + ".constant", this.constant);
+        material.shader.setUniform1f(this.uniformName + ".linear", this.linear);
+        material.shader.setUniform1f(this.uniformName + ".quadratic", this.quadratic);
 
     }
 

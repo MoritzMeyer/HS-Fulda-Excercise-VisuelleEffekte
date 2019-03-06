@@ -2,10 +2,10 @@ import Light from "./Light.js";
 
 class PointLight extends Light
 {
-    constructor(lightColor, position, Kc = 1.0, Kl = 0.09, Kq = 0.032)
+    constructor(lightColor, position, uniformName = "pointLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
         super(lightColor, true);
-
+        this.uniformName = uniformName;
         // set Konstant, linear and quadratic Terms for equation
         this.constant = Kc;
         this.linear = Kl;
@@ -23,13 +23,13 @@ class PointLight extends Light
         material.shader.bind();
         let lightWorldMat = this.gameObject.transform.getWorldSpaceMatrix();
 
-        material.shader.setUniform3f("pointLight.position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
-        material.shader.setUniform3f("pointLight.ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
-        material.shader.setUniform3f("pointLight.diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
-        material.shader.setUniform3f("pointLight.specular", this.specular[0], this.specular[1], this.specular[2]);
-        material.shader.setUniform1f("pointLight.constant", this.constant);
-        material.shader.setUniform1f("pointLight.linear", this.linear);
-        material.shader.setUniform1f("pointLight.quadratic", this.quadratic);
+        material.shader.setUniform3f(this.uniformName + ".position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
+        material.shader.setUniform3f(this.uniformName + ".ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
+        material.shader.setUniform3f(this.uniformName + ".diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
+        material.shader.setUniform3f(this.uniformName + ".specular", this.specular[0], this.specular[1], this.specular[2]);
+        material.shader.setUniform1f(this.uniformName + ".constant", this.constant);
+        material.shader.setUniform1f(this.uniformName + ".linear", this.linear);
+        material.shader.setUniform1f(this.uniformName + ".quadratic", this.quadratic);
 
     }
 
