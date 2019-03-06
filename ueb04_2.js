@@ -9,6 +9,8 @@ import OBJ from "./Engine/OBJ.js";
 import Cube3D from "./Engine/GameObjects/Cube3D.js";
 import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
 import DirectionalLight from "./Engine/DirectionalLight.js";
+import PointLight from "./Engine/PointLight.js";
+import SpotLight from "./Engine/SpotLight.js";
 
 
 
@@ -30,7 +32,7 @@ camera.gameObject.transform.rotateX(40);
 
 
 //let light = Light.getDefaultLight();
-let light = DirectionalLight.getDefaultDirectionalLight();
+let light = SpotLight.getDefaultSpotLight(true);
 renderer.lights.push(light);
 
 
@@ -41,10 +43,10 @@ Webgl.addSlider("Material-Shininess", 16, 1, 64, 1, (value) => {elements[0].game
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
-let cube = new Cube3D(new Color(Shader.getDirectionalLightColorShader(true), [0.5, 0.1, 0.1]));
-let plane = new Plane(new Color(Shader.getDirectionalLightColorShader(true), [0.5, 0.1, 0.1]));
+let cube = new Cube3D(new Color(Shader.getSpotLightColorShader(true), [0.5, 0.1, 0.1]));
+let plane = new Plane(new Color(Shader.getSpotLightColorShader(true), [0.5, 0.1, 0.1]));
 let capsule = new OBJ("./textures/capsule/capsule.obj", 1, true, null);
-let sphere = new Sphere3D(new Color(Shader.getDirectionalLightColorShader(true), [0.1, 0.1, 0.5]));
+let sphere = new Sphere3D(new Color(Shader.getSpotLightColorShader(true), [0.1, 0.1, 0.5]));
 //let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
 //let f16 = new OBJ("./textures/f16tex/f16.obj", 1, true, null);
 //let teapot = new OBJ("./textures/teapot.obj", 1, true, null);

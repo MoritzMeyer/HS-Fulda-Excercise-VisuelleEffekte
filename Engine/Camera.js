@@ -75,6 +75,18 @@ class Camera
         return up;
     }
 
+    getFront()
+    {
+        let viewMatrix = this.getViewMatrix();
+        let cam = mat4.create();
+        mat4.invert(cam, viewMatrix);
+        let front = vec3.create();
+        let forward = vec3.fromValues(0, 0, -1);
+        vec3.transformMat4(front, forward, cam);
+
+        return front;
+    }
+
     getProjectionMatrix()
     {
         return this.projectionMatrix.matrix;

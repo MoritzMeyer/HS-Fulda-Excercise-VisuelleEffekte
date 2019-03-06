@@ -273,6 +273,308 @@ const fsPhongColorDirectionalLight =
 `;
 //endregion
 
+//region PhongColorPointLight
+const vsPhongColorPointLight =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }        
+`;
+
+const fsPhongColorPointLight =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct PointLight {
+        vec3 position;
+    
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        
+        float constant;
+        float linear;
+        float quadratic;
+    };    
+    uniform PointLight pointLight;
+    
+    void main() {
+    
+        // ambient
+        vec3 ambient = pointLight.ambient * material.ambient;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        vec3 lightDirection = normalize(pointLight.position - vFragPos);
+        float diff = max(dot(normal, lightDirection), 0.0);
+        vec3 diffuse =  pointLight.diffuse * (diff * material.diffuse);
+        
+        // sepcular
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDirection, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = pointLight.specular * (spec *  material.specular);
+        
+        //attenuation
+        float distance = length(pointLight.position - vFragPos);
+        float attenuation = 1.0 / (pointLight.constant + pointLight.linear * distance + pointLight.quadratic * (distance * distance));
+        
+        ambient *= attenuation;
+        diffuse *= attenuation;
+        specular *= attenuation;
+        
+        vec3 result = ambient + diffuse + specular;
+        gl_FragColor = vec4(result, uAlpha);
+    }
+`;
+//endregion
+
+//region PhongColorSpotLight
+const vsPhongColorSpotLight =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }        
+`;
+
+const fsPhongColorSpotLight =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct SpotLight {
+        vec3 position;
+        vec3 direction;
+        float cutOff;
+    
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        
+        float constant;
+        float linear;
+        float quadratic;
+    };    
+    uniform SpotLight spotLight;
+    
+    void main() {
+    
+        vec3 lightDir = normalize(spotLight.position - vFragPos);
+        
+        // check if lighting is inside spotlight cone
+        float theta = dot(lightDir, normalize(-spotLight.direction));
+        
+        if (theta > spotLight.cutOff) // as we are working with angles as cosines instead of degrees we need to use '>'
+        {
+            // ambient
+            vec3 ambient = spotLight.ambient * material.ambient;
+            
+            // diffuse
+            vec3 normal = normalize(vNormal);
+            float diff = max(dot(normal, lightDir), 0.0);
+            vec3 diffuse =  spotLight.diffuse * (diff * material.diffuse);     
+            
+            // sepcular
+            vec3 viewDir = normalize(uViewPosition - vFragPos);
+            vec3 reflectDir = reflect(-lightDir, normal);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+            vec3 specular = spotLight.specular * (spec *  material.specular);
+            
+            //attenuation
+            float distance = length(spotLight.position - vFragPos);
+            float attenuation = 1.0 / (spotLight.constant + spotLight.linear * distance + spotLight.quadratic * (distance * distance)); 
+               
+            //1 ambient *= attenuation; // remove attenuation from ambient, as it is calculate in else branch
+            diffuse *= attenuation;
+            specular *= attenuation;
+            
+                    
+            vec3 result = ambient + diffuse + specular;
+            gl_FragColor = vec4(result, uAlpha);               
+        }
+        else
+        {
+            // else, use ambient light so scene isn't completely dark outside the spotlight.
+            gl_FragColor = vec4(spotLight.ambient * material.ambient, uAlpha);
+        }
+    }
+`;
+//endregion
+
+//region PhongColorSpotLightOuterCutOff
+const vsPhongColorSpotLightOuterCutOff =
+    `
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uModelViewMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }        
+`;
+
+const fsPhongColorSpotLightOuterCutOff =
+    `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct SpotLight {
+        vec3 position;
+        vec3 direction;
+        float cutOff;
+        float outerCutOff;
+    
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        
+        float constant;
+        float linear;
+        float quadratic;
+    };    
+    uniform SpotLight spotLight;
+    
+    void main() {
+    
+        // ambient
+        vec3 ambient = spotLight.ambient * material.ambient;
+        
+        // diffuse
+        vec3 normal = normalize(vNormal);
+        vec3 lightDir = normalize(spotLight.position - vFragPos);
+        float diff = max(dot(normal, lightDir), 0.0);
+        vec3 diffuse =  spotLight.diffuse * (diff * material.diffuse);
+        
+        // sepcular
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        vec3 reflectDir = reflect(-lightDir, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        vec3 specular = spotLight.specular * (spec *  material.specular);
+        
+        
+        // spotlight (soft edges)
+        float theta = dot(lightDir, normalize(-spotLight.direction));
+        float epsilon = (spotLight.cutOff - spotLight.outerCutOff);
+        float intensity = clamp((theta - spotLight.outerCutOff) / epsilon, 0.0, 1.0);
+        
+        diffuse *= intensity;
+        specular *= intensity;
+        
+        //attenuation
+        float distance = length(spotLight.position - vFragPos);
+        float attenuation = 1.0 / (spotLight.constant + spotLight.linear * distance + spotLight.quadratic * (distance * distance));
+        
+        ambient *= attenuation;
+        diffuse *= attenuation;
+        specular *= attenuation;
+        vec3 result = ambient + diffuse + specular;
+        gl_FragColor = vec4(result, uAlpha);  
+    }
+`;
+//endregion
+
 //region PhongColorMultLights
 const vsPhongColorMultLights =
     `
@@ -923,6 +1225,23 @@ class Shader
     static getDirectionalLightColorShader()
     {
         return new Shader(vsPhongColorDirectionalLight, fsPhongColorDirectionalLight, true);
+    }
+
+    static getPointLightColorShader()
+    {
+        return new Shader(vsPhongColorPointLight, fsPhongColorPointLight, true);
+    }
+
+    static getSpotLightColorShader(outerCutOff = false)
+    {
+        if (outerCutOff)
+        {
+            return new Shader(vsPhongColorSpotLightOuterCutOff, fsPhongColorSpotLightOuterCutOff, true);
+        }
+        else
+        {
+            return new Shader(vsPhongColorSpotLight, fsPhongColorSpotLight, true);
+        }
     }
 }
 
