@@ -78,11 +78,16 @@ class Camera
     getFront()
     {
         let viewMatrix = this.getViewMatrix();
+        let front = vec3.fromValues(viewMatrix[8], viewMatrix[9], viewMatrix[10], viewMatrix[11]);
+        //vec3.negate(front, front);
+        /*
         let cam = mat4.create();
-        mat4.invert(cam, viewMatrix);
+        //mat4.invert(cam, viewMatrix);
+        mat4.copy(cam, viewMatrix);
         let front = vec3.create();
         let forward = vec3.fromValues(0, 0, -1);
         vec3.transformMat4(front, forward, cam);
+        */
 
         return front;
     }

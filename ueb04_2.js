@@ -26,20 +26,15 @@ let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
-camera.gameObject.transform.translate([0, -1, -8.0]);
+camera.gameObject.transform.translate([0, 5 , 0]);
 //camera.viewMatrix.rotateY(90);
-camera.gameObject.transform.rotateX(40);
+camera.gameObject.transform.rotateX(-90);
 
 
 //let light = Light.getDefaultLight();
 let light = SpotLight.getDefaultSpotLight(true);
+light.drawLightObject = false;
 renderer.lights.push(light);
-
-
-Webgl.addSlider("Ambient", 0.8, 0.0, 1.0, 0.05, (value) => {light.setAmbientByFactor(value)});
-Webgl.addSlider("Diffuse", 0.8, 0.0, 1.0, 0.05, (value) => {light.setDiffuseByFac(value)});
-Webgl.addSlider("Specular", 1.0, 0.0, 1.0, 0.05, (value) => {light.setSpecularByFac(value)});
-Webgl.addSlider("Material-Shininess", 16, 1, 64, 1, (value) => {elements[0].gameObject.material.setShininess(value)});
 
 //light.gameObject.transform.translate([0, -5.0, -5.0]);
 light.gameObject.transform.translate([0, 1.0, 0]);
@@ -50,7 +45,7 @@ let sphere = new Sphere3D(new Color(Shader.getSpotLightColorShader(true), [0.1, 
 //let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
 //let f16 = new OBJ("./textures/f16tex/f16.obj", 1, true, null);
 //let teapot = new OBJ("./textures/teapot.obj", 1, true, null);
-plane.gameObject.transform.setScale([2.0, 0, 2.0]);
+plane.gameObject.transform.setScale([5.0, 0, 5.0]);
 
 capsule.checkLoaded(() =>
 {
@@ -64,6 +59,11 @@ teapot.checkLoaded(() =>
 });
 */
 let elements = [plane];
+
+Webgl.addSlider("Ambient", light.ambient, 0.0, 1.0, 0.05, (value) => {light.setAmbientByFactor(value)});
+Webgl.addSlider("Diffuse", light.diffuse, 0.0, 1.0, 0.05, (value) => {light.setDiffuseByFac(value)});
+Webgl.addSlider("Specular", light.specular, 0.0, 1.0, 0.05, (value) => {light.setSpecularByFac(value)});
+Webgl.addSlider("Material-Shininess", elements[0].gameObject.material.shininess, 1, 64, 1, (value) => {elements[0].gameObject.material.setShininess(value)});
 
 requestAnimationFrame(render);
 
@@ -84,6 +84,12 @@ function render(now)
         light.gameObject.transform.rotateY(1);
         light.gameObject.transform.setPosition([4 * Math.cos(time), lightY, 4 * Math.sin(time)]);
     }
+    else
+    {
+        light.gameObject.transform.setPosition(camera.getEye());
+        light.direction = camera.getFront();
+    }
+
 
     renderer.clear(canvas, canvasColor);
     //renderer.drawWithoutLights(light.lightObject.gameObject, camera);

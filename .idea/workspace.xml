@@ -42,8 +42,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1081">
-                  <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
+                <state relative-caret-position="621">
+                  <caret line="81" column="10" selection-start-line="81" selection-start-column="10" selection-end-line="81" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
@@ -78,7 +78,7 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Engine/SpotLight.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="947">
+                <state relative-caret-position="1449">
                   <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
                 </state>
               </provider>
@@ -91,7 +91,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="947">
+                <state relative-caret-position="5363">
                   <caret line="1234" column="54" selection-start-line="1234" selection-start-column="54" selection-end-line="1234" selection-end-column="54" />
                   <folding>
                     <element signature="e#33#47#0" />
@@ -114,8 +114,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/ueb04_2.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="759">
-                  <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
+                <state relative-caret-position="874">
+                  <caret line="65" column="157" selection-start-line="65" selection-start-column="157" selection-end-line="65" selection-end-column="157" />
                   <folding>
                     <element signature="e#0#38#0" expanded="true" />
                   </folding>
@@ -207,9 +207,9 @@
         <option value="$PROJECT_DIR$/webgl.css" />
         <option value="$PROJECT_DIR$/ueb04_2.html" />
         <option value="$PROJECT_DIR$/Engine/PointLight.js" />
-        <option value="$PROJECT_DIR$/Engine/Camera.js" />
         <option value="$PROJECT_DIR$/Engine/SpotLight.js" />
         <option value="$PROJECT_DIR$/Engine/Shader.js" />
+        <option value="$PROJECT_DIR$/Engine/Camera.js" />
         <option value="$PROJECT_DIR$/ueb04_2.js" />
       </list>
     </option>
@@ -346,12 +346,12 @@
       <workItem from="1551716603852" duration="5055000" />
       <workItem from="1551727003133" duration="7262000" />
       <workItem from="1551795559807" duration="19945000" />
-      <workItem from="1551884276104" duration="10761000" />
+      <workItem from="1551884276104" duration="12897000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250285000" />
+    <option name="totallyTimeSpent" value="252421000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -761,23 +761,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1081">
-          <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Engine/SpotLight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="947">
-          <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Engine/Shader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="947">
+        <state relative-caret-position="5363">
           <caret line="1234" column="54" selection-start-line="1234" selection-start-column="54" selection-end-line="1234" selection-end-column="54" />
           <folding>
             <element signature="e#33#47#0" />
@@ -796,10 +782,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/Camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="81" column="10" selection-start-line="81" selection-start-column="10" selection-end-line="81" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine/SpotLight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1449">
+          <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ueb04_2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
+        <state relative-caret-position="874">
+          <caret line="65" column="157" selection-start-line="65" selection-start-column="157" selection-end-line="65" selection-end-column="157" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
