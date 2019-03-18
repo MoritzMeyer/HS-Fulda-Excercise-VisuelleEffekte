@@ -615,7 +615,7 @@ const fsPhongColorMultLights =
     uniform vec3 uViewPosition;
     uniform float uAlpha;
     
-    #define NR_POINT_LIGHTS 3
+    #define NR_POINT_LIGHTS 4
     
     struct Material {
         vec3 ambient;
