@@ -15,7 +15,7 @@ class PointLight extends Light
         this.setDiffuseByFac(0.8);
         this.setSpecularByFac(1.0);
 
-        this.gameObject.transform.setPosition(position[0], position[1], position[2]);
+        this.gameObject.transform.setPosition(position);
     }
 
     bind(material)

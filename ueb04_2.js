@@ -39,6 +39,7 @@ let pointLight0 = new PointLight([1, 1, 1], [0, 2, 2], "pointLights[0]");
 let pointLight1 = new PointLight([0.5, 0.5, 1], [2, 2, 0], "pointLights[1]");
 let pointLight2 = new PointLight([0, 0, 0.8], [-2, 2, 0], "pointLights[2]");
 
+spotLight.drawLightObject = true;
 pointLight0.drawLightObject = true;
 pointLight1.drawLightObject = true;
 pointLight2.drawLightObject = true;
