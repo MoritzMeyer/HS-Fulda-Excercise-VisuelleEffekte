@@ -1,10 +1,11 @@
 import Light from "./Light.js";
+import {LightType} from "./LightType.js";
 
 class SpotLight extends Light
 {
     constructor(lightColor, position, direction, cutOff, outerCutOff = null, uniformName = "spotLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
-        super(lightColor, true);
+        super(lightColor, true, LightType.spot);
         this.uniformName = uniformName;
         this.gameObject.transform.setPosition(position);
         this.direction = direction;
@@ -50,6 +51,7 @@ class SpotLight extends Light
         material.shader.setUniform1f(this.uniformName + ".linear", this.linear);
         material.shader.setUniform1f(this.uniformName + ".quadratic", this.quadratic);
 
+        material.shader.setUniform1i(this.uniformName + ".isActive", this.isActive);
     }
 
     getCutOffCosine()

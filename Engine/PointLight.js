@@ -1,10 +1,11 @@
 import Light from "./Light.js";
+import {LightType} from "./LightType.js";
 
 class PointLight extends Light
 {
     constructor(lightColor, position, uniformName = "pointLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
-        super(lightColor, true);
+        super(lightColor, true, LightType.point);
         this.uniformName = uniformName;
         // set Konstant, linear and quadratic Terms for equation
         this.constant = Kc;
@@ -30,7 +31,7 @@ class PointLight extends Light
         material.shader.setUniform1f(this.uniformName + ".constant", this.constant);
         material.shader.setUniform1f(this.uniformName + ".linear", this.linear);
         material.shader.setUniform1f(this.uniformName + ".quadratic", this.quadratic);
-
+        material.shader.setUniform1i(this.uniformName + ".isActive", this.isActive);
     }
 
     static getDefaultPointLight()

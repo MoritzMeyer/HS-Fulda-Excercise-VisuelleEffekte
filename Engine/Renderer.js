@@ -1,4 +1,5 @@
 import Webgl from "./Webgl.js";
+import {LightType} from "./LightType.js";
 
 class Renderer
 {
@@ -7,6 +8,44 @@ class Renderer
         this.gl = Webgl.getGL();
         this.blendingEnabled = false;
         this.lights = [];
+        this.pointLights = 0;
+        this.directionalLights = 0;
+        this.spotLights = 0;
+    }
+
+    pushLight(light)
+    {
+        this.lights.push(light);
+        switch (light.type)
+        {
+            case LightType.point:
+                this.pointLights++;
+                break;
+            case LightType.spot:
+                this.spotLights++;
+                break;
+            case LightType.direct:
+                this.directionalLights++;
+                break;
+        }
+    }
+
+    removeLight(lightIndex)
+    {
+        //this.lights.filter((el) => el !== light);
+        switch (this.lights[lightIndex].type)
+        {
+            case LightType.point:
+                this.pointLights--;
+                break;
+            case LightType.spot:
+                this.spotLights--;
+                break;
+            case LightType.direct:
+                this.directionalLights--;
+                break;
+        }
+        this.lights.splice(lightIndex, 1);
     }
 
     draw(vertexArray, indexBuffer, shader)
@@ -62,11 +101,14 @@ class Renderer
                 let eye = camera.getEye();
                 gameObject.material.shader.setUniform3f("uViewPosition", eye[0], eye[1], eye[2]);
                 gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
+                //gameObject.material.shader.setUniform1i("uNumbPointLights", this.pointLights);
+                //gameObject.material.shader.setUniform1i("uNumbDirectLights", this.directionalLights);
+                //gameObject.material.shader.setUniform1i("uNumbSpotLights", this.spotLights);
 
                 this.lights.forEach((light) =>
                 {
                     light.bind(gameObject.material);
-                    if (light.drawLightObject)
+                    if (light.drawLightObject && light.isActive === 1)
                     {
                         this.drawWithoutLights(light.lightObject.gameObject, camera);
                     }
@@ -97,7 +139,7 @@ class Renderer
             gameObject.material.shader.setUniform3f("uViewPosition", eye[0], eye[1], eye[2]);
             gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
             gameObject.draw();
-            if (light.drawLightObject)
+            if (light.drawLightObject && light.isActive === 1)
             {
                 this.drawWithoutLights(light.lightObject.gameObject, camera);
             }

@@ -615,7 +615,9 @@ const fsPhongColorMultLights =
     uniform vec3 uViewPosition;
     uniform float uAlpha;
     
-    #define NR_POINT_LIGHTS 4
+    #define NR_POINT_LIGHTS __point__
+    #define NR_SPOT_LIGHTS __spot__
+    #define NR_DIRECT_LIGHTS __direct__
     
     struct Material {
         vec3 ambient;
@@ -631,8 +633,10 @@ const fsPhongColorMultLights =
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
+        
+        int isActive;
     };    
-    uniform DirectionalLight directLight;
+    uniform DirectionalLight directLights[NR_DIRECT_LIGHTS];
     
     struct PointLight {
         vec3 position;
@@ -644,6 +648,8 @@ const fsPhongColorMultLights =
         float constant;
         float linear;
         float quadratic;
+        
+        int isActive;
     };    
     uniform PointLight pointLights[NR_POINT_LIGHTS];
     
@@ -660,27 +666,34 @@ const fsPhongColorMultLights =
         float constant;
         float linear;
         float quadratic;
+        
+        int isActive;
     };    
-    uniform SpotLight spotLight;
+    uniform SpotLight spotLights[NR_SPOT_LIGHTS];
     
     vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
     vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
     vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
     
-    void main() {
+    void main() 
+    {
         // properties
         vec3 normal = normalize(vNormal);
         vec3 viewDir = normalize(uViewPosition - vFragPos);
         
-        // first calc Directional Light
-        vec3 result = CalcDirectionalLight(directLight, normal, viewDir);
+        vec3 result = vec3(0, 0, 0);
+        
+        // first calc all Directional Light
+        for (int i = 0; i < NR_DIRECT_LIGHTS; i++)
+            result += CalcDirectionalLight(directLights[i], normal, viewDir);
         
         // second calc all Point Lights
         for (int i = 0; i < NR_POINT_LIGHTS; i++)
             result += CalcPointLight(pointLights[i], normal, vFragPos, viewDir);
         
         // third calc Spot Light
-        result += CalcSpotLight(spotLight, normal, vFragPos, viewDir);
+        for (int i = 0; i < NR_SPOT_LIGHTS; i++)
+            result += CalcSpotLight(spotLights[i], normal, vFragPos, viewDir);
         
         gl_FragColor = vec4(result, uAlpha);
     }
@@ -688,6 +701,11 @@ const fsPhongColorMultLights =
     // calculates color for directional lighting
     vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
     {
+        if (light.isActive != 1)
+        {
+            return vec3(0, 0, 0);
+        }
+        
         vec3 lightDir = normalize(-light.direction);
         
         // diffuse
@@ -708,6 +726,11 @@ const fsPhongColorMultLights =
     // calculates color for point lighting
     vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     {
+        if (light.isActive != 1)
+        {
+            return vec3(0, 0, 0);
+        }
+        
         vec3 lightDir = normalize(light.position - fragPos);
         
         // diffuse
@@ -734,6 +757,11 @@ const fsPhongColorMultLights =
     
     vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     {
+        if (light.isActive != 1)
+        {
+            return vec3(0, 0, 0);
+        }
+        
         vec3 lightDir = normalize(light.position - fragPos);
         
         // diffuse
@@ -1358,9 +1386,12 @@ class Shader
         }
     }
 
-    static getMultiLightColorShader()
+    static getMultiLightColorShader(numbPointLights, numbSpotLights, numbDirectLights)
     {
-        return new Shader(vsPhongColorMultLights, fsPhongColorMultLights, true);
+        let fs = fsPhongColorMultLights.replace("__spot__", numbSpotLights);
+        fs = fs.replace("__direct__", numbDirectLights);
+        fs = fs.replace("__point__", numbPointLights);
+        return new Shader(vsPhongColorMultLights, fs, true);
     }
 }
 
