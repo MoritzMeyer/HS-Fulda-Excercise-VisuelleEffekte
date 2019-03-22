@@ -11,6 +11,7 @@ import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
 import DirectionalLight from "./Engine/DirectionalLight.js";
 import PointLight from "./Engine/PointLight.js";
 import SpotLight from "./Engine/SpotLight.js";
+import Materials from "./Engine/Materials.js";
 
 
 
@@ -33,7 +34,7 @@ camera.gameObject.transform.translate([0, -1, -25.0]);
 camera.gameObject.transform.rotateX(35);
 
 
-let directionLight = new DirectionalLight([1, 1, 1], [-0.2, -1.0, -0.3], "directLights[0]");
+let directionLight = new DirectionalLight([1, 1, 1], [1, -3, 1.5], "directLights[0]");
 let spotLight = new SpotLight([1, 1, 1], [0, 2, 0], [0, -1, 0], 12.5, 17.5, "spotLights[0]");
 let pointLight0 = new PointLight([0, 1, 0], [0, 5, -7], "pointLights[0]");
 let pointLight1 = new PointLight([1, 0.97, 0], [7, 5, 0], "pointLights[1]");
@@ -55,12 +56,18 @@ renderer.pushLight(pointLight1);
 renderer.pushLight(pointLight2);
 renderer.pushLight(pointLight3);
 
-let cube = new Cube3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.9, 0.1, 0.1]));
+//let cube = new Cube3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.9, 0.1, 0.1]));
 let plane = new Plane(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.3, 0.3, 0.3]));
-let sphere1 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0, 1, 0.85]));
-let sphere2 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.95, 0.65, 0.06]));
-let sphere3 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.06, 0.95, 0.2]));
-let sphere4 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.6, 0.03, 0.83]));
+//let sphere1 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0, 1, 0.85]));
+//let sphere2 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.95, 0.65, 0.06]));
+//let sphere3 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.06, 0.95, 0.2]));
+//let sphere4 = new Sphere3D(new Color(Shader.getMultiLightColorShader(4, 1, 1), [0.6, 0.03, 0.83]));
+let cube = new Cube3D(Materials.RedPlastic(Shader.getMultiLightColorShader(4, 1, 1)));
+//let plane = new Plane(Materials.BlackPlastic(Shader.getMultiLightColorShader(4, 1, 1)));
+let sphere1 = new Sphere3D(Materials.Bronze(Shader.getMultiLightColorShader(4,1 ,1 )));
+let sphere2 = new Sphere3D(Materials.Gold(Shader.getMultiLightColorShader(4,1 ,1 )));
+let sphere3 = new Sphere3D(Materials.CyanRubber(Shader.getMultiLightColorShader(4,1 ,1 )));
+let sphere4 = new Sphere3D(Materials.Turquoise(Shader.getMultiLightColorShader(4,1 ,1 )));
 plane.gameObject.transform.setScale([15.0, 0, 15.0]);
 
 cube.gameObject.transform.setPosition([0, 1.5, 0]);

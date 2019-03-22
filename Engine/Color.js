@@ -4,7 +4,7 @@ class Color extends Material
 {
     constructor(shader, colors, alpha = 1.0, uniformName = "uObjectColor")
     {
-        super(uniformName, shader, colors, colors, colors, 16.0, alpha);
+        super(shader, colors, colors, colors, 16.0, alpha, uniformName);
 
         if (colors.length < 3 || colors.length > 4)
         {
@@ -38,11 +38,6 @@ class Color extends Material
                 this.shader.setUniform4f(this.uniformName, this.colors[0], this.colors[1], this.colors[2], this.colors[3]);
             }
         }
-    }
-
-    setAttribLocationInVertexArray(vertexArray)
-    {
-        return null;
     }
 }
 

@@ -82,10 +82,12 @@ class Renderer
         // actual Shadows are only enabled for one lightsource
         if (this.lights.length === 1 && this.lights[0].renderShadow)
         {
-            if (this.frameBuffer == null)
+            if (this.frameBuffer != null)
             {
-                this.frameBuffer = new FrameBuffer(this.width, this.height);
+                this.frameBuffer.clear();
+                this.frameBuffer = null;
             }
+            this.frameBuffer = new FrameBuffer(this.width, this.height);
             
             this.frameBuffer.bind();
             this.renderDepthMap(elements, this.lights[0]);

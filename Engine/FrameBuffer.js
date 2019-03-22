@@ -53,5 +53,12 @@ class FrameBuffer
         this.gl.cullFace(this.gl.FRONT);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
     }
+
+    clear()
+    {
+        this.gl.deleteFramebuffer(this.frameBuffer);
+        this.gl.deleteTexture(this.depthMap);
+        this.gl.deleteTexture(this.colorMap);
+    }
 }
 export default FrameBuffer;

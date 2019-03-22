@@ -5,7 +5,7 @@ class Texture extends Material
 {
     constructor(shader, url, slot, texCoordsBuffer, alpha = 1.0, attributeTexCoordsName = "aTexCoords", uniformName="uTexture")
     {
-        super(uniformName, shader, [0.8, 0.8, 0.8], [0.8, 0.8, 0.8], [1.0, 1.0, 1.0], 32.0, alpha);
+        super(shader, [0.8, 0.8, 0.8], [0.8, 0.8, 0.8], [1.0, 1.0, 1.0], 32.0, alpha, uniformName);
         const gl = this.gl = Webgl.getGL();
         this.url = url;
         this.slot = slot;

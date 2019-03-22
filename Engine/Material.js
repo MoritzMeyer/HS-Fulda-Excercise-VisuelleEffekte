@@ -2,7 +2,7 @@ import Webgl from "./Webgl.js";
 
 class Material
 {
-    constructor(uniformName, shader, ambient, diffuse, specular, shininess, alpha = 1.0)
+    constructor(shader, ambient, diffuse, specular, shininess, alpha = 1.0, uniformName = "material")
     {
         this.gl = Webgl.getGL();
         this.uniformName = uniformName;
@@ -20,7 +20,8 @@ class Material
 
     setAttribLocationInVertexArray(vertexArray)
     {
-        throw new Error('Method not implemented!');
+        return null;
+        //throw new Error('Method not implemented!');
     }
 
     bind()

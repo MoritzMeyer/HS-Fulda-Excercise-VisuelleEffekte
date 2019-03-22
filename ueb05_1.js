@@ -18,7 +18,7 @@ import SpotLight from "./Engine/SpotLight.js";
 const canvas = document.querySelector('#glcanvas');
 Webgl.loadGL(canvas);
 let canvasColor = [0.0, 0.66, 1, 1.0];
-let rotation = false;
+
 
 // initialize Application
 let renderer = new Renderer();
@@ -54,18 +54,45 @@ sphere3.gameObject.transform.setPosition([0, 1.5, 6]);
 sphere4.gameObject.transform.setPosition([0, 1.5, -6]);
 
 let elements = [cube, plane, sphere1, sphere2, sphere3, sphere4];
+let spheres = [sphere1, sphere2, sphere3, sphere4];
 
 //Webgl.addSlider("Ambient", light.ambient, 0.0, 1.0, 0.05, (value) => {light.setAmbientByFactor(value)});
 //Webgl.addSlider("Diffuse", light.diffuse, 0.0, 1.0, 0.05, (value) => {light.setDiffuseByFac(value)});
 //Webgl.addSlider("Specular", light.specular, 0.0, 1.0, 0.05, (value) => {light.setSpecularByFac(value)});
 Webgl.addSlider("Material-Shininess", elements[0].gameObject.material.shininess, 1, 64, 1, (value) => {elements[0].gameObject.material.setShininess(value)});
+Webgl.addSlider("Cube-Y", 1.5, 0, 20, 0.5, (value) => cube.gameObject.transform.setPosition([0, value, 0]));
 
 requestAnimationFrame(render);
 
-
+let time = 0.0;
+let rotation = false;
+let offset = 1.6;
 function render(now)
 {
+    if (rotation)
+    {
+        time += 0.025;
+        for (let i = 0; i < spheres.length; i++)
+        {
+            let y = spheres[i].gameObject.transform.position[1];
+            spheres[i].gameObject.transform.rotateY(1);
+            spheres[i].gameObject.transform.setPosition([7 * Math.cos(time + (i * offset)), y, 7 * Math.sin(time + (i * offset))]);
+        }
+    }
+
     renderer.clear(canvas, canvasColor);
     renderer.drawElements(elements, camera);
     requestAnimationFrame(render);
 }
+
+$('#rotation').change((e) =>
+{
+    if ($('#rotation').is(":checked"))
+    {
+        rotation = true;
+    }
+    else
+    {
+        rotation = false;
+    }
+});

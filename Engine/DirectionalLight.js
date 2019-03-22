@@ -14,6 +14,7 @@ class DirectionalLight extends Light
         this.setSpecularByFac(1.0);
         this.distance = 10;
         this.gameObject.transform.setPosition([this.direction[0] * this.distance, this.direction[1] * this.distance, this.direction[2] * this.  distance]);
+        //this.gameObject.transform.setPosition(direction);
 
 
     }

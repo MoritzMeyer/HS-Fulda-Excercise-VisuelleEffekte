@@ -59,6 +59,7 @@ class Light
         let up = vec3.fromValues(lightMatrix[4], lightMatrix[5], lightMatrix[6]);
         let eye = vec3.fromValues(lightMatrix[12], lightMatrix[13], lightMatrix[14]);
         let center = vec3.fromValues(0.0001, 0.0001, 0.0001);
+        //let center = vec3.fromValues(this.direction[0], this.direction[1], this.direction[2]);
         let lookAtMatrix = mat4.create();
         mat4.lookAt(lookAtMatrix, eye, center, up);
 
@@ -78,7 +79,7 @@ class Light
         let projectionMatrix = this.getProjectionMatrix();
         let lookAtMatrix = this.getLookAtMatrix();
         let lightViewProjectionMatrix = mat4.create();
-        mat4.multiply(lightViewProjectionMatrix, projectionMatrix, lookAtMatrix)
+        mat4.multiply(lightViewProjectionMatrix, projectionMatrix, lookAtMatrix);
 
         return lightViewProjectionMatrix;
     }
