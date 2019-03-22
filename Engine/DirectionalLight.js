@@ -12,6 +12,10 @@ class DirectionalLight extends Light
         this.setAmbientByFactor(0.2);
         this.setDiffuseByFac(0.5);
         this.setSpecularByFac(1.0);
+        this.distance = 10;
+        this.gameObject.transform.setPosition([this.direction[0] * this.distance, this.direction[1] * this.distance, this.direction[2] * this.  distance]);
+
+
     }
 
     bind(material)
@@ -26,9 +30,15 @@ class DirectionalLight extends Light
         material.shader.setUniform1i(this.uniformName + ".isActive", this.isActive);
     }
 
+    setDistance(distance)
+    {
+        this.distance = distance;
+        this.gameObject.transform.setPosition([this.direction[0] * distance, this.direction[1] * distance, this.direction[2] * distance]);
+    }
+
     static getDefaultDirectionalLight()
     {
-        return new DirectionalLight([1, 1, 1], [-0.2, -1.0, -0.3]);
+        return new DirectionalLight([1, 1, 1], [1, -3, 1.5]);
     }
 }
 export default DirectionalLight;

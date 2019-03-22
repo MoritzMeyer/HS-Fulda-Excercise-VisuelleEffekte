@@ -17,7 +17,7 @@ let canvasColor = [0.42, 0.6, 0.0, 1.0];
 // initialize Application
 let renderer = new Renderer();
 let camera = new Camera();
-renderer.enableBelnding();
+renderer.enableBlending();
 
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);

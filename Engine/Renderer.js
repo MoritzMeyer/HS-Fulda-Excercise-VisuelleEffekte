@@ -1,5 +1,7 @@
 import Webgl from "./Webgl.js";
 import {LightType} from "./LightType.js";
+import Shader from "./Shader.js";
+import FrameBuffer from "./FrameBuffer.js";
 
 class Renderer
 {
@@ -11,6 +13,7 @@ class Renderer
         this.pointLights = 0;
         this.directionalLights = 0;
         this.spotLights = 0;
+        this.frameBuffer = null;
     }
 
     pushLight(light)
@@ -48,6 +51,22 @@ class Renderer
         this.lights.splice(lightIndex, 1);
     }
 
+    renderDepthMap(elements, light)
+    {
+        let lightViewProjectionMatrix = light.getViewProjectionMatrix();
+        light.shadowShader.bind();
+
+        elements.forEach((e) =>
+        {
+           let modelMatrix = e.gameObject.transform.getWorldSpaceMatrix();
+           let lightModelViewProjectionMatrix = mat4.create();
+           mat4.multiply(lightModelViewProjectionMatrix, lightViewProjectionMatrix, modelMatrix);
+
+           light.shadowShader.setUniformMatrix4fv("uLightModelViewProjectionMatrix", false, lightModelViewProjectionMatrix);
+           e.gameObject.draw(false);
+        });
+    }
+
     draw(vertexArray, indexBuffer, shader)
     {
         shader.bind();
@@ -60,11 +79,24 @@ class Renderer
 
     drawElements(elements, camera)
     {
+        // actual Shadows are only enabled for one lightsource
+        if (this.lights.length === 1 && this.lights[0].renderShadow)
+        {
+            if (this.frameBuffer == null)
+            {
+                this.frameBuffer = new FrameBuffer(this.width, this.height);
+            }
+            
+            this.frameBuffer.bind();
+            this.renderDepthMap(elements, this.lights[0]);
+            this.frameBuffer.unbind();
+            this.gl.enable(this.gl.CULL_FACE);
+        }
+
         //console.log("camera: p(" + camera.gameObject.transform.position + "), e(" + camera.getEye() + ")" );
         if (this.blendingEnabled)
         {
             const zSorting = [];
-
             elements.forEach((element) =>
             {
                 let modelViewMatrix = element.gameObject.getModelViewMatrix(camera);
@@ -105,10 +137,19 @@ class Renderer
                 //gameObject.material.shader.setUniform1i("uNumbDirectLights", this.directionalLights);
                 //gameObject.material.shader.setUniform1i("uNumbSpotLights", this.spotLights);
 
+                // Shadows are rendered only for light on first position
+                if (this.lights[0].renderShadow)
+                {
+                    gameObject.material.shader.setUniformMatrix4fv("uLightSpaceMatrix", false, this.lights[0].getViewProjectionMatrix());
+                    this.gl.activeTexture(this.gl.TEXTURE0 + 0);
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.frameBuffer.depthMap);
+                    gameObject.material.shader.setUniform1i("uShadowMap", 0);
+                }
+
                 this.lights.forEach((light) =>
                 {
                     light.bind(gameObject.material);
-                    if (light.drawLightObject && light.isActive === 1)
+                    if (light.drawLightObject && light.isActive)
                     {
                         this.drawWithoutLights(light.lightObject.gameObject, camera);
                     }
@@ -129,7 +170,7 @@ class Renderer
         if (!gameObject.isEmpty)
         {
             gameObject.material.bind();
-            gameObject.material.shader.setUniformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
+            gameObject.material.shader.setU1niformMatrix4fv("uProjectionMatrix", false, camera.projectionMatrix.matrix);
             gameObject.material.shader.setUniformMatrix4fv("uViewMatrix", false, camera.getViewMatrix());
             gameObject.material.shader.setUniformMatrix4fv("uModelMatrix", false, gameObject.transform.getWorldSpaceMatrix());
             //gameObject.material.shader.setUniformMatrix4fv("uModelViewMatrix", false, gameObject.getModelViewMatrix(camera));
@@ -139,7 +180,7 @@ class Renderer
             gameObject.material.shader.setUniform3f("uViewPosition", eye[0], eye[1], eye[2]);
             gameObject.material.shader.setUniformMatrix4fv("uNormalMatrix", false, gameObject.getNormalMatrix());
             gameObject.draw();
-            if (light.drawLightObject && light.isActive === 1)
+            if (light.drawLightObject && light.isActive)
             {
                 this.drawWithoutLights(light.lightObject.gameObject, camera);
             }
@@ -185,11 +226,17 @@ class Renderer
         this.gl.enable(this.gl.DEPTH_TEST);
     }
 
-    enableBelnding()
+    enableBlending()
     {
         this.blendingEnabled = true;
         this.gl.enable(this.gl.BLEND);
         this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    }
+
+    setCanvasDimensions(width, height)
+    {
+        this.width = width;
+        this.height = height;
     }
 }
 

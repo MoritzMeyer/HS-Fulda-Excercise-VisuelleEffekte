@@ -43,11 +43,15 @@ class GameObject
         }
     }
 
-    draw()
+    draw(withMaterial = true)
     {
         if (!this.isEmpty)
         {
-            this.material.shader.bind();
+            // For Shadow Calculations the material isn't needed
+            if (withMaterial)
+            {
+                this.material.shader.bind();
+            }
             this.vertexArray.bind();
             this.indexBuffer.bind();
             this.gl.drawElements(this.gl.TRIANGLES, this.indexBuffer.count, this.gl.UNSIGNED_SHORT, 0);

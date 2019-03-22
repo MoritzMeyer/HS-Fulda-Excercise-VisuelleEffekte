@@ -1200,6 +1200,162 @@ const fsGourand =
     `;
 //endregion
 
+//region ShadowShader
+const vsShadowShader =
+    `
+        attribute vec3 aPosition;
+        uniform mat4 uLightModelViewProjectionMatrix;
+        
+        void main()
+        {
+            gl_Position = uLightModelViewProjectionMatrix * vec4(aPosition, 1.0);
+        }
+    `;
+
+const fsShadowShader =
+    `
+        #ifdef GL_FRAGMENT_PRECISION_HIGH
+        precision highp float;
+        #else
+        precision mediump float;
+        #endif
+        
+        void main() {}
+    `;
+//endregion
+
+//region DirectLightColorShadow
+const vsDirectLightColorShadow =
+`
+    attribute vec3 aPosition;
+    attribute vec3 aNormal;
+    
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+    uniform mat4 uLightSpaceMatrix;
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    varying vec4 vFragPosLightSpace;
+    
+    void main() {
+        gl_PointSize = 10.0;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
+        vFragPosLightSpace = uLightSpaceMatrix * vec4(vFragPos, 1.0);
+        
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+    }    
+`;
+
+const fsDirectLightColorShadow =
+`
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    
+    varying vec3 vFragPos;
+    varying vec3 vNormal;
+    varying vec4 vFragPosLightSpace;
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    uniform sampler2D uShadowMap;
+       
+    struct Material {
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        float shininess;
+    };    
+    uniform Material material;
+    
+    struct DirectionalLight {
+        vec3 direction;
+    
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        
+        int isActive;
+    };    
+    uniform DirectionalLight directLight;
+    
+    vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir);
+    float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
+    
+    void main() 
+    {
+        // properties
+        vec3 normal = normalize(vNormal);
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+        
+        //calc Directional Light
+        vec3 result = CalcDirectionalLight(directLight, normal, viewDir);
+        
+        gl_FragColor = vec4(result, uAlpha);
+    }
+    
+    // calculates color for directional lighting
+    vec3 CalcDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
+    {
+        if (light.isActive != 1)
+        {
+            return vec3(0, 0, 0);
+        }
+        
+        vec3 lightDir = normalize(-light.direction);
+        
+        // diffuse
+        float diff = max(dot(normal, lightDir), 0.0);
+        
+        // specular
+        vec3 reflectDir = reflect(-lightDir, normal);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+        
+        // result
+        vec3 ambient = light.ambient * material.ambient;
+        vec3 diffuse = light.diffuse * diff * material.diffuse;
+        vec3 specular = light.specular * spec * material.specular;
+        
+        // calculate Shadow
+        float shadow = ShadowCalculation(vFragPosLightSpace, normal, lightDir);
+        
+        return (ambient + (1.0 - shadow) *  (diffuse + specular));
+    } 
+    
+    float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
+    {
+        // perform perspective divide
+        vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+        
+        // transform to [0, 1] range
+        projCoords = projCoords * 0.5 + 0.5;
+        
+        // get closest depth value from light's perspective
+        float closestDepth = texture2D(uShadowMap, projCoords.xy).r;
+        
+        // get Depth of current fragment from light's perspective
+        float currentDepth = projCoords.z;
+        
+        // prevent shadow acne with bias
+        float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+        
+        // check wether current frag pos is in shadow
+        float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+        
+        return shadow;        
+    }
+`;
+//endregion
+
 class Shader
 {
     constructor(vsSource, fsSource, hasLightning = false)
@@ -1392,6 +1548,16 @@ class Shader
         fs = fs.replace("__direct__", numbDirectLights);
         fs = fs.replace("__point__", numbPointLights);
         return new Shader(vsPhongColorMultLights, fs, true);
+    }
+
+    static getDefaultShadowShader()
+    {
+        return new Shader(vsShadowShader, fsShadowShader);
+    }
+
+    static getDirectLightColorShadowShader()
+    {
+        return new Shader(vsDirectLightColorShadow, fsDirectLightColorShadow, true);
     }
 }
 
