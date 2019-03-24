@@ -9,8 +9,7 @@ const vsColorSource =
     uniform mat4 uModelMatrix;
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }
 `;
 
@@ -39,10 +38,10 @@ const vsTextureSource =
     uniform mat4 uViewMatrix;
     uniform mat4 uModelMatrix;
     void main() {
-        vTexCoords = aTexCoords;
         vec4 flipX = vec4(-1, 1, 1, 1);
+        vTexCoords = (vec4(aTexCoords, 0, 1) * flipX).xy;
         gl_PointSize = 10.0;
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }       
 `;
 
@@ -82,12 +81,11 @@ const vsPhongColor =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -119,6 +117,7 @@ const fsPhongColorMat =
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
+        int isActive;
     };    
     uniform Light light;
     
@@ -209,12 +208,11 @@ const vsPhongColorDirectionalLight =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -290,12 +288,11 @@ const vsPhongColorPointLight =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -382,12 +379,11 @@ const vsPhongColorSpotLight =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -489,12 +485,11 @@ const vsPhongColorSpotLightOuterCutOff =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -592,12 +587,11 @@ const vsPhongColorMultLights =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -810,14 +804,13 @@ const vsPhongColor2 =
         varying vec3 vertPos;
         
         void main() {
-            vec4 flipX = vec4(-1, 1, 1, 1);
             //mat4 modelViewMat = uViewMatrix * uModelMatrix;
             vec4 vertPos4 = uModelViewMatrix * vec4(aPosition, 1.0);
             vertPos = normalize(vec3(vertPos4) / vertPos4.w);
             //vertPos = vec3(vertPos4) / vertPos4.w;
             normalInterp = vec3(uNormalMatrix * vec4(aNormal, 0.0));
             
-            gl_Position = uProjectionMatrix * vertPos4 * flipX;
+            gl_Position = uProjectionMatrix * vertPos4;
         }
     `;
 
@@ -884,13 +877,13 @@ const vsPhongTexture =
     
     void main() {
         gl_PointSize = 10.0;
-        vTexCoords = aTexCoords;
         vec4 flipX = vec4(-1, 1, 1, 1);
+        vTexCoords = (vec4(aTexCoords, 0, 1) * flipX).xy;
         
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }        
 `;
 
@@ -926,6 +919,7 @@ const fsPhongTextureMat =
         vec3 ambient;
         vec3 diffuse;
         vec3 specular;
+        int isActive;
     };    
     uniform Light light;
     
@@ -1034,8 +1028,7 @@ const vsPhongPerVertex =
     
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
         
         // all following gemetric computations are performed in the
         // camera coordinate system (aka eye coordinates)
@@ -1093,9 +1086,8 @@ const vsPhongPerFragment =
     varying vec3 vPos;
     
     void main() {
-        gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);        
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        gl_PointSize = 10.0;      
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
         
         vec4 vertPos4 = uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
         vPos = vec3(vertPos4) / vertPos4.w;
@@ -1155,7 +1147,6 @@ const vsGourand =
         
         
         void main() {
-            vec4 flipX = vec4(-1, 1, 1, 1);
             float Ka = 1.0;
             float Kd = 1.0;
             float Ks = 1.0;
@@ -1180,7 +1171,7 @@ const vsGourand =
                 specular = pow(specAngle, shininessVal);
             }  
             
-            vColor = vec3(Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor) * flipX;
+            vColor = vec3(Ka * uLightColor + Kd * lambertian * uLightColor + Ks * specular * uLightColor);
         }
     `;
 
@@ -1248,7 +1239,7 @@ const vsDirectLightColorShadow =
         vNormal = vec3(uNormalMatrix * vec4(aNormal, 0.0));
         vFragPosLightSpace = uLightSpaceMatrix * vec4(vFragPos, 1.0);
         
-        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }    
 `;
 

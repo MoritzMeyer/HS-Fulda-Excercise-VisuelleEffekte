@@ -33,6 +33,9 @@ class Camera
     {
         //return this.viewMatrix.matrix;
         return this.gameObject.transform.getWorldSpaceMatrix();
+        //let viewMat = this.gameObject.transform.getWorldSpaceMatrix();
+        //mat4.invert(viewMat, viewMat);
+        //return viewMat;
     }
 
     getCameraMatrix()
@@ -62,6 +65,7 @@ class Camera
         let viewMatrix = this.getViewMatrix();
         let cam = mat4.create();
         mat4.invert(cam, viewMatrix);
+        //let cam = this.getViewMatrix();
         let eye = vec3.fromValues(cam[12], cam[13], cam[14]);
         return eye;
     }
@@ -71,6 +75,7 @@ class Camera
         let viewMatrix = this.getViewMatrix();
         let cam = mat4.create();
         mat4.invert(cam, viewMatrix);
+        //let cam = this.getViewMatrix();
         let up = vec3.fromValues(cam[4], cam[5], cam[6]);
         return up;
     }

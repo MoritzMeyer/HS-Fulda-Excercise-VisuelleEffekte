@@ -47,11 +47,11 @@ let sphere3 = new Sphere3D(new Color(Shader.getDirectLightColorShadowShader(), [
 let sphere4 = new Sphere3D(new Color(Shader.getDirectLightColorShadowShader(), [0.6, 0.03, 0.83]));
 plane.gameObject.transform.setScale([15.0, 0, 15.0]);
 
-cube.gameObject.transform.setPosition([0, 1.5, 0]);
-sphere1.gameObject.transform.setPosition([6, 1.5, 0]);
-sphere2.gameObject.transform.setPosition([-6, 1.5, 0]);
-sphere3.gameObject.transform.setPosition([0, 1.5, 6]);
-sphere4.gameObject.transform.setPosition([0, 1.5, -6]);
+cube.gameObject.transform.setPosition([0, 2, 0]);
+sphere1.gameObject.transform.setPosition([6, 2, 0]);
+sphere2.gameObject.transform.setPosition([-6, 2, 0]);
+sphere3.gameObject.transform.setPosition([0, 2, 6]);
+sphere4.gameObject.transform.setPosition([0, 2, -6]);
 
 let elements = [cube, plane, sphere1, sphere2, sphere3, sphere4];
 let spheres = [sphere1, sphere2, sphere3, sphere4];
