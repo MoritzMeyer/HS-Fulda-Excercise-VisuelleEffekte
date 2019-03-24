@@ -154,6 +154,19 @@ class Transform
         this.setLocalChanged();
     }
 
+    rotateRoundAxis(angle, axis)
+    {
+        let rotationMatrix = mat4.create();
+        mat4.rotate(rotationMatrix, this.getLocalSpaceMatrix(), glMatrix.toRadian(angle), vec3.fromValues(axis[0], axis[1], axis[2]));
+        let rotationMat3 = mat3.create();
+        mat3.fromMat4(rotationMat3, rotationMatrix);
+        let rotationQuat = quat.create();
+        quat.fromMat3(rotationQuat, rotationMat3);
+        //quat.normalize(rotationQuat, rotationQuat);
+        this.rotationQuaternion = rotationQuat;
+        this.setLocalChanged();
+    }
+
     setScale(scale)
     {
         this.scale = scale;

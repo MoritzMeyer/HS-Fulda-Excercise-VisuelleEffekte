@@ -82,6 +82,7 @@ class Renderer
         // actual Shadows are only enabled for one lightsource
         if (this.lights.length === 1 && this.lights[0].renderShadow)
         {
+            this.gl.enable(this.gl.CULL_FACE);
             if (this.frameBuffer != null)
             {
                 this.frameBuffer.clear();
@@ -92,7 +93,6 @@ class Renderer
             this.frameBuffer.bind();
             this.renderDepthMap(elements, this.lights[0]);
             this.frameBuffer.unbind();
-            this.gl.enable(this.gl.CULL_FACE);
         }
 
         //console.log("camera: p(" + camera.gameObject.transform.position + "), e(" + camera.getEye() + ")" );

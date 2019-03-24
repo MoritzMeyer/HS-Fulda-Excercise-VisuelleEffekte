@@ -83,7 +83,7 @@ class Camera
     getFront()
     {
         let viewMatrix = this.getViewMatrix();
-        let front = vec3.fromValues(viewMatrix[8], viewMatrix[9], viewMatrix[10], viewMatrix[11]);
+        let front = vec3.fromValues(viewMatrix[8], viewMatrix[9], viewMatrix[10]);
         //vec3.negate(front, front);
         /*
         let cam = mat4.create();

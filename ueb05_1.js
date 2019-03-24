@@ -25,6 +25,8 @@ let renderer = new Renderer();
 let camera = new Camera();
 Webgl.addNavigationListener(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
+//Webgl.addCameraExamine(canvas, camera);
+
 
 camera.gameObject.transform.translate([0, -1, -25.0]);
 camera.gameObject.transform.rotateX(35);

@@ -15,7 +15,7 @@ class Webgl
         canvas.setAttribute("tabindex", "0");
         canvas.addEventListener('keydown', (event) =>
         {
-            console.log("LookAt: " + lookAtPosition);
+            //console.log("LookAt: " + event.keyCode);
             switch(event.keyCode)
             {
                 case 37:    // left
@@ -135,6 +135,24 @@ class Webgl
     {
         let mouseIsDown = false;
         canvas.setAttribute("tabindex", "0");
+
+        canvas.addEventListener('keydown', (event) => {
+            switch (event.keyCode) {
+                case 87:    // w
+                    camera.gameObject.transform.translate([0, 0, 1]);
+                    break;
+                case 65:    // a
+                    camera.gameObject.transform.translate([1, 0, 0]);
+                    break;
+                case 83:    // s
+                    camera.gameObject.transform.translate([0, 0, -1]);
+                    break;
+                case 68:    // d
+                    camera.gameObject.transform.translate([-1, 0, 0]);
+                    break;
+            }
+        }, true);
+
         canvas.addEventListener('mousedown', (event) =>
         {
             mouseIsDown = true;
@@ -151,8 +169,9 @@ class Webgl
             {
                 let rotationX = event.movementX / 2;
                 let rotationY = event.movementY / 2;
-                camera.gameObject.transform.rotateY(-rotationX);
-                camera.gameObject.transform.rotateZ(-rotationY);
+
+                camera.gameObject.transform.rotateY(rotationX);
+                camera.gameObject.transform.rotateX(rotationY);
             }
         });
     }
