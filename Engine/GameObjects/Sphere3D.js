@@ -8,7 +8,7 @@ const colors = [0.0, 0.0, 0.8];
 
 class Sphere3D extends RenderObject
 {
-    constructor(material)
+    constructor(material, sphereDiv = 18)
     {
         if (!material)
         {
@@ -16,7 +16,7 @@ class Sphere3D extends RenderObject
             material = new Color(shader, colors);
         }
 
-        let rawData = Sphere3D.CalcSphereData(18);
+        let rawData = Sphere3D.CalcSphereData(sphereDiv);
 
         const vertexBuffer = new VertexBuffer(rawData["vertices"], 3);
         const normalsBuffer = new VertexBuffer(rawData["normals"], 3);

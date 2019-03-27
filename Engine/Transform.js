@@ -169,7 +169,7 @@ class Transform
 
     setScale(scale)
     {
-        this.scale = scale;
+        this.scale = vec3.fromValues(scale[0], scale[1], scale[2]);
         this.setLocalChanged();
     }
 

@@ -1,8 +1,8 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import Tree3D from "./Engine/GameObjects/Tree3D.js";
-import CoordinateAxises3D from "./Engine/GameObjects/CoordinateAxises3D.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import Tree3D from "../Engine/GameObjects/Tree3D.js";
+import CoordinateAxises3D from "../Engine/GameObjects/CoordinateAxises3D.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');

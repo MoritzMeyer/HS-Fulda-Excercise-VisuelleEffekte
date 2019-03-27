@@ -5,7 +5,7 @@ class DirectionalLight extends Light
 {
     constructor(lightColor, direction, uniformName = "directLight")
     {
-        super(lightColor, false, LightType.direct);
+        super(lightColor, false, LightType.direct, uniformName);
         this.uniformName = uniformName;
 
         this.direction = direction;

@@ -5,7 +5,7 @@ class SpotLight extends Light
 {
     constructor(lightColor, position, direction, cutOff, outerCutOff = null, uniformName = "spotLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
-        super(lightColor, true, LightType.spot);
+        super(lightColor, true, LightType.spot, uniformName);
         this.uniformName = uniformName;
         this.gameObject.transform.setPosition(position);
         this.direction = direction;

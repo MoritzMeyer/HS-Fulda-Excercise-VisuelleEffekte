@@ -1,16 +1,16 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import Color from "./Engine/Color.js";
-import Shader from "./Engine/Shader.js";
-import Light from "./Engine/Light.js";
-import Plane from "./Engine/GameObjects/Plane.js";
-import OBJ from "./Engine/OBJ.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
-import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
-import DirectionalLight from "./Engine/DirectionalLight.js";
-import PointLight from "./Engine/PointLight.js";
-import SpotLight from "./Engine/SpotLight.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import Color from "../Engine/Color.js";
+import Shader from "../Engine/Shader.js";
+import Light from "../Engine/Light.js";
+import Plane from "../Engine/GameObjects/Plane.js";
+import OBJ from "../Engine/OBJ.js";
+import Cube3D from "../Engine/GameObjects/Cube3D.js";
+import Sphere3D from "../Engine/GameObjects/Sphere3D.js";
+import DirectionalLight from "../Engine/DirectionalLight.js";
+import PointLight from "../Engine/PointLight.js";
+import SpotLight from "../Engine/SpotLight.js";
 
 
 

@@ -1,10 +1,10 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
-import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
-import Cylinder3D from "./Engine/GameObjects/Cylinder3D.js";
-import OBJ from "./Engine/OBJ.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import Cube3D from "../Engine/GameObjects/Cube3D.js";
+import Sphere3D from "../Engine/GameObjects/Sphere3D.js";
+import Cylinder3D from "../Engine/GameObjects/Cylinder3D.js";
+import OBJ from "../Engine/OBJ.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');

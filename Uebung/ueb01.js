@@ -1,15 +1,14 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Shader from "./Engine/Shader.js";
-import VertexBuffer from "./Engine/VertexBuffer.js";
-import Color from "./Engine/Color.js";
-import GameObject from "./Engine/GameObject.js";
-import Camera from "./Engine/Camera.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Shader from "../Engine/Shader.js";
+import VertexBuffer from "../Engine/VertexBuffer.js";
+import Color from "../Engine/Color.js";
+import GameObject from "../Engine/GameObject.js";
+import Camera from "../Engine/Camera.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
 Webgl.loadGL(canvas);
-
 
 const vsSource =
     `
@@ -19,8 +18,7 @@ const vsSource =
     uniform mat4 uModelMatrix;
     void main() {
         gl_PointSize = 10.0;
-        vec4 flipX = vec4(-1, 1, 1, 1);
-        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0) * flipX;
+        gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aPosition, 1.0);
     }
 `;
 
@@ -63,7 +61,6 @@ let canvasColor = [0.42, 0.6, 0.0, 1.0];
 
 // Engine erzeugen und canvas initialisieren
 let renderer = new Renderer();
-let camera = new Camera();
 
 // initialize VertexBuffer
 const vertexBuffer = new VertexBuffer(positions, 2);
@@ -80,16 +77,13 @@ let shaderTriangle = new Shader(vsSource, fsSource);
 let colorTriangle = new Color(shaderTriangle, triangleColors);
 let gameObjectTriangle = new GameObject(vertexBuffer, indicesTriangle, colorTriangle);
 
-Webgl.addNavigationListener(canvas, camera);
-
-camera.gameObject.transform.translate([0.0, 0.0, -4.0]);
-requestAnimationFrame(render);
-
-function render(now)
-{
-    renderer.clear(canvas, canvasColor);
-    renderer.drawGameObject(gameObjectCube, camera);
-    renderer.drawGameObject(gameObjectTriangle, camera);
-
-    requestAnimationFrame(render);
-}
+const camera = new Camera();
+camera.gameObject.transform.translate([0.0, 0.0, -2.5]);
+renderer.clear(canvas, canvasColor);
+// Draw Cube and delete
+renderer.drawGameObject(gameObjectCube, camera);
+gameObjectCube.delete();
+// Draw Triangle and delete
+renderer.drawGameObject(gameObjectTriangle, camera);
+gameObjectTriangle.delete();
+vertexBuffer.delete();

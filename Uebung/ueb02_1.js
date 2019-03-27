@@ -1,10 +1,10 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Shader from "./Engine/Shader.js";
-import VertexBuffer from "./Engine/VertexBuffer.js";
-import GameObject from "./Engine/GameObject.js";
-import Texture from "./Engine/Texture.js";
-import Camera from "./Engine/Camera.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Shader from "../Engine/Shader.js";
+import VertexBuffer from "../Engine/VertexBuffer.js";
+import GameObject from "../Engine/GameObject.js";
+import Texture from "../Engine/Texture.js";
+import Camera from "../Engine/Camera.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');

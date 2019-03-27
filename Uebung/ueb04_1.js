@@ -1,13 +1,13 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import Color from "./Engine/Color.js";
-import Shader from "./Engine/Shader.js";
-import Light from "./Engine/Light.js";
-import Plane from "./Engine/GameObjects/Plane.js";
-import OBJ from "./Engine/OBJ.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
-import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import Color from "../Engine/Color.js";
+import Shader from "../Engine/Shader.js";
+import Light from "../Engine/Light.js";
+import Plane from "../Engine/GameObjects/Plane.js";
+import OBJ from "../Engine/OBJ.js";
+import Cube3D from "../Engine/GameObjects/Cube3D.js";
+import Sphere3D from "../Engine/GameObjects/Sphere3D.js";
 
 
 
@@ -41,7 +41,7 @@ Webgl.addSlider("Material-Shininess", 16, 1, 64, 1, (value) => {elements[0].game
 light.gameObject.transform.translate([0, 1.0, 0]);
 let cube = new Cube3D(new Color(Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
 let plane = new Plane(new Color(Shader.getDefaultColorShader(true), [0.5, 0.1, 0.1]));
-let capsule = new OBJ("./textures/capsule/capsule.obj", 1, true, null);
+let capsule = new OBJ("../textures/capsule/capsule.obj", 1, true, null);
 let sphere = new Sphere3D(new Color(Shader.getDefaultColorShader(true), [0.1, 0.1, 0.5]));
 //let bunny = new OBJ("./textures/bunny/bunny.obj", 1, true, null);
 //let f16 = new OBJ("./textures/f16tex/f16.obj", 1, true, null);

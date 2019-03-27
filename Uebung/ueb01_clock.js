@@ -1,11 +1,11 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Shader from "./Engine/Shader.js";
-import VertexBuffer from "./Engine/VertexBuffer.js";
-import Color from "./Engine/Color.js";
-import GameObject from "./Engine/GameObject.js";
-import Camera from "./Engine/Camera.js";
-import Matrix from "./Engine/Matrix.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Shader from "../Engine/Shader.js";
+import VertexBuffer from "../Engine/VertexBuffer.js";
+import Color from "../Engine/Color.js";
+import GameObject from "../Engine/GameObject.js";
+import Camera from "../Engine/Camera.js";
+import Matrix from "../Engine/Matrix.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvasClock');

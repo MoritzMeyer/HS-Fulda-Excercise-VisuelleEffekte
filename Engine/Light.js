@@ -6,7 +6,7 @@ import {LightType} from "./LightType.js";
 
 class Light
 {
-    constructor(lightColor, drawLightObject = true, type = LightType.default)
+    constructor(lightColor, drawLightObject = true, type = LightType.default, uniformName = "light")
     {
         this.lightColor = lightColor;
         this.drawLightObject = drawLightObject;
@@ -19,6 +19,8 @@ class Light
         this.isActive = true;
         this.renderShadow = false;
         this.shadowShader = null;
+        this.uniformName = uniformName;
+        this.lightIntensity = 1.0;
 
         this.setAmbientByFactor(1.0);
         this.setDiffuseByFac(1.0);
@@ -38,12 +40,12 @@ class Light
         material.shader.bind();
         let lightWorldMat = this.gameObject.transform.getWorldSpaceMatrix();
 
-        material.shader.setUniform3f("light.position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
-        material.shader.setUniform3f("light.ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
-        material.shader.setUniform3f("light.diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
-        material.shader.setUniform3f("light.specular", this.specular[0], this.specular[1], this.specular[2]);
-        material.shader.setUniform3f("light.color", this.lightColor[0], this.lightColor[1], this.lightColor[2]);
-        material.shader.setUniform1i("light.isActive", this.isActive);
+        material.shader.setUniform3f(this.uniformName + ".position", lightWorldMat[12], lightWorldMat[13], lightWorldMat[14]);
+        material.shader.setUniform3f(this.uniformName + ".ambient", this.ambient[0], this.ambient[1], this.ambient[2]);
+        material.shader.setUniform3f(this.uniformName + ".diffuse", this.diffuse[0], this.diffuse[1], this.diffuse[2]);
+        material.shader.setUniform3f(this.uniformName + ".specular", this.specular[0], this.specular[1], this.specular[2]);
+        material.shader.setUniform3f(this.uniformName + ".color", this.lightColor[0] * this.lightIntensity, this.lightColor[1]  * this.lightIntensity, this.lightColor[2]  * this.lightIntensity);
+        material.shader.setUniform1i(this.uniformName + ".isActive", this.isActive);
     }
 
     getViewMatrix()
@@ -128,6 +130,11 @@ class Light
     setSpecularByFac(fac)
     {
         this.specular = this.lightColor.map((x) => x * fac);
+    }
+
+    setLightIntensity(value)
+    {
+        this.lightIntensity = value;
     }
 
     static getDefaultLight()

@@ -5,7 +5,7 @@ class PointLight extends Light
 {
     constructor(lightColor, position, uniformName = "pointLight", Kc = 1.0, Kl = 0.09, Kq = 0.032)
     {
-        super(lightColor, true, LightType.point);
+        super(lightColor, true, LightType.point, uniformName);
         this.uniformName = uniformName;
         // set Konstant, linear and quadratic Terms for equation
         this.constant = Kc;

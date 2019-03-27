@@ -1,11 +1,11 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import Color from "./Engine/Color.js";
-import Shader from "./Engine/Shader.js";
-import Cube3D from "./Engine/GameObjects/Cube3D.js";
-import Sphere3D from "./Engine/GameObjects/Sphere3D.js";
-import OBJ from "./Engine/OBJ.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import Color from "../Engine/Color.js";
+import Shader from "../Engine/Shader.js";
+import Cube3D from "../Engine/GameObjects/Cube3D.js";
+import Sphere3D from "../Engine/GameObjects/Sphere3D.js";
+import OBJ from "../Engine/OBJ.js";
 
 
 

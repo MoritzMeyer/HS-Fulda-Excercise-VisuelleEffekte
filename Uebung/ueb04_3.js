@@ -1,8 +1,8 @@
-import Webgl from "./Engine/Webgl.js";
-import Renderer from "./Engine/Renderer.js";
-import Camera from "./Engine/Camera.js";
-import OBJ from "./Engine/OBJ.js";
-import Shader from "./Engine/Shader.js";
+import Webgl from "../Engine/Webgl.js";
+import Renderer from "../Engine/Renderer.js";
+import Camera from "../Engine/Camera.js";
+import OBJ from "../Engine/OBJ.js";
+import Shader from "../Engine/Shader.js";
 
 // Webgl context holen und laden.
 const canvas = document.querySelector('#glcanvas');
