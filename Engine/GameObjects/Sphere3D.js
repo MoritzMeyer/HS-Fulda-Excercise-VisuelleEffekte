@@ -121,7 +121,73 @@ class Sphere3D extends RenderObject
         let metallicPath = "./PBR_Materials/rustediron/rustediron2_metallic.png";
         let roughnessPath = "./PBR_Materials/rustediron/rustediron2_roughness.png";
         let normalPath = "./PBR_Materials/rustediron/rustediron2_normal.png";
-        let ambientOcclusionPath = "./PBR_Materials/rustediron/rustediron2_ambientocclusion.png";
+        let ambientOcclusionPath = "./PBR_Materials/ambientocclusion.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getRustedIronStreaksSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/rustediron-streaks/rustediron-streaks_basecolor.png";
+        let metallicPath = "./PBR_Materials/rustediron-streaks/rustediron-streaks_metallic.png";
+        let roughnessPath = "./PBR_Materials/rustediron-streaks/rustediron-streaks_roughness.png";
+        let normalPath = "./PBR_Materials/rustediron-streaks/rustediron-streaks_normal.png";
+        let ambientOcclusionPath = "./PBR_Materials/ambientocclusion.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getRustyPanelSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/rusty-panel/rusty-panel-albedo3b.png";
+        let metallicPath = "./PBR_Materials/rusty-panel/rusty-panel-metalness3b.png";
+        let roughnessPath = "./PBR_Materials/rusty-panel/rusty-panel-roughness3b.png";
+        let normalPath = "./PBR_Materials/rusty-panel/rusty-panel-norma-dx.png";
+        let ambientOcclusionPath = "./PBR_Materials/rusty-panel/rusty-panel-ao3.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getTitaniumSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/titanium/Titanium-Scuffed_basecolor.png";
+        let metallicPath = "./PBR_Materials/titanium/Titanium-Scuffed_metallic.png";
+        let roughnessPath = "./PBR_Materials/titanium/Titanium-Scuffed_roughness.png";
+        let normalPath = "./PBR_Materials/titanium/Titanium-Scuffed_normal.png";
+        let ambientOcclusionPath = "./PBR_Materials/ambientocclusion.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getMetalgridSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/metalgrid/metalgrid3_basecolor.png";
+        let metallicPath = "./PBR_Materials/metalgrid/metalgrid3_metallic.png";
+        let roughnessPath = "./PBR_Materials/metalgrid/metalgrid3_roughness.png";
+        let normalPath = "./PBR_Materials/metalgrid/metalgrid3_normal-dx.png";
+        let ambientOcclusionPath = "./PBR_Materials/metalgrid/metalgrid3_AO.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getGrimmyMetalSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/grimy-metal/grimy-metal-albedo.png";
+        let metallicPath = "./PBR_Materials/grimy-metal/grimy-metal-metalness.png";
+        let roughnessPath = "./PBR_Materials/grimy-metal/grimy-metal-roughness.png";
+        let normalPath = "./PBR_Materials/grimy-metal/grimy-metal-normal-dx.png";
+        let ambientOcclusionPath = "./PBR_Materials/ambientocclusion.png";
+
+        return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
+    }
+
+    static getGoldSphere(numberOfLights, sphereDiv)
+    {
+        let albedoPath = "./PBR_Materials/gold-scuffed/gold-scuffed_basecolor.png";
+        let metallicPath = "./PBR_Materials/gold-scuffed/gold-scuffed_metallic.png";
+        let roughnessPath = "./PBR_Materials/gold-scuffed/gold-scuffed_roughness.png";
+        let normalPath = "./PBR_Materials/gold-scuffed/gold-scuffed_normal.png";
+        let ambientOcclusionPath = "./PBR_Materials/ambientocclusion.png";
 
         return new Sphere3D(new PBRTexture(Shader.getCookTorranceTexturePBR(numberOfLights), albedoPath, metallicPath, roughnessPath, ambientOcclusionPath, normalPath), sphereDiv);
     }

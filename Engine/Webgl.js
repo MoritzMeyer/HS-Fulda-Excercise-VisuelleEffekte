@@ -90,6 +90,53 @@ class Webgl
         Webgl.addMouseWheelEventListener(canvas, handleWheel);
     }
 
+    static addNavigationListener2(canvas, camera)
+    {
+        canvas.setAttribute("tabindex", "0");
+        canvas.addEventListener('keydown', (event) =>
+        {
+            //console.log("LookAt: " + event.keyCode);
+            switch(event.keyCode)
+            {
+                case 37:    // left
+                    camera.gameObject.transform.translate([0.1, 0, 0]);
+                    break;
+                case 38:    // up
+                    camera.gameObject.transform.translate([0, -0.1, 0]);
+                    break;
+                case 39:    // right
+                    camera.gameObject.transform.translate([-0.1, 0, 0]);
+                    break;
+                case 40:    // down
+                    camera.gameObject.transform.translate([0, 0.1, 0]);
+                    break;
+                case 107:   // +
+                case 187:
+                    camera.gameObject.transform.translate([0, 0, 0.1]);
+                    break;
+                case 109:   // -
+                case 189:
+                    camera.gameObject.transform.translate([0, 0, -0.1]);
+                    break;
+            }
+        }, true);
+
+        let handleWheel = function (event)
+        {
+            // cross-browser wheel delta
+            // Chrome / IE: both are set to the same thing - WheelEvent for Chrome, MouseWheelEvent for IE
+            // Firefox: first one is undefined, second one is MouseScrollEvent
+            let e = window.event || event;
+            // Chrome / IE: first one is +/-120 (positive on mouse up), second one is zero
+            // Firefox: first one is undefined, second one is -/+3 (negative on mouse up)
+            let delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
+            camera.gameObject.transform.translate([0, 0, delta]);
+            e.preventDefault();
+        };
+
+        Webgl.addMouseWheelEventListener(canvas, handleWheel);
+    }
+
     static addMouseWheelEventListener(canvas, scrollHandler)
     {
         if (canvas.addEventListener)

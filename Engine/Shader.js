@@ -1541,7 +1541,9 @@ const vsCT_BRDF_Texture =
     {
         vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
         vNormal = mat3(uNormalMatrix) * aNormal;
-        vTexCoords = aTexCoords;
+        vec4 flipX = vec4(-1, 1, 1, 1);
+        vTexCoords = (vec4(aTexCoords, 0, 1) * flipX).xy;
+        //vTexCoords = aTexCoords;
 
         gl_Position =  uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
     }

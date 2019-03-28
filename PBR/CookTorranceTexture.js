@@ -31,41 +31,50 @@ let canvasColor = [0.0, 0.66, 1, 1.0];
 // initialize Application
 let renderer = new Renderer();
 let camera = new Camera();
-Webgl.addNavigationListener(canvas, camera);
+Webgl.addNavigationListener2(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
 
-camera.gameObject.transform.translate([-5.8, -3.4, -12.0]);
 camera.gameObject.transform.rotateY(-90);
+camera.gameObject.transform.translate([-5.8, -3.4, -7.0]);
+//camera.gameObject.transform.translate([-6, -3.1, .0]);
 
 // Get Light with Shadows
 //let directionLight = DirectionalLight.getDefaultDirectionalLight();
 //directionLight.activateShadows();
-let light1 = new Light([1, 1, 1], false, LightType.point, "lights[0]");
-let light2 = new Light([1, 1, 1], false, LightType.point, "lights[1]");
-let light3 = new Light([1, 1, 1], false, LightType.point, "lights[2]");
-let light4 = new Light([1, 1, 1], false, LightType.point, "lights[3]");
-light1.gameObject.transform.setPosition([1, 1, -3]);
-light2.gameObject.transform.setPosition([1, 1, -9]);
-light3.gameObject.transform.setPosition([1, 7, -3]);
-light4.gameObject.transform.setPosition([1, 7, -9]);
-
+let light1 = new Light([1, 1, 1], true, LightType.point, "lights[0]");
+let light2 = new Light([1, 1, 1], true, LightType.point, "lights[1]");
+let light3 = new Light([1, 1, 1], true, LightType.point, "lights[2]");
+let light4 = new Light([1, 1, 1], true, LightType.point, "lights[3]");
+light1.gameObject.transform.setPosition([0, 1, -1]);
+light2.gameObject.transform.setPosition([0, 1, -10]);
+light3.gameObject.transform.setPosition([0, 5, -1]);
+light4.gameObject.transform.setPosition([0, 5, -10]);
 renderer.pushLight(light1);
 renderer.pushLight(light2);
 renderer.pushLight(light3);
 renderer.pushLight(light4);
 
 
-renderer.lights.forEach((l) => l.setLightIntensity(100));
+renderer.lights.forEach((l) => l.setLightIntensity(40));
 
 
 // Set canvas width and height for Shadow rendering
 renderer.setCanvasDimensions(canvas.width, canvas.height);
 
 let sphere1 = Sphere3D.getRustedIronSphere(4, 30);
-//sphere1.gameObject.transform.setPosition([0, 0, 5]);
-let coords = new CoordinateAxises3D();
-let elements = [sphere1];
+let sphere2 = Sphere3D.getGrimmyMetalSphere(4, 30);
+let sphere3 = Sphere3D.getMetalgridSphere(4, 30);
+let sphere4 = Sphere3D.getRustyPanelSphere(4, 30);
+
+sphere1.gameObject.transform.setPosition([-2, 3, -2]);
+sphere2.gameObject.transform.setPosition([-2, 3, -4.5]);
+sphere3.gameObject.transform.setPosition([-2, 3, -7]);
+sphere4.gameObject.transform.setPosition([-2, 3, -9.5]);
+
+
+
+let elements = [sphere1, sphere2, sphere3, sphere4];
 
 /*
 let rowSize = 7;
@@ -90,7 +99,7 @@ for (let row = 0; row < rowSize; row++)
 
 //Webgl.addSlider("Metallic", 0.5, 0.05, 1.0, 0.05, (value) => {sphere1.gameObject.material.setMetallic(value)});
 //Webgl.addSlider("Roughness", 0.5, 0.05, 1.0, 0.05, (value) => {sphere1.gameObject.material.setRoughness(value)});
-Webgl.addSlider("LightIntensity", 100, 10, 500, 50, (value) => {renderer.lights.forEach((l) => l.setLightIntensity(value))});
+Webgl.addSlider("LightIntensity", 40, 0, 200, 10, (value) => {renderer.lights.forEach((l) => l.setLightIntensity(value))});
 
 requestAnimationFrame(render);
 

@@ -30,7 +30,7 @@ let canvasColor = [0.0, 0.66, 1, 1.0];
 // initialize Application
 let renderer = new Renderer();
 let camera = new Camera();
-Webgl.addNavigationListener(canvas, camera);
+Webgl.addNavigationListener2(canvas, camera);
 Webgl.addCameraRotation(canvas, camera);
 //Webgl.addCameraExamine(canvas, camera);
 
