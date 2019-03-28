@@ -60,7 +60,7 @@ renderer.lights.forEach((l) => l.setLightIntensity(100));
 renderer.setCanvasDimensions(canvas.width, canvas.height);
 
 let sphere1 = new Sphere3D(new MaterialPBR(Shader.getCookTorrancePBR(renderer.pointLights), [0, 0, 0.5], 0.5, 0.5, 1.0), 30);
-sphere1.gameObject.transform.setPosition([0, 0, 5])
+sphere1.gameObject.transform.setPosition([0, 0, 5]);
 let coords = new CoordinateAxises3D();
 let elements = [sphere1];
 

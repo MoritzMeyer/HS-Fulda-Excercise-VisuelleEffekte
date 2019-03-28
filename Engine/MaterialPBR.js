@@ -22,7 +22,7 @@ class MaterialPBR
         this.shader.bind();
         this.shader.setUniform1f("uAlpha", this.alpha);
 
-        if (this.shader.hasLightning) {
+        if (this.shader.hasLightning && !this.isTexture) {
             this.shader.setUniform3f(this.uniformName + ".albedo", this.albedo[0], this.albedo[1], this.albedo[2]);
             this.shader.setUniform1f(this.uniformName + ".metallic", this.metallic);
             this.shader.setUniform1f(this.uniformName + ".roughness", this.roughness);

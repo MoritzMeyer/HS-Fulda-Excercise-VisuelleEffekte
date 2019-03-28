@@ -79,6 +79,20 @@ class Renderer
 
     drawElements(elements, camera)
     {
+        let loaded = true;
+        elements.forEach((e) =>
+        {
+            if (!e)
+            {
+                loaded = false;
+            }
+        });
+
+        if (!loaded)
+        {
+            return;
+        }
+
         // actual Shadows are only enabled for one lightsource
         if (this.lights.length === 1 && this.lights[0].renderShadow)
         {

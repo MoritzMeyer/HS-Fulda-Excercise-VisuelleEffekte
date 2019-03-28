@@ -1518,6 +1518,203 @@ const fsCT_BRDF =
 `;
 //endregion
 
+//region Cook-Torrance-BRDF-Texture
+const vsCT_BRDF_Texture =
+`   #version 300 es
+    precision highp float;
+    precision highp int;
+    
+    in vec3 aPosition;
+    in vec3 aNormal;
+    in vec2 aTexCoords;
+
+    out vec3 vFragPos;
+    out vec3 vNormal;
+    out vec2 vTexCoords;
+
+    uniform mat4 uProjectionMatrix;
+    uniform mat4 uViewMatrix;
+    uniform mat4 uModelMatrix;
+    uniform mat4 uNormalMatrix;
+
+    void main()
+    {
+        vFragPos = vec3(uModelMatrix * vec4(aPosition, 1.0));
+        vNormal = mat3(uNormalMatrix) * aNormal;
+        vTexCoords = aTexCoords;
+
+        gl_Position =  uProjectionMatrix * uViewMatrix * vec4(vFragPos, 1.0);
+    }
+`;
+
+const fsCT_BRDF_Texture =
+`   #version 300 es
+    precision highp float;
+    precision highp int;
+    precision highp sampler2D;
+    
+    in vec3 vFragPos;
+    in vec3 vNormal;
+    in vec2 vTexCoords;
+    
+    out vec4 FragColor;
+    
+    #define NR_LIGHTS __lights__
+    
+    // material parameters
+    struct Material {
+        sampler2D albedoMap;
+        sampler2D normalMap;
+        sampler2D metallicMap;
+        sampler2D roughnessMap;
+        sampler2D aoMap;
+    };
+    uniform Material material;
+    
+    // lights
+    struct Light {
+        vec3 position;
+        vec3 color;
+        vec3 ambient;
+        vec3 diffuse;
+        vec3 specular;
+        int isActive;
+    };
+    uniform Light lights[NR_LIGHTS];
+    
+    uniform vec3 uViewPosition;
+    uniform float uAlpha;
+    
+    const float PI = 3.14159265359;
+    // ---------------------------------------------------------------------------
+    // Get tangent-normals from normals map
+    vec3 getNormalFromMap()
+    {
+        vec3 tangentNormal = texture(material.normalMap, vTexCoords).xyz * 2.0 - 1.0;
+    
+        vec3 Q1  = dFdx(vFragPos);
+        vec3 Q2  = dFdy(vFragPos);
+        vec2 st1 = dFdx(vTexCoords);
+        vec2 st2 = dFdy(vTexCoords);
+    
+        vec3 N   = normalize(vNormal);
+        vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+        vec3 B  = -normalize(cross(N, T));
+        mat3 TBN = mat3(T, B, N);
+    
+        return normalize(TBN * tangentNormal);
+    }
+    // ----------------------------------------------------------------------------
+    float DistributionGGX(vec3 normal, vec3 H, float roughness)
+    {
+        float a = roughness*roughness;
+        float a2 = a*a;
+        float NdotH = max(dot(normal, H), 0.0);
+        float NdotH2 = NdotH*NdotH;
+    
+        float nom   = a2;
+        float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+        denom = PI * denom * denom;
+    
+        return nom / max(denom, 0.001); // prevent divide by zero for roughness=0.0 and NdotH=1.0
+    }
+    // ----------------------------------------------------------------------------
+    float GeometrySchlickGGX(float NdotV, float roughness)
+    {
+        float r = (roughness + 1.0);
+        float k = (r*r) / 8.0;
+    
+        float nom   = NdotV;
+        float denom = NdotV * (1.0 - k) + k;
+    
+        return nom / denom;
+    }
+    // ----------------------------------------------------------------------------
+    float GeometrySmith(vec3 normal, vec3 viewDir, vec3 L, float roughness)
+    {
+        float NdotV = max(dot(normal, viewDir), 0.0);
+        float NdotL = max(dot(normal, L), 0.0);
+        float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+        float ggx1 = GeometrySchlickGGX(NdotL, roughness);
+    
+        return ggx1 * ggx2;
+    }
+    // ----------------------------------------------------------------------------
+    vec3 fresnelSchlick(float cosTheta, vec3 F0)
+    {
+        return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+    }
+    // ----------------------------------------------------------------------------
+    void main()
+    {
+        vec3 albedo = pow(texture(material.albedoMap, vTexCoords).rgb, vec3(2.2));
+        float metallic = texture(material.metallicMap, vTexCoords).r;
+        float roughness = texture(material.roughnessMap, vTexCoords).r;
+        float ao = texture(material.aoMap, vTexCoords).r;
+    
+        vec3 normal = getNormalFromMap();
+        vec3 viewDir = normalize(uViewPosition - vFragPos);
+    
+        // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0
+        // of 0.04 and if it's a metal, use the albedo color as F0 (metallic workflow)
+        vec3 F0 = vec3(0.04);
+        F0 = mix(F0, albedo, metallic);
+    
+        // reflectance equation
+        vec3 Lo = vec3(0.0);
+        for(int i = 0; i < 4; ++i)
+        {
+            // calculate per-light radiance
+            vec3 L = normalize(lights[i].position - vFragPos);
+            vec3 H = normalize(viewDir + L);
+            float distance = length(lights[i].position - vFragPos);
+            float attenuation = 1.0 / (distance * distance);
+            vec3 radiance = lights[i].color * attenuation;
+    
+            // Cook-Torrance BRDF
+            float NDF = DistributionGGX(normal, H, roughness);
+            float G   = GeometrySmith(normal, viewDir, L, roughness);
+            vec3 F    = fresnelSchlick(clamp(dot(H, viewDir), 0.0, 1.0), F0);
+    
+            vec3 nominator    = NDF * G * F;
+            float denominator = 4.0 * max(dot(normal, viewDir), 0.0) * max(dot(normal, L), 0.0);
+            vec3 specular = nominator / max(denominator, 0.001); // prevent divide by zero for NdotV=0.0 or NdotL=0.0
+    
+            // kS is equal to Fresnel
+            vec3 kS = F;
+            // for energy conservation, the diffuse and specular light can't
+            // be above 1.0 (unless the surface emits light); to preserve this
+            // relationship the diffuse component (kD) should equal 1.0 - kS.
+            vec3 kD = vec3(1.0) - kS;
+            // multiply kD by the inverse metalness such that only non-metals
+            // have diffuse lighting, or a linear blend if partly metal (pure metals
+            // have no diffuse light).
+            kD *= 1.0 - metallic;
+    
+            // scale light by NdotL
+            float NdotL = max(dot(normal, L), 0.0);
+    
+            // add to outgoing radiance Lo
+            Lo += (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+        }
+    
+        // ambient lighting (note that the next IBL tutorial will replace
+        // this ambient lighting with environment lighting).
+        vec3 ambient = vec3(0.03) * albedo * ao;
+    
+        vec3 color = ambient + Lo;
+    
+        // HDR tonemapping
+        color = color / (color + vec3(1.0));
+        // gamma correct
+        color = pow(color, vec3(1.0/2.2));
+    
+        FragColor = vec4(color, uAlpha);
+    }
+`
+;
+//endregion
+
 class Shader
 {
     constructor(vsSource, fsSource, hasLightning = false)
@@ -1726,6 +1923,14 @@ class Shader
     {
         let fs = fsCT_BRDF.replace("__lights__", numberOfLights);
         return new Shader(vsCT_BRDF, fs, true);
+    }
+
+    static getCookTorranceTexturePBR(numberOfLights)
+    {
+        let gl = Webgl.getGL();
+        //gl.getExtension('OES_standard_derivatives');
+        let fs = fsCT_BRDF_Texture.replace("__lights__", numberOfLights);
+        return new Shader(vsCT_BRDF_Texture, fs, true);
     }
 }
 

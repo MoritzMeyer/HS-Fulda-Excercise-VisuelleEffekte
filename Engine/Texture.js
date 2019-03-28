@@ -105,6 +105,12 @@ class Texture extends Material
         vertexArray.addBuffer(this.texCoords, [attribLocation], 0);
     }
 
+    setTextureCoords(texCoordsBuffer)
+    {
+        this.texCoords = texCoordsBuffer;
+    }
+
+
     // check if value is power of 2
     static isPowerOf2(value)
     {
